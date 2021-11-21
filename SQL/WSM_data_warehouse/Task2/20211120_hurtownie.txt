@@ -1,0 +1,15 @@
+20211121 Hurtownie danych
+
+thetruesize.com
+
+Dla danych geometrycznych dla MSSQL servera wprowadzono strukturę Geometry, po których widać dziedziczenie pomiędzy klasami.
+Dane są prezentowane w bazach danych w dwóch formatach, albo well-know text albo well known binary (WKT vs WKB)
+
+format WKT - pokazuje dane w postaci textowej np. point, linestring, polygon, multipoint, multilinestring
+Format wkb - binarny format składowania danych zawiera inforamcje o kodowaniu, rodzaju figury i koordynaty
+
+MSQ Server dostarcza nam tych typów, nie wszystkie bazy wspierają oba formaty danych - najbardziej rozbudowany jest postgres i MSSQL.
+
+możemy dostawić sobie pole geography
+
+DECLARE @GeoTable
