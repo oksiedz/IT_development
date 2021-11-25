@@ -46,6 +46,7 @@ public class Window extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
         jTextField8 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -90,27 +91,29 @@ public class Window extends javax.swing.JFrame {
 
         jLabel2.setText("Wierchołek 1 (X, Y)");
 
-        jTextField1.setText("jTextField1");
+        jTextField1.setPreferredSize(new java.awt.Dimension(30, 30));
 
-        jTextField2.setText("jTextField2");
+        jTextField2.setPreferredSize(new java.awt.Dimension(30, 30));
 
         jLabel3.setText("Wierzchołek 2 (X, Y)");
 
-        jTextField3.setText("jTextField3");
+        jTextField3.setPreferredSize(new java.awt.Dimension(30, 30));
 
-        jTextField4.setText("jTextField4");
+        jTextField4.setPreferredSize(new java.awt.Dimension(30, 30));
 
         jLabel4.setText("Wierzchołek 3 (X, Y)");
 
-        jTextField5.setText("jTextField5");
+        jTextField5.setPreferredSize(new java.awt.Dimension(30, 30));
 
-        jTextField6.setText("jTextField6");
+        jTextField6.setPreferredSize(new java.awt.Dimension(30, 30));
 
         jLabel5.setText("Wierzchołek 4 (X, Y)");
 
-        jTextField7.setText("jTextField7");
+        jTextField7.setPreferredSize(new java.awt.Dimension(30, 30));
 
-        jTextField8.setText("jTextField8");
+        jTextField8.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        jButton1.setText("Rysuj trapez o podanych współrzędnych");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -138,7 +141,8 @@ public class Window extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -170,7 +174,9 @@ public class Window extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(175, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
         jLayeredPane1.add(jPanel2, "card2");
@@ -179,7 +185,7 @@ public class Window extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 218, Short.MAX_VALUE)
+            .addGap(0, 227, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,6 +272,7 @@ public class Window extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
