@@ -1,1 +1,0 @@
-In the folder there will be Project from Java classes from WSM.
