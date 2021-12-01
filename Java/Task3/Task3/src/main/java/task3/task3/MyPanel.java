@@ -41,9 +41,47 @@ public class MyPanel extends JPanel {
         super.paint(g); //To change body of generated methods, choose Tools | Templates.
         //g.setColor(Color.red);
         
+        //Cartesian drawing
+        double MyPanelWidth = getWidth();
+        double MyPanelHeight = getHeight();
+        //drawing lines OX and OY
+        g.drawLine((int) (MyPanelWidth/2), 0, (int) (MyPanelWidth/2), (int) MyPanelHeight);
+        g.drawLine(0, (int) (MyPanelHeight/2), (int) MyPanelWidth, (int) (MyPanelHeight/2));
+        //drawing arrows
+        g.drawLine((int) (MyPanelWidth/2),  0, (int) (MyPanelWidth/2 + 5), 10);
+        g.drawLine((int) (MyPanelWidth/2),  0, (int) (MyPanelWidth/2 - 5), 10);
+        g.drawLine((int) (MyPanelWidth),  (int) (MyPanelHeight/2), (int) (MyPanelWidth - 10),  (int) (MyPanelHeight/2) - 5);
+        g.drawLine((int) (MyPanelWidth),  (int) (MyPanelHeight/2), (int) (MyPanelWidth - 10),  (int) (MyPanelHeight/2) + 5);
+        
+        //Centralizing trapezoid
+        ax1 = (int) (ax1 + MyPanelWidth/2);
+        ax2 = (int) (ax2 + MyPanelWidth/2);
+        ax3 = (int) (ax3 + MyPanelWidth/2);
+        ax4 = (int) (ax4 + MyPanelWidth/2);
+        ay1 = (int) (MyPanelHeight/2 - ay1);
+        ay2 = (int) (MyPanelHeight/2 - ay2);
+        ay3 = (int) (MyPanelHeight/2 - ay3);
+        ay4 = (int) (MyPanelHeight/2 - ay4);
+        
+        
+        
         int x[] = {ax1, ax2, ax3, ax4};
+        /*
+        int x[] = null;
+        x[0] = (int) (MyPanelWidth/2 + ax1);
+        x[1] = (int) (MyPanelWidth/2 + ax2);
+        x[2] = (int) (MyPanelWidth/2 + ax3);
+        x[3] = (int) (MyPanelWidth/2 + ax4);
+        */
         int y[] = {ay1, ay2, ay3, ay4};
-        int noofpoints = 4;
+        /*
+        int y[] = null;
+        y[0] = (int) (MyPanelHeight/2 + ay1);
+        y[1] = (int) (MyPanelHeight/2 + ay2);
+        y[2] = (int) (MyPanelHeight/2 + ay3);
+        y[3] = (int) (MyPanelHeight/2 + ay4);
+        */
+        int noofpoints = x.length;
         g.drawPolygon(x, y, noofpoints);
         /*
 g.setColor(new Color(123,132,13));
