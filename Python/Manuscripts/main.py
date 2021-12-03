@@ -93,5 +93,5 @@ t3 = ('a', '2', '.', 'AAA', '-25.12')
 print(t3)
 # splitting tuple
 print(t3[1:3])
-#joining tuple
+# joining tuple
 print(t+t3)
