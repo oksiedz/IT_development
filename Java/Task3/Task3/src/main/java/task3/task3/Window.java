@@ -12,9 +12,13 @@ import javax.swing.JPanel;
  */
 public class Window extends javax.swing.JFrame {
 
-    
     public Window() {
         initComponents();
+        jLabel6.setVisible(false);
+        jLabel7.setVisible(false);
+        jLabel8.setVisible(false);
+        jLabel9.setVisible(false);
+        jLabel10.setVisible(false);
     }
 
     /**
@@ -45,6 +49,11 @@ public class Window extends javax.swing.JFrame {
         jTextField7 = new javax.swing.JTextField();
         jTextField8 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -126,10 +135,26 @@ public class Window extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel6.setText("To nie są współrzędne trapezu");
+
+        jLabel7.setText("Powierzchnia");
+
+        jLabel8.setText("Obwód");
+
+        jLabel9.setText("jLabel9");
+
+        jLabel10.setText("jLabel10");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
@@ -153,7 +178,15 @@ public class Window extends javax.swing.JFrame {
                         .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel9))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -187,7 +220,17 @@ public class Window extends javax.swing.JFrame {
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
-                .addContainerGap(101, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel10))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jLayeredPane1.add(jPanel2, "card2");
@@ -228,27 +271,44 @@ public class Window extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void switchPanels(JPanel panel)
-    {
+    public void switchPanels(JPanel panel) {
         jLayeredPane1.removeAll();
         jLayeredPane1.add(panel);
         jLayeredPane1.repaint();
         jLayeredPane1.revalidate();
     }
-    
+
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        if(jComboBox2.getSelectedItem() == "Rysuj trapez")
-        {
+        if (jComboBox2.getSelectedItem() == "Rysuj trapez") {
             switchPanels(jPanel2);
-        }
-        else
-        {
+        } else {
             switchPanels(jPanel4);
         }
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
+    private float CalcualteSlope(int x1, int y1, int x2, int y2) {
+        return ((float) y2 - (float) y1) / ((float) x2 - (float) x1);
+    }
+
+    private int isTrapeze(float a, float b, float c, float d) {
+        if (a == b || a == c || a == d || b == c || b == d || c == d) {
+            return 1;
+
+        } else {
+            return 0;
+        }
+    }
+
+    private float calculateDistanceBetweenPoints(
+            int x1,
+            int y1,
+            int x2,
+            int y2) {
+        return (float) Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
+    }
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
         System.out.println("akcja z przycisku Rysuj trapez");
         /*
         x1 = Integer.parseInt(jTextField1.getText());
@@ -259,16 +319,50 @@ public class Window extends javax.swing.JFrame {
         y3 = Integer.parseInt(jTextField6.getText());
         x4 = Integer.parseInt(jTextField7.getText());
         y4 = Integer.parseInt(jTextField8.getText());
-        
         jPanel1.repaint();
-        */        
-      MyPanel p = (MyPanel)jPanel1;
-        p.setParams( Integer.parseInt(jTextField1.getText()),  Integer.parseInt(jTextField2.getText()),
-                 Integer.parseInt(jTextField3.getText()),  Integer.parseInt(jTextField4.getText()),
-                 Integer.parseInt(jTextField5.getText()),  Integer.parseInt(jTextField6.getText()),
-                 Integer.parseInt(jTextField7.getText()),  Integer.parseInt(jTextField8.getText()));
-        
-        p.repaint();
+         */
+
+        float slope1 = CalcualteSlope(Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()), Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()));
+        float slope2 = CalcualteSlope(Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()), Integer.parseInt(jTextField5.getText()), Integer.parseInt(jTextField6.getText()));
+        float slope3 = CalcualteSlope(Integer.parseInt(jTextField5.getText()), Integer.parseInt(jTextField6.getText()), Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText()));
+        float slope4 = CalcualteSlope(Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText()), Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()));
+
+        System.out.println("slope1:" + slope1 + "; slope2:" + slope2 + "; slope3:" + slope3 + "; slope4:" + slope4);
+
+        if (isTrapeze(slope1, slope2, slope3, slope4) == 1) {
+            jLabel6.setVisible(false);
+            jLabel7.setVisible(true);
+            jLabel8.setVisible(true);
+            jLabel9.setVisible(true);
+            jLabel10.setVisible(true);
+            MyPanel p = (MyPanel) jPanel1;
+            p.setParams(Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()),
+                    Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()),
+                    Integer.parseInt(jTextField5.getText()), Integer.parseInt(jTextField6.getText()),
+                    Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText()));
+
+            float circuit = calculateDistanceBetweenPoints(Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()),
+                    Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()))
+                    + calculateDistanceBetweenPoints(Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()), Integer.parseInt(jTextField5.getText()), Integer.parseInt(jTextField6.getText()))
+                    + calculateDistanceBetweenPoints(Integer.parseInt(jTextField5.getText()), Integer.parseInt(jTextField6.getText()), Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText()))
+                    + calculateDistanceBetweenPoints(Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText()), Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()));
+
+            jLabel9.setText("" + circuit);
+
+            p.repaint();
+        } else {
+            jLabel6.setVisible(true);
+            jLabel7.setVisible(false);
+            jLabel8.setVisible(false);
+            jLabel9.setVisible(false);
+            jLabel10.setVisible(false);
+            MyPanel p = (MyPanel) jPanel1;
+            p.setParams(0, 0, 0, 0, 0, 0, 0, 0);
+
+            p.repaint();
+        }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -310,10 +404,15 @@ public class Window extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
