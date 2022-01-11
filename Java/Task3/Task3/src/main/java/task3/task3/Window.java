@@ -287,79 +287,6 @@ public class Window extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
-    private float CalcualteSlope(int x1, int y1, int x2, int y2) {
-        return abs(((float) y2 - (float) y1) / ((float) x2 - (float) x1));
-    }
-
-    private int isTrapeze(float a, float b, float c, float d) {
-        if ( a == c || b == d) {
-            return 1;
-
-        } else {
-            return 0;
-        }
-    }
-
-    private float calculateDistanceBetweenPoints(
-            int x1,
-            int y1,
-            int x2,
-            int y2) {
-        return (float) Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
-    }
-    
-    private float calculateCircuitOfTrapeze (int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4)
-    {
-        return calculateDistanceBetweenPoints(x1, y1, x2, y2)
-                    + calculateDistanceBetweenPoints(x2, y2, x3, y3)
-                    + calculateDistanceBetweenPoints(x3, y3, x4, y4)
-                    + calculateDistanceBetweenPoints(x4, y4, x1, y1);
-    }
-    
-    private float calcualteAreaOfTrapeze(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, float slope1, float slope2, float slope3, float slope4)
-    {
-        float distanceBase1;
-        float distanceBase2;
-        float p1;
-        float p2;
-        float height;
-        
-        if (slope1 == slope3) {
-            distanceBase1=calculateDistanceBetweenPoints(x1, y1, x2, y2);
-            distanceBase2=calculateDistanceBetweenPoints(x3, y3, x4, y4);
-            p1=calculateDistanceBetweenPoints(x2, y2, x3, y3);
-            p2=calculateDistanceBetweenPoints(x4, y4, x1, y1);
-            height = findHeightOfTrapeze(x3,y3,x1,y1,x2,y2);
-        }
-        else {
-            distanceBase1=calculateDistanceBetweenPoints(x2, y2, x3, y3);
-            distanceBase2=calculateDistanceBetweenPoints(x4, y4, x1, y1);
-            p1=calculateDistanceBetweenPoints(x1, y1, x2, y2);
-            p2=calculateDistanceBetweenPoints(x3, y3, x4, y4);
-            height = findHeightOfTrapeze(x4,y4,x2,y2,x3,y3);
-        }
-        
-        System.out.println("distanceBase1:"+distanceBase1+"; distanceBase2:"+distanceBase2+"; height:"+height);
-        
-        return (distanceBase1+distanceBase2)*height/2;
-    }
-    
-    static float findHeightOfTrapeze(int x, int y, int x1, int y1, int x2, int y2)
-    {
-        float A = x - x1;
-        float B = y - y1;
-        float C = x2 - x1;
-        float D = y2 - y1;
-        float E = -D;
-        float F = C;
-        float dot = A*E+B*F;
-        float len_sq = E*E+F*F;
-        
-        System.out.println("x:"+x+"; y:"+y+"; x1:"+x1+";y1:"+y1+";x2:"+x2+";y2:"+y2+";A:"+A+"; B:"+B+"; C:"+C+"; D:"+D+"; E:"+E+";F:"+F+";dot:"+dot+"; len_sq:"+len_sq);
-        
-        return (float) ((float)Math.abs(dot)/Math.sqrt(len_sq));
-    }
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         System.out.println("akcja z przycisku Rysuj trapez");
@@ -374,8 +301,41 @@ public class Window extends javax.swing.JFrame {
         y4 = Integer.parseInt(jTextField8.getText());
         jPanel1.repaint();
          */
+        
+        Trapezoid trapeze = new Trapezoid(Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()),
+                    Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()), Integer.parseInt(jTextField5.getText()), Integer.parseInt(jTextField6.getText()),
+Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText()));
+        System.out.println("isTrapeze:"+trapeze.isTrapeze()+";slope1:" + trapeze.getSlope1() + "; slope2:" + trapeze.getSlope2() + "; slope3:" + trapeze.getSlope3() + "; slope4:" + trapeze.getSlope4());  
+        if (trapeze.isTrapeze()==1) {
+            
+            jLabel6.setVisible(false);
+            jLabel7.setVisible(true);
+            jLabel8.setVisible(true);
+            jLabel9.setVisible(true);
+            jLabel10.setVisible(true);
+            MyPanel p = (MyPanel) jPanel1;
+            p.setParams(Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()),
+                    Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()),
+                    Integer.parseInt(jTextField5.getText()), Integer.parseInt(jTextField6.getText()),
+                    Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText()));
+            
+            jLabel9.setText("" + trapeze.getCircuit());
+            jLabel10.setText(""+trapeze.getArea());
+            p.repaint();
+        }
+        else {
+            jLabel6.setVisible(true);
+            jLabel7.setVisible(false);
+            jLabel8.setVisible(false);
+            jLabel9.setVisible(false);
+            jLabel10.setVisible(false);
+            MyPanel p = (MyPanel) jPanel1;
+            p.setParams(0, 0, 0, 0, 0, 0, 0, 0);
 
-        float slope1 = CalcualteSlope(Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()), Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()));
+            p.repaint();
+        }
+
+        /*float slope1 = CalcualteSlope(Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()), Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()));
         float slope2 = CalcualteSlope(Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()), Integer.parseInt(jTextField5.getText()), Integer.parseInt(jTextField6.getText()));
         float slope3 = CalcualteSlope(Integer.parseInt(jTextField5.getText()), Integer.parseInt(jTextField6.getText()), Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText()));
         float slope4 = CalcualteSlope(Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText()), Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()));
@@ -416,6 +376,7 @@ Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText())
 
             p.repaint();
         }
+        */
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
