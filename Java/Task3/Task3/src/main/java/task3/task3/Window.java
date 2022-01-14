@@ -4,7 +4,6 @@
  */
 package task3.task3;
 
-import static java.lang.Math.abs;
 import javax.swing.JPanel;
 
 /**
@@ -12,6 +11,11 @@ import javax.swing.JPanel;
  * @author tt
  */
 public class Window extends javax.swing.JFrame {
+
+    int[] X = new int[9999999];
+    int[] Y = new int[9999999];
+    ;
+    int iterator = 0;
 
     public Window() {
         initComponents();
@@ -31,7 +35,6 @@ public class Window extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new MyPanel();
         jPanel3 = new javax.swing.JPanel();
         jComboBox2 = new javax.swing.JComboBox<>();
         jLayeredPane1 = new javax.swing.JLayeredPane();
@@ -56,21 +59,20 @@ public class Window extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jTextField9 = new javax.swing.JTextField();
+        jTextField10 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jLayeredPane2 = new javax.swing.JLayeredPane();
+        jPanel1 = new MyPanel();
+        jPanel5 = new MyPanel2();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 612, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rysuj trapez", "Rysuj poligon" }));
         jComboBox2.setToolTipText("");
@@ -86,7 +88,7 @@ public class Window extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 133, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,11 +155,10 @@ public class Window extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel6))
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -188,7 +189,7 @@ public class Window extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
                             .addComponent(jLabel9))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,23 +232,139 @@ public class Window extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jLabel10))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(146, Short.MAX_VALUE))
         );
 
         jLayeredPane1.add(jPanel2, "card2");
+
+        jPanel4.setPreferredSize(new java.awt.Dimension(310, 512));
+
+        jLabel11.setText("Współrzędna X");
+
+        jLabel12.setText("Współrzędna Y");
+
+        jTextField9.setText("50");
+        jTextField9.setPreferredSize(new java.awt.Dimension(50, 30));
+
+        jTextField10.setText("50");
+        jTextField10.setPreferredSize(new java.awt.Dimension(50, 30));
+
+        jButton2.setText("Dodaj punkt do Tabeli");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jButton4.setText("Wyczyść Tabelę");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Rysuj polygon na podstawie punktów");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 227, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(36, 36, 36)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 389, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4)
+                .addGap(5, 5, 5)
+                .addComponent(jButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 254, Short.MAX_VALUE))
         );
 
         jLayeredPane1.add(jPanel4, "card3");
+
+        jLayeredPane2.setLayout(new java.awt.CardLayout());
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 688, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jLayeredPane2.add(jPanel1, "card2");
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setPreferredSize(new java.awt.Dimension(688, 0));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jLayeredPane2.add(jPanel5, "card3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -255,18 +372,18 @@ public class Window extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLayeredPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLayeredPane2))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLayeredPane1))
+            .addComponent(jLayeredPane2)
         );
 
         pack();
@@ -279,131 +396,38 @@ public class Window extends javax.swing.JFrame {
         jLayeredPane1.revalidate();
     }
 
+    public void switchPanels2(JPanel panel) {
+        jLayeredPane2.removeAll();
+        jLayeredPane2.add(panel);
+        jLayeredPane2.repaint();
+        jLayeredPane2.revalidate();
+    }
+
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         if (jComboBox2.getSelectedItem() == "Rysuj trapez") {
             switchPanels(jPanel2);
+            switchPanels2(jPanel1);
         } else {
             switchPanels(jPanel4);
+            switchPanels2(jPanel5);
         }
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
-    private float CalcualteSlope(int x1, int y1, int x2, int y2) {
-        return abs(((float) y2 - (float) y1) / ((float) x2 - (float) x1));
-    }
-
-    private int isTrapeze(float a, float b, float c, float d) {
-        if ( a == c || b == d) {
-            return 1;
-
-        } else {
-            return 0;
-        }
-    }
-
-    private float calculateDistanceBetweenPoints(
-            int x1,
-            int y1,
-            int x2,
-            int y2) {
-        return (float) Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
-    }
-    
-    private float calculateCircuitOfTrapeze (int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4)
-    {
-        return calculateDistanceBetweenPoints(x1, y1, x2, y2)
-                    + calculateDistanceBetweenPoints(x2, y2, x3, y3)
-                    + calculateDistanceBetweenPoints(x3, y3, x4, y4)
-                    + calculateDistanceBetweenPoints(x4, y4, x1, y1);
-    }
-    
-    private float calcualteAreaOfTrapeze(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, float slope1, float slope2, float slope3, float slope4)
-    {
-        float distanceBase1;
-        float distanceBase2;
-        float p1;
-        float p2;
-        float height;
-        
-        if (slope1 == slope3) {
-            distanceBase1=calculateDistanceBetweenPoints(x1, y1, x2, y2);
-            distanceBase2=calculateDistanceBetweenPoints(x3, y3, x4, y4);
-            p1=calculateDistanceBetweenPoints(x2, y2, x3, y3);
-            p2=calculateDistanceBetweenPoints(x4, y4, x1, y1);
-            height = findHeightOfTrapeze(x3,y3,x1,y1,x2,y2);
-        }
-        else {
-            distanceBase1=calculateDistanceBetweenPoints(x2, y2, x3, y3);
-            distanceBase2=calculateDistanceBetweenPoints(x4, y4, x1, y1);
-            p1=calculateDistanceBetweenPoints(x1, y1, x2, y2);
-            p2=calculateDistanceBetweenPoints(x3, y3, x4, y4);
-            height = findHeightOfTrapeze(x4,y4,x2,y2,x3,y3);
-        }
-        
-        System.out.println("distanceBase1:"+distanceBase1+"; distanceBase2:"+distanceBase2+"; height:"+height);
-        
-        return (distanceBase1+distanceBase2)*height/2;
-    }
-    
-    static float findHeightOfTrapeze(int x, int y, int x1, int y1, int x2, int y2)
-    {
-        float A = x - x1;
-        float B = y - y1;
-        float C = x2 - x1;
-        float D = y2 - y1;
-        float E = -D;
-        float F = C;
-        float dot = A*E+B*F;
-        float len_sq = E*E+F*F;
-        
-        System.out.println("x:"+x+"; y:"+y+"; x1:"+x1+";y1:"+y1+";x2:"+x2+";y2:"+y2+";A:"+A+"; B:"+B+"; C:"+C+"; D:"+D+"; E:"+E+";F:"+F+";dot:"+dot+"; len_sq:"+len_sq);
-        
-        return (float) ((float)Math.abs(dot)/Math.sqrt(len_sq));
-    }
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        System.out.println("akcja z przycisku Rysuj trapez");
-        /*
-        x1 = Integer.parseInt(jTextField1.getText());
-        y1 = Integer.parseInt(jTextField2.getText());
-        x2 = Integer.parseInt(jTextField3.getText());
-        y2 = Integer.parseInt(jTextField4.getText());
-        x3 = Integer.parseInt(jTextField5.getText());
-        y3 = Integer.parseInt(jTextField6.getText());
-        x4 = Integer.parseInt(jTextField7.getText());
-        y4 = Integer.parseInt(jTextField8.getText());
-        jPanel1.repaint();
-         */
+        Trapezoid trapeze = new Trapezoid(Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()), Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()), Integer.parseInt(jTextField5.getText()), Integer.parseInt(jTextField6.getText()), Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText()));
+        if (trapeze.isTrapeze() == 1) {
 
-        float slope1 = CalcualteSlope(Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()), Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()));
-        float slope2 = CalcualteSlope(Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()), Integer.parseInt(jTextField5.getText()), Integer.parseInt(jTextField6.getText()));
-        float slope3 = CalcualteSlope(Integer.parseInt(jTextField5.getText()), Integer.parseInt(jTextField6.getText()), Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText()));
-        float slope4 = CalcualteSlope(Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText()), Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()));
-
-        System.out.println("slope1:" + slope1 + "; slope2:" + slope2 + "; slope3:" + slope3 + "; slope4:" + slope4);
-
-        if (isTrapeze(slope1, slope2, slope3, slope4) == 1) {
             jLabel6.setVisible(false);
             jLabel7.setVisible(true);
             jLabel8.setVisible(true);
             jLabel9.setVisible(true);
             jLabel10.setVisible(true);
             MyPanel p = (MyPanel) jPanel1;
-            p.setParams(Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()),
-                    Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()),
-                    Integer.parseInt(jTextField5.getText()), Integer.parseInt(jTextField6.getText()),
-                    Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText()));
+            p.setParams(trapeze.getX1(), trapeze.getY1(), trapeze.getX2(), trapeze.getY2(), trapeze.getX3(), trapeze.getY3(), trapeze.getX4(), trapeze.getY4());
 
-            float circuit = calculateCircuitOfTrapeze(Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()),
-                    Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()), Integer.parseInt(jTextField5.getText()), Integer.parseInt(jTextField6.getText()),
-Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText()));
-            float area = calcualteAreaOfTrapeze(Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()),
-                    Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField4.getText()), Integer.parseInt(jTextField5.getText()), Integer.parseInt(jTextField6.getText()),
-Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText()),slope1,slope2,slope3,slope4);
-
-            jLabel9.setText("" + circuit);
-            jLabel10.setText(""+area);
-
+            jLabel9.setText("" + trapeze.getCircuit());
+            jLabel10.setText("" + trapeze.getArea());
             p.repaint();
         } else {
             jLabel6.setVisible(true);
@@ -413,14 +437,48 @@ Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText())
             jLabel10.setVisible(false);
             MyPanel p = (MyPanel) jPanel1;
             p.setParams(0, 0, 0, 0, 0, 0, 0, 0);
-
             p.repaint();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Point p = new Point(Integer.parseInt(jTextField9.getText()), Integer.parseInt(jTextField10.getText()));
+
+        X[iterator] = p.getX();
+        Y[iterator] = p.getY();
+
+        Table t = new Table();
+
+        for (int i = 0; i <= iterator; i++) {
+            Point p1 = new Point(X[i], Y[i]);
+            t.getTab().add(p1);
+        }
+
+        jTable1.setModel(t);
+
+        iterator = iterator + 1;
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        X = new int[9999999];
+        Y = new int[9999999];
+        iterator = 0;
+        Table t = new Table();
+        jTable1.setModel(t);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+
+        if (iterator != 0) {
+
+            MyPanel2 p = (MyPanel2) jPanel5;
+
+            p.setParams(iterator, X, Y);
+            p.repaint();
+        }
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -455,9 +513,14 @@ Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText())
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -467,11 +530,16 @@ Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText())
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
@@ -479,5 +547,6 @@ Integer.parseInt(jTextField7.getText()), Integer.parseInt(jTextField8.getText())
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
 }

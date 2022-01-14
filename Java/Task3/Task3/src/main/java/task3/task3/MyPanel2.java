@@ -12,26 +12,16 @@ import javax.swing.JPanel;
  *
  * @author tt
  */
-public class MyPanel extends JPanel {
+public class MyPanel2 extends JPanel {
 
-    int ax1;
-    int ay1;
-    int ax2;
-    int ay2;
-    int ax3;
-    int ay3;
-    int ax4;
-    int ay4;
+    int[] X = new int[9999999];
+    int[] Y = new int[9999999];
+    int iterator = 0;
 
-    public void setParams(int ax1, int ay1, int ax2, int ay2, int ax3, int ay3, int ax4, int ay4) {
-        this.ax1 = ax1;
-        this.ay1 = ay1;
-        this.ax2 = ax2;
-        this.ay2 = ay2;
-        this.ax3 = ax3;
-        this.ay3 = ay3;
-        this.ax4 = ax4;
-        this.ay4 = ay4;
+    public void setParams(int iterator, int[] Xinput, int[] Yinput) {
+        this.iterator = iterator;
+        this.X = Xinput;
+        this.Y = Yinput;
     }
 
     @Override
@@ -50,24 +40,23 @@ public class MyPanel extends JPanel {
         g.drawLine((int) (MyPanelWidth), (int) (MyPanelHeight / 2), (int) (MyPanelWidth - 10), (int) (MyPanelHeight / 2) - 5);
         g.drawLine((int) (MyPanelWidth), (int) (MyPanelHeight / 2), (int) (MyPanelWidth - 10), (int) (MyPanelHeight / 2) + 5);
 
-        float ratio = (float) ((float) (min(MyPanelHeight, MyPanelWidth) / 2) / 284.5);
+        float ratio2 = (float) ((float) (min(MyPanelWidth, MyPanelHeight) / 2) / 284.5);
 
         //Centralizing trapezoid
-        int new_ax1 = (int) (ax1 * ratio + MyPanelWidth / 2);
-        int new_ax2 = (int) (ax2 * ratio + MyPanelWidth / 2);
-        int new_ax3 = (int) (ax3 * ratio + MyPanelWidth / 2);
-        int new_ax4 = (int) (ax4 * ratio + MyPanelWidth / 2);
-        int new_ay1 = (int) (MyPanelHeight / 2 - ay1 * ratio);
-        int new_ay2 = (int) (MyPanelHeight / 2 - ay2 * ratio);
-        int new_ay3 = (int) (MyPanelHeight / 2 - ay3 * ratio);
-        int new_ay4 = (int) (MyPanelHeight / 2 - ay4 * ratio);
+        if (iterator != 0) {
+            int[] Xmod = new int[iterator + 1];
+            int[] Ymod = new int[iterator + 1];
 
-        int x[] = {new_ax1, new_ax2, new_ax3, new_ax4};
+            for (int i = 0; i < iterator; i++) {
+                Xmod[i] = (int) (X[i] * ratio2 + MyPanelWidth / 2);
+                Ymod[i] = (int) (MyPanelHeight / 2 - Y[i] * ratio2);
+            }
 
-        int y[] = {new_ay1, new_ay2, new_ay3, new_ay4};
+            Xmod[iterator] = Xmod[0];
+            Ymod[iterator] = Ymod[0];
 
-        int noofpoints = x.length;
-        g.drawPolygon(x, y, noofpoints);
+            g.drawPolygon(Xmod, Ymod, iterator + 1);
+        }
 
     }
 
