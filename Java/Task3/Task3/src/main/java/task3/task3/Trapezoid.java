@@ -11,7 +11,7 @@ import static java.lang.Math.abs;
  * @author tt
  */
 public class Trapezoid {
-    
+
     private int x1;
     private int y1;
     private int x2;
@@ -26,7 +26,6 @@ public class Trapezoid {
     private float slope4;
     private float circuit;
     private float area;
-    
 
     public float getCircuit() {
         return circuit;
@@ -44,9 +43,6 @@ public class Trapezoid {
         this.area = calcualteAreaOfTrapeze();
     }
 
-
-
-
     public Trapezoid(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) {
         this.x1 = x1;
         this.y1 = y1;
@@ -56,14 +52,14 @@ public class Trapezoid {
         this.y3 = y3;
         this.x4 = x4;
         this.y4 = y4;
-        
+
         setSlope1();
         setSlope2();
         setSlope3();
         setSlope4();
         setCircuit();
         setArea();
-        
+
     }
 
     public int getX1() {
@@ -129,7 +125,7 @@ public class Trapezoid {
     public void setY4(int y4) {
         this.y4 = y4;
     }
-    
+
     private float CalcualteSlope(int x1, int y1, int x2, int y2) {
         return abs(((float) y2 - (float) y1) / ((float) x2 - (float) x1));
     }
@@ -165,16 +161,16 @@ public class Trapezoid {
     public void setSlope4() {
         this.slope4 = CalcualteSlope(getX4(), getY4(), getX1(), getY1());
     }
-    
+
     public int isTrapeze() {
-        if ( getSlope1() == getSlope3() || getSlope2() == getSlope4()) {
+        if (getSlope1() == getSlope3() || getSlope2() == getSlope4()) {
             return 1;
 
         } else {
             return 0;
         }
     }
-    
+
     private float calculateDistanceBetweenPoints(
             int x1,
             int y1,
@@ -182,51 +178,43 @@ public class Trapezoid {
             int y2) {
         return (float) Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
     }
-    
-    private float calculateCircuitOfTrapeze ()
-    {
+
+    private float calculateCircuitOfTrapeze() {
         return calculateDistanceBetweenPoints(getX1(), getY1(), getX2(), getY2())
-                    + calculateDistanceBetweenPoints(getX2(), getY2(), getX3(), getY3())
-                    + calculateDistanceBetweenPoints(getX3(), getY3(), getX4(), getY4())
-                    + calculateDistanceBetweenPoints(getX4(), getY4(), getX1(), getY1());
+                + calculateDistanceBetweenPoints(getX2(), getY2(), getX3(), getY3())
+                + calculateDistanceBetweenPoints(getX3(), getY3(), getX4(), getY4())
+                + calculateDistanceBetweenPoints(getX4(), getY4(), getX1(), getY1());
     }
-    
-    private float calcualteAreaOfTrapeze()
-    {
+
+    private float calcualteAreaOfTrapeze() {
         float distanceBase1;
         float distanceBase2;
         float height;
-        
+
         if (getSlope1() == getSlope3()) {
-            distanceBase1=calculateDistanceBetweenPoints(getX1(), getY1(), getX2(), getY2());
-            distanceBase2=calculateDistanceBetweenPoints(getX3(), getY3(), getX4(), getY4());
-            height = findHeightOfTrapeze(getX4(), getY4(),getX1(),getY1(),getX2(), getY2());
+            distanceBase1 = calculateDistanceBetweenPoints(getX1(), getY1(), getX2(), getY2());
+            distanceBase2 = calculateDistanceBetweenPoints(getX3(), getY3(), getX4(), getY4());
+            height = findHeightOfTrapeze(getX4(), getY4(), getX1(), getY1(), getX2(), getY2());
+        } else {
+            distanceBase1 = calculateDistanceBetweenPoints(getX2(), getY2(), getX3(), getY3());
+            distanceBase2 = calculateDistanceBetweenPoints(getX4(), getY4(), getX1(), getY1());
+            height = findHeightOfTrapeze(getX4(), getY4(), getX2(), getY2(), getX3(), getY3());
         }
-        else {
-            distanceBase1=calculateDistanceBetweenPoints(getX2(), getY2(), getX3(), getY3());
-            distanceBase2=calculateDistanceBetweenPoints(getX4(), getY4(), getX1(), getY1());
-            height = findHeightOfTrapeze(getX4(), getY4(),getX2(), getY2(),getX3(), getY3());
-        }
-        
-        System.out.println("distanceBase1:"+distanceBase1+"; distanceBase2:"+distanceBase2+"; height:"+height);
-        
-        return (distanceBase1+distanceBase2)*height/2;
+
+        return (distanceBase1 + distanceBase2) * height / 2;
     }
-    
-    static float findHeightOfTrapeze(int x, int y, int x1, int y1, int x2, int y2)
-    {
+
+    static float findHeightOfTrapeze(int x, int y, int x1, int y1, int x2, int y2) {
         float A = x - x1;
         float B = y - y1;
         float C = x2 - x1;
         float D = y2 - y1;
         float E = -D;
         float F = C;
-        float dot = A*E+B*F;
-        float len_sq = E*E+F*F;
-        
-        System.out.println("x:"+x+"; y:"+y+"; x1:"+x1+";y1:"+y1+";x2:"+x2+";y2:"+y2+";A:"+A+"; B:"+B+"; C:"+C+"; D:"+D+"; E:"+E+";F:"+F+";dot:"+dot+"; len_sq:"+len_sq);
-        
-        return (float) ((float)Math.abs(dot)/Math.sqrt(len_sq));
+        float dot = A * E + B * F;
+        float len_sq = E * E + F * F;
+
+        return (float) ((float) Math.abs(dot) / Math.sqrt(len_sq));
     }
-    
+
 }
