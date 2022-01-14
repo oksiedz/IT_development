@@ -50,17 +50,18 @@ public class MyPanel extends JPanel {
         g.drawLine((int) (MyPanelWidth), (int) (MyPanelHeight / 2), (int) (MyPanelWidth - 10), (int) (MyPanelHeight / 2) - 5);
         g.drawLine((int) (MyPanelWidth), (int) (MyPanelHeight / 2), (int) (MyPanelWidth - 10), (int) (MyPanelHeight / 2) + 5);
 
-        float ratio = (float) ((float) (min(MyPanelHeight, MyPanelWidth) / 2) / 284.5);
+        float ratioH = (float) ((float) (MyPanelHeight / 2) / 284.5);
+        float ratioW = (float) ((float) (MyPanelWidth / 2) / 344);
 
         //Centralizing trapezoid
-        int new_ax1 = (int) (ax1 * ratio + MyPanelWidth / 2);
-        int new_ax2 = (int) (ax2 * ratio + MyPanelWidth / 2);
-        int new_ax3 = (int) (ax3 * ratio + MyPanelWidth / 2);
-        int new_ax4 = (int) (ax4 * ratio + MyPanelWidth / 2);
-        int new_ay1 = (int) (MyPanelHeight / 2 - ay1 * ratio);
-        int new_ay2 = (int) (MyPanelHeight / 2 - ay2 * ratio);
-        int new_ay3 = (int) (MyPanelHeight / 2 - ay3 * ratio);
-        int new_ay4 = (int) (MyPanelHeight / 2 - ay4 * ratio);
+        int new_ax1 = (int) (ax1 * ratioW + MyPanelWidth / 2);
+        int new_ax2 = (int) (ax2 * ratioW + MyPanelWidth / 2);
+        int new_ax3 = (int) (ax3 * ratioW + MyPanelWidth / 2);
+        int new_ax4 = (int) (ax4 * ratioW + MyPanelWidth / 2);
+        int new_ay1 = (int) (MyPanelHeight / 2 - ay1 * ratioH);
+        int new_ay2 = (int) (MyPanelHeight / 2 - ay2 * ratioH);
+        int new_ay3 = (int) (MyPanelHeight / 2 - ay3 * ratioH);
+        int new_ay4 = (int) (MyPanelHeight / 2 - ay4 * ratioH);
 
         int x[] = {new_ax1, new_ax2, new_ax3, new_ax4};
 
