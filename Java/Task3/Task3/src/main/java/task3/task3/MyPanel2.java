@@ -5,6 +5,7 @@
 package task3.task3;
 
 import java.awt.Graphics;
+import static java.lang.Math.min;
 import javax.swing.JPanel;
 
 /**
@@ -39,14 +40,16 @@ public class MyPanel2 extends JPanel {
         g.drawLine((int) (MyPanelWidth), (int) (MyPanelHeight / 2), (int) (MyPanelWidth - 10), (int) (MyPanelHeight / 2) - 5);
         g.drawLine((int) (MyPanelWidth), (int) (MyPanelHeight / 2), (int) (MyPanelWidth - 10), (int) (MyPanelHeight / 2) + 5);
 
+        float ratio2 = (float) ((float) (min(MyPanelWidth, MyPanelHeight) / 2) / 284.5);
+
         //Centralizing trapezoid
         if (iterator != 0) {
             int[] Xmod = new int[iterator + 1];
             int[] Ymod = new int[iterator + 1];
 
             for (int i = 0; i < iterator; i++) {
-                Xmod[i] = (int) (X[i] + MyPanelWidth / 2);
-                Ymod[i] = (int) (MyPanelHeight / 2 - Y[i]);
+                Xmod[i] = (int) (X[i] * ratio2 + MyPanelWidth / 2);
+                Ymod[i] = (int) (MyPanelHeight / 2 - Y[i] * ratio2);
             }
 
             Xmod[iterator] = Xmod[0];

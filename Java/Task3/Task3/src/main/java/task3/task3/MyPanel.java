@@ -4,8 +4,8 @@
  */
 package task3.task3;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import static java.lang.Math.min;
 import javax.swing.JPanel;
 
 /**
@@ -50,19 +50,21 @@ public class MyPanel extends JPanel {
         g.drawLine((int) (MyPanelWidth), (int) (MyPanelHeight / 2), (int) (MyPanelWidth - 10), (int) (MyPanelHeight / 2) - 5);
         g.drawLine((int) (MyPanelWidth), (int) (MyPanelHeight / 2), (int) (MyPanelWidth - 10), (int) (MyPanelHeight / 2) + 5);
 
+        float ratio = (float) ((float) (min(MyPanelHeight, MyPanelWidth) / 2) / 284.5);
+
         //Centralizing trapezoid
-        ax1 = (int) (ax1 + MyPanelWidth / 2);
-        ax2 = (int) (ax2 + MyPanelWidth / 2);
-        ax3 = (int) (ax3 + MyPanelWidth / 2);
-        ax4 = (int) (ax4 + MyPanelWidth / 2);
-        ay1 = (int) (MyPanelHeight / 2 - ay1);
-        ay2 = (int) (MyPanelHeight / 2 - ay2);
-        ay3 = (int) (MyPanelHeight / 2 - ay3);
-        ay4 = (int) (MyPanelHeight / 2 - ay4);
+        int new_ax1 = (int) (ax1 * ratio + MyPanelWidth / 2);
+        int new_ax2 = (int) (ax2 * ratio + MyPanelWidth / 2);
+        int new_ax3 = (int) (ax3 * ratio + MyPanelWidth / 2);
+        int new_ax4 = (int) (ax4 * ratio + MyPanelWidth / 2);
+        int new_ay1 = (int) (MyPanelHeight / 2 - ay1 * ratio);
+        int new_ay2 = (int) (MyPanelHeight / 2 - ay2 * ratio);
+        int new_ay3 = (int) (MyPanelHeight / 2 - ay3 * ratio);
+        int new_ay4 = (int) (MyPanelHeight / 2 - ay4 * ratio);
 
-        int x[] = {ax1, ax2, ax3, ax4};
+        int x[] = {new_ax1, new_ax2, new_ax3, new_ax4};
 
-        int y[] = {ay1, ay2, ay3, ay4};
+        int y[] = {new_ay1, new_ay2, new_ay3, new_ay4};
 
         int noofpoints = x.length;
         g.drawPolygon(x, y, noofpoints);
