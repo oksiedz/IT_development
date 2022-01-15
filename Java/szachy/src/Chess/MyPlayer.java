@@ -63,9 +63,9 @@ public class MyPlayer {
             tab.add(new MyBishop(colour, 2, 0));
             tab.add(new MyBishop(colour, 5, 0));
             //setting Queen
-            tab.add(new MyQueen(colour, 3, 0));
+            tab.add(new MyQueen(colour, 4, 0));
             //setting King
-            tab.add(new MyKing(colour, 4, 0));
+            tab.add(new MyKing(colour, 3, 0));
         }
 
     }
