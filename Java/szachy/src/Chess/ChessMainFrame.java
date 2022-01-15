@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package szachy;
+package Chess;
 
 import java.awt.Color;
 
@@ -11,8 +11,11 @@ import java.awt.Color;
  * @author ja
  */
 public class ChessMainFrame extends javax.swing.JFrame {
-        static MyPlayer p1;
-        static MyPlayer p2;         
+//static variable for player which will be visible in all other classess
+
+    static MyPlayer p1;
+    static MyPlayer p2;
+
     /**
      * Creates new form ChessMainFrame
      */
@@ -56,10 +59,10 @@ public class ChessMainFrame extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        jPanel3.setBackground(new java.awt.Color(204, 255, 204));
+        jPanel3.setBackground(new java.awt.Color(0, 0, 0));
         jPanel3.setPreferredSize(new java.awt.Dimension(286, 50));
 
-        jButton2.setText("jButton2");
+        jButton2.setText("Start game");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -71,8 +74,9 @@ public class ChessMainFrame extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 213, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,11 +111,10 @@ public class ChessMainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        p1 = new MyPlayer(Color.GREEN,"Player 1");
-        p2 = new MyPlayer(Color.YELLOW,"Player 2");
-        MyPanel P = (MyPanel) jPanel2;
-        P.repaint();
+        p1 = new MyPlayer(Color.WHITE, "Player1", 1);
+        p2 = new MyPlayer(Color.BLACK, "Player2", 2);
+        MyPanel p = (MyPanel) jPanel2;
+        p.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
