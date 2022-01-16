@@ -14,7 +14,9 @@ import javax.swing.JPanel;
  *
  * @author ja
  */
-public class MyPanel extends JPanel implements MouseListener{//mouselsitener is an abstract listener
+public class MyPanel extends JPanel implements MouseListener {//mouselsitener is an abstract listener
+
+    static MyChessman ch = null;//creating object which will contain the figure on which we clicked
 
     public MyPanel() {
         addMouseListener(this); //we added the Panel as a tool to listen to mouse listener
@@ -63,27 +65,46 @@ public class MyPanel extends JPanel implements MouseListener{//mouselsitener is 
 
     @Override
     public void mouseClicked(MouseEvent e) { //e - event
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        ch = null; //by default we don't have anything clicked
         //System.out.println("X="+e.getX()+";Y="+e.getY());//returning location of click
         //checking if the click was done on one of the figure
         int x = e.getX();
         int y = e.getY();
         //assignment of field width/height on the board
         int b; //variable to handle 1/8 of panel to paint the board
-            //setting the value of b
-            if (getWidth() > getHeight()) {
-                b = getHeight() / 8;
-            } else {
-                b = getWidth() / 8;
-            }
-        int cx = x/b; //number of column which we have clicked
-        int cy = y/b; //number of row which we have clicked
+        //setting the value of b
+        if (getWidth() > getHeight()) {
+            b = getHeight() / 8;
+        } else {
+            b = getWidth() / 8;
+        }
+        int cx = x / b; //number of column which we have clicked
+        int cy = y / b; //number of row which we have clicked
         //System.out.println("X="+x+";cx="+cx+";Y="+y+";cy="+cy+";b="+b);//returning location of click
-        MyChessman ch = null;//creating object which will contain the figure on which we clicked
         if (ChessMainFrame.p1 != null) {
             //location we should divide by the b and check in the player container there is figure with such location
+            //check if we clicked if the field on which we clicked is assigned to the one of the objects (figures) of the player
+            for (int i = 0; i < ChessMainFrame.p1.getTab().size(); i++) {
+                if ((ChessMainFrame.p1.getTab().get(i).getX() == cx) && (ChessMainFrame.p1.getTab().get(i).getY() == cy)) {
+                    ch = ChessMainFrame.p1.getTab().get(i); //if in container of figures there is object which have same location as click then assigned as ch
+                }
+
+            }
         }
-        
+        if (ChessMainFrame.p2 != null) {
+            //location we should divide by the b and check in the player container there is figure with such location
+            //check if we clicked if the field on which we clicked is assigned to the one of the objects (figures) of the player
+            for (int i = 0; i < ChessMainFrame.p2.getTab().size(); i++) {
+                if ((ChessMainFrame.p2.getTab().get(i).getX() == cx) && (ChessMainFrame.p1.getTab().get(i).getY() == cy)) {
+                    ch = ChessMainFrame.p2.getTab().get(i); //if in container of figures there is object which have same location as click then assigned as ch
+                }
+
+            }
+        }
+        //check if we hit the figure
+        System.out.println(ch);
+
     }
 
     @Override
