@@ -35,14 +35,14 @@ public class MyPlayer {
                 tab.add(new MyPawn(colour, i, 6, i)); //adding Pawns in second row in each column
             }
             //setting first rook
-            tab.add(new MyRook(colour, 0, 7)); //first row, position one
-            tab.add(new MyRook(colour, 7, 7)); //first row, position eight
+            tab.add(new MyRook(colour, 0, 7, 1)); //first row, position one
+            tab.add(new MyRook(colour, 7, 7, 2)); //first row, position eight
             //setting Knights
-            tab.add(new MyKnight(colour, 1, 7)); //first row, position two
-            tab.add(new MyKnight(colour, 6, 7));//first row, position seven
+            tab.add(new MyKnight(colour, 1, 7, 1)); //first row, position two
+            tab.add(new MyKnight(colour, 6, 7, 2));//first row, position seven
             //setting Bishops
-            tab.add(new MyBishop(colour, 2, 7));//first row, position three
-            tab.add(new MyBishop(colour, 5, 7));//first row, position six
+            tab.add(new MyBishop(colour, 2, 7, 1));//first row, position three
+            tab.add(new MyBishop(colour, 5, 7, 2));//first row, position six
             //setting Queen
             tab.add(new MyQueen(colour, 3, 7));//first row, position four
             //setting King
@@ -54,14 +54,14 @@ public class MyPlayer {
                 tab.add(new MyPawn(colour, i, 1, i)); //adding Pawns in second row in each column
             }
             //setting first rook
-            tab.add(new MyRook(colour, 0, 0));
-            tab.add(new MyRook(colour, 7, 0));
+            tab.add(new MyRook(colour, 0, 0, 1));
+            tab.add(new MyRook(colour, 7, 0, 2));
             //setting Knights
-            tab.add(new MyKnight(colour, 1, 0));
-            tab.add(new MyKnight(colour, 6, 0));
+            tab.add(new MyKnight(colour, 1, 0, 1));
+            tab.add(new MyKnight(colour, 6, 0, 2));
             //setting Bishops
-            tab.add(new MyBishop(colour, 2, 0));
-            tab.add(new MyBishop(colour, 5, 0));
+            tab.add(new MyBishop(colour, 2, 0, 1));
+            tab.add(new MyBishop(colour, 5, 0, 2));
             //setting Queen
             tab.add(new MyQueen(colour, 4, 0));
             //setting King

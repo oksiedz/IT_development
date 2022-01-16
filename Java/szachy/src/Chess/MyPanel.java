@@ -107,10 +107,15 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
             //check if we hit the figure
             System.out.println(ch);
         } else { //if we have already figure clicked, then in next click we have to indicate the new location of the figure
-            ch.setX(cx); //assigning as X cx - so new x location
-            ch.setY(cy); //assigning as Y cy - so new y location
-            ch = null; //null as ch cause now the figure won't be marked
-            repaint(); //refresh the board
+
+            if (cx >= 8 || cy >= 8) {
+                System.out.println("Incorrect movement.");
+            } else {
+                ch.setX(cx); //assigning as X cx - so new x location
+                ch.setY(cy); //assigning as Y cy - so new y location
+                ch = null; //null as ch cause now the figure won't be marked
+                repaint(); //refresh the board
+            }
         }
     }
 

@@ -13,9 +13,10 @@ import java.awt.Graphics;
  */
 public class MyKnight extends MyChessman {
 //class for horse figure
-
-    public MyKnight(Color colour, int x, int y) {
+private int knightNo;
+    public MyKnight(Color colour, int x, int y , int knightNo) {
         super(colour, x, y);
+        setKnightNo(knightNo);
     }
 
     @Override
@@ -34,7 +35,15 @@ public class MyKnight extends MyChessman {
             g.setColor(Color.WHITE);
         }
         //drawing name of the figure
-        g.drawString("Knight", getX() * b + b / 3, getY() * b + b / 2);
+        g.drawString("Knight"+" "+knightNo, getX() * b + b / 3, getY() * b + b / 2);
+    }
+
+    public int getKnightNo() {
+        return knightNo;
+    }
+
+    public void setKnightNo(int knightNo) {
+        this.knightNo = knightNo;
     }
 
 }
