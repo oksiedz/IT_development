@@ -81,7 +81,7 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
         }
         int cx = x / b; //number of column which we have clicked
         int cy = y / b; //number of row which we have clicked
-        //System.out.println("X="+x+";cx="+cx+";Y="+y+";cy="+cy+";b="+b);//returning location of click
+        System.out.println("X="+x+";cx="+cx+";Y="+y+";cy="+cy+";b="+b);//returning location of click
         if (ch == null) { //if we don't have marked any figure then we are checking it
 
             if (ChessMainFrame.p1 != null) {
@@ -98,7 +98,7 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                 //location we should divide by the b and check in the player container there is figure with such location
                 //check if we clicked if the field on which we clicked is assigned to the one of the objects (figures) of the player
                 for (int i = 0; i < ChessMainFrame.p2.getTab().size(); i++) {
-                    if ((ChessMainFrame.p2.getTab().get(i).getX() == cx) && (ChessMainFrame.p1.getTab().get(i).getY() == cy)) {
+                    if ((ChessMainFrame.p2.getTab().get(i).getX() == cx) && (ChessMainFrame.p2.getTab().get(i).getY() == cy)) {
                         ch = ChessMainFrame.p2.getTab().get(i); //if in container of figures there is object which have same location as click then assigned as ch
                     }
 
