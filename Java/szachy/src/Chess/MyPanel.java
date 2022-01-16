@@ -66,7 +66,7 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
     @Override
     public void mouseClicked(MouseEvent e) { //e - event
 
-        ch = null; //by default we don't have anything clicked
+        //ch = null; //by default we don't have anything clicked
         //System.out.println("X="+e.getX()+";Y="+e.getY());//returning location of click
         //checking if the click was done on one of the figure
         int x = e.getX();
@@ -82,29 +82,36 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
         int cx = x / b; //number of column which we have clicked
         int cy = y / b; //number of row which we have clicked
         //System.out.println("X="+x+";cx="+cx+";Y="+y+";cy="+cy+";b="+b);//returning location of click
-        if (ChessMainFrame.p1 != null) {
-            //location we should divide by the b and check in the player container there is figure with such location
-            //check if we clicked if the field on which we clicked is assigned to the one of the objects (figures) of the player
-            for (int i = 0; i < ChessMainFrame.p1.getTab().size(); i++) {
-                if ((ChessMainFrame.p1.getTab().get(i).getX() == cx) && (ChessMainFrame.p1.getTab().get(i).getY() == cy)) {
-                    ch = ChessMainFrame.p1.getTab().get(i); //if in container of figures there is object which have same location as click then assigned as ch
+        if (ch == null) { //if we don't have marked any figure then we are checking it
+
+            if (ChessMainFrame.p1 != null) {
+                //location we should divide by the b and check in the player container there is figure with such location
+                //check if we clicked if the field on which we clicked is assigned to the one of the objects (figures) of the player
+                for (int i = 0; i < ChessMainFrame.p1.getTab().size(); i++) {
+                    if ((ChessMainFrame.p1.getTab().get(i).getX() == cx) && (ChessMainFrame.p1.getTab().get(i).getY() == cy)) {
+                        ch = ChessMainFrame.p1.getTab().get(i); //if in container of figures there is object which have same location as click then assigned as ch
+                    }
+
                 }
-
             }
-        }
-        if (ChessMainFrame.p2 != null) {
-            //location we should divide by the b and check in the player container there is figure with such location
-            //check if we clicked if the field on which we clicked is assigned to the one of the objects (figures) of the player
-            for (int i = 0; i < ChessMainFrame.p2.getTab().size(); i++) {
-                if ((ChessMainFrame.p2.getTab().get(i).getX() == cx) && (ChessMainFrame.p1.getTab().get(i).getY() == cy)) {
-                    ch = ChessMainFrame.p2.getTab().get(i); //if in container of figures there is object which have same location as click then assigned as ch
+            if (ChessMainFrame.p2 != null) {
+                //location we should divide by the b and check in the player container there is figure with such location
+                //check if we clicked if the field on which we clicked is assigned to the one of the objects (figures) of the player
+                for (int i = 0; i < ChessMainFrame.p2.getTab().size(); i++) {
+                    if ((ChessMainFrame.p2.getTab().get(i).getX() == cx) && (ChessMainFrame.p1.getTab().get(i).getY() == cy)) {
+                        ch = ChessMainFrame.p2.getTab().get(i); //if in container of figures there is object which have same location as click then assigned as ch
+                    }
+
                 }
-
             }
+            //check if we hit the figure
+            System.out.println(ch);
+        } else { //if we have already figure clicked, then in next click we have to indicate the new location of the figure
+            ch.setX(cx); //assigning as X cx - so new x location
+            ch.setY(cy); //assigning as Y cy - so new y location
+            ch = null; //null as ch cause now the figure won't be marked
+            repaint(); //refresh the board
         }
-        //check if we hit the figure
-        System.out.println(ch);
-
     }
 
     @Override

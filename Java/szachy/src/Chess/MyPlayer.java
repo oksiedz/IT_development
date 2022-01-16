@@ -32,7 +32,7 @@ public class MyPlayer {
             //setting pawns
             for (int i = 0; i < 8; i++) {
                 //creation of Pawns for Player
-                tab.add(new MyPawn(colour, i, 6)); //adding Pawns in second row in each column
+                tab.add(new MyPawn(colour, i, 6, i)); //adding Pawns in second row in each column
             }
             //setting first rook
             tab.add(new MyRook(colour, 0, 7)); //first row, position one
@@ -51,7 +51,7 @@ public class MyPlayer {
             //setting pawns
             for (int i = 0; i < 8; i++) {
                 //creation of Pawns for Player
-                tab.add(new MyPawn(colour, i, 1)); //adding Pawns in second row in each column
+                tab.add(new MyPawn(colour, i, 1, i)); //adding Pawns in second row in each column
             }
             //setting first rook
             tab.add(new MyRook(colour, 0, 0));

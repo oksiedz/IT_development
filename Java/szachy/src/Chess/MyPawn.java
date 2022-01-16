@@ -12,9 +12,18 @@ import java.awt.Graphics;
  * @author tt
  */
 public class MyPawn extends MyChessman {
-
-    public MyPawn(Color color, int x, int y) {
+private int pawnNo;
+    public MyPawn(Color color, int x, int y, int pawnNo) {
         super(color, x, y); //constructor from Parent Class MyChessman
+        setPawnNo(pawnNo+1);
+    }
+
+    public int getPawnNo() {
+        return pawnNo;
+    }
+
+    public void setPawnNo(int pawnNo) {
+        this.pawnNo = pawnNo;
     }
 
     @Override
@@ -34,7 +43,7 @@ public class MyPawn extends MyChessman {
             g.setColor(Color.WHITE);
         }
         //drawing name of the figure
-        g.drawString("Pawn", getX() * b + b / 3, getY() * b + b / 2);
+        g.drawString("Pawn"+" "+pawnNo, getX() * b + b / 3, getY() * b + b / 2);
 
     }
 }
