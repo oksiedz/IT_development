@@ -52,12 +52,10 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
             //painting the figures for player
             g.setColor(ChessMainFrame.p1.getColour()); //setting colour from the Player
             for (int i = 0; i < ChessMainFrame.p1.getTab().size(); i++) { //i<ChessMainFrame.p1.getTab().size() - printing all figures from container of 
-                //g.fillOval(ChessMainFrame.p1.getTab().get(i).getX()*b, ChessMainFrame.p1.getTab().get(i).getY()*b, b, b); //ChessMainFrame.p1.getTab().get(i).getX() -- takes X (column) value from figure of from the container of figures from p1
                 ChessMainFrame.p1.getTab().get(i).drawChessman(g, b);
             }
             g.setColor(ChessMainFrame.p2.getColour()); //setting colour from the Player
             for (int i = 0; i < ChessMainFrame.p2.getTab().size(); i++) { //i<10 - printing 10 first figures
-                //g.fillOval(ChessMainFrame.p1.getTab().get(i).getX()*b, ChessMainFrame.p1.getTab().get(i).getY()*b, b, b); //ChessMainFrame.p1.getTab().get(i).getX() -- takes X (column) value from figure of from the container of figures from p1
                 ChessMainFrame.p2.getTab().get(i).drawChessman(g, b);
             }
         }
@@ -96,7 +94,7 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
             repaint(); //repaint the stage to check show the marked figure
         } else { //if we have already figure clicked, then in next click we have to indicate the new location of the figure
 
-            if (cx >= 8 || cy >= 8) {
+            if (cx > 7 || cy > 7 || cx <0 || cy < 0) {
                 mvNotAll = true;
                 System.out.println("Incorrect movement.");
             } else {
