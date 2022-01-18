@@ -4,6 +4,7 @@
  */
 package Chess;
 
+import static Chess.MyPanel.ch;
 import java.awt.Color;
 
 /**
@@ -150,6 +151,31 @@ public class ChessMainFrame extends javax.swing.JFrame {
                 new ChessMainFrame().setVisible(true);
             }
         });
+    }
+    
+    public static MyChessman isOccupied(int cx, int cy){ //function which returns figure if field is occupied based on the location
+        MyChessman figure = null;
+        if (ChessMainFrame.p1 != null) {
+                //location we should divide by the b and check in the player container there is figure with such location
+                //check if we clicked if the field on which we clicked is assigned to the one of the objects (figures) of the player
+                for (int i = 0; i < ChessMainFrame.p1.getTab().size(); i++) {
+                    if ((ChessMainFrame.p1.getTab().get(i).getX() == cx) && (ChessMainFrame.p1.getTab().get(i).getY() == cy)) {
+                        figure = ChessMainFrame.p1.getTab().get(i); //if in container of figures there is object which have same location as click then assigned as ch
+                    }
+
+                }
+            }
+            if (ChessMainFrame.p2 != null) {
+                //location we should divide by the b and check in the player container there is figure with such location
+                //check if we clicked if the field on which we clicked is assigned to the one of the objects (figures) of the player
+                for (int i = 0; i < ChessMainFrame.p2.getTab().size(); i++) {
+                    if ((ChessMainFrame.p2.getTab().get(i).getX() == cx) && (ChessMainFrame.p2.getTab().get(i).getY() == cy)) {
+                        figure = ChessMainFrame.p2.getTab().get(i); //if in container of figures there is object which have same location as click then assigned as ch
+                    }
+
+                }
+            }
+            return figure;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
