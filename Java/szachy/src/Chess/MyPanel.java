@@ -66,6 +66,7 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
     @Override
     public void mouseClicked(MouseEvent e) { //e - event
 
+        boolean mvNotAll = false; //variable defining if the movement is not allowed - false - movement allowed.
         //ch = null; //by default we don't have anything clicked
         //System.out.println("X="+e.getX()+";Y="+e.getY());//returning location of click
         //checking if the click was done on one of the figure
@@ -115,6 +116,7 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
         } else { //if we have already figure clicked, then in next click we have to indicate the new location of the figure
 
             if (cx >= 8 || cy >= 8) {
+                mvNotAll = true;
                 System.out.println("Incorrect movement.");
             } else {
 
@@ -144,7 +146,7 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                 //ch - figure which we are moving, mch - figure which is standing on the field where we want to land
 
                 //we can proceed only if mch is any figure - cause if there is no figure no capture is needed
-                if (mch != null) {
+                if (mch != null && ch.IsMoveOk(cx, cy)) { //capture can be done only if move is ok.
                     //checking if marked figure and figure which is standing on target place are owned by the same player
                     if (ch.playerNum != mch.playerNum) {
                         if (mch.playerNum == 1) { //if the figure on the target field is players one then
@@ -153,18 +155,29 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                             ChessMainFrame.p2.getTab().remove(mch);
                         }
                     } else {
-                        System.out.println("Movement not allowed.");
-                        ch = null; //remarking the figure
-                        mch = null; //reselecting the target figure
-                        repaint();
+                        mvNotAll = true;
+
                     }
                 }
 
-                if (ch != null) {
+                //setting mvNotAll (move not allowed to true if IsMoveOK is false - so if move is not ok (not allowed due to the movement rules) the mvNotAll should be true - saying that movement is not allowed
+                if (ch.IsMoveOk(cx, cy) == false) {
+                    mvNotAll = true;
+                }
+
+                if (!mvNotAll) { //movement is allowed
                     //moving the figure
-                    ch.setX(cx); //assigning as X cx - so new x location
-                    ch.setY(cy); //assigning as Y cy - so new y location
-                    ch = null; //null as ch cause now the figure won't be marked                    
+                    //ch.setX(cx); //assigning as X cx - so new x location
+                    //ch.setY(cy); //assigning as Y cy - so new y location
+                    //above replace by moveChessman
+                    ch.moveChessman(cx, cy); //moving the figure to new location
+
+                    ch = null; //null as ch cause now the figure won't be marked  
+                    mch = null; //nulling the 
+                } else { //movement is not allowed
+                    System.out.println("Movement not allowed.");
+                    ch = null; //remarking the figure
+                    mch = null; //reselecting the target figure
                 }
 
                 repaint(); //refresh the board

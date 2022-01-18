@@ -57,4 +57,10 @@ public class MyBishop extends MyChessman {
         this.bishopNo = bishopNo;
     }
 
+    @Override
+    public void moveChessman(int a, int b) {
+        setX(a);
+        setY(b);
+    }
+
 }

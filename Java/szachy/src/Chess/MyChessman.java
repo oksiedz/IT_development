@@ -62,4 +62,6 @@ public abstract class MyChessman { //class is abstract cause it contains abstrac
     public abstract boolean IsMoveOk(int a, int b); //this is abstract method which should be overwritten by child classes, a, b - new locations, it return true or false if the move is correct
 
     public abstract void drawChessman(Graphics g, int b);//this is abstract method to paint the figure, b - lenght of the rectangle defining field
+
+    public abstract void moveChessman(int a, int b);//method which will be changing the location of the figure and will be overwritten for Pawn to update moved variable
 }

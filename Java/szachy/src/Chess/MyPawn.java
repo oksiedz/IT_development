@@ -8,6 +8,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -16,10 +18,19 @@ import java.awt.Graphics2D;
 public class MyPawn extends MyChessman {
 
     private int pawnNo;
+    private boolean moved = false;
 
     public MyPawn(Color color, int x, int y, int pawnNo, int playerNum) {
         super(color, x, y, playerNum); //constructor from Parent Class MyChessman
         setPawnNo(pawnNo + 1);
+    }
+
+    public boolean isMoved() {
+        return moved;
+    }
+
+    public void setMoved(boolean moved) {
+        this.moved = moved;
     }
 
     public int getPawnNo() {
@@ -32,7 +43,19 @@ public class MyPawn extends MyChessman {
 
     @Override
     public boolean IsMoveOk(int a, int b) {
-        return true;
+        if (!moved) {
+            if (getPlayerNum() == 1) {
+                return ((a == getX()) && (getY() - b == 1 || getY() - b == 2));
+            } else {
+                return ((a == getX()) && (b - getY() == 1 || b - getY() == 2));
+            }
+        } else {
+            if (getPlayerNum() == 1) {
+                return ((a == getX()) && (getY() - b == 1));
+            } else {
+                return ((a == getX()) && (b - getY() == 1));
+            }
+        }
     }
     //Class for Pawn
 
@@ -55,6 +78,14 @@ public class MyPawn extends MyChessman {
             g2.setStroke(new BasicStroke(8)); //setiing the width of the oval which we draw
             g.drawOval(getX() * b, getY() * b, b, b); //draving oval around the figure which was clicked
         }
+
+    }
+
+    @Override
+    public void moveChessman(int a, int b) {
+        setX(a);
+        setY(b);
+        setMoved(true);
 
     }
 }

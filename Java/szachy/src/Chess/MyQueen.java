@@ -46,4 +46,10 @@ public class MyQueen extends MyChessman {
         }
     }
 
+    @Override
+    public void moveChessman(int a, int b) {
+        setX(a);
+        setY(b);
+    }
+
 }
