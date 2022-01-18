@@ -18,11 +18,21 @@ public abstract class MyChessman { //class is abstract cause it contains abstrac
     //location of the figure
     private int x;
     private int y;
+    int playerNum;
 
-    public MyChessman(Color colour, int x, int y) {
+    public int getPlayerNum() {
+        return playerNum;
+    }
+
+    public void setPlayerNum(int playerNum) {
+        this.playerNum = playerNum;
+    }
+
+    public MyChessman(Color colour, int x, int y, int playerNum) {
         this.colour = colour;
         this.x = x;
         this.y = y;
+        this.playerNum = playerNum;
     }
 
     public int getY() {

@@ -26,8 +26,8 @@ public class MyRook extends MyChessman {
         this.rookNo = rookNo;
     }
 
-    public MyRook(Color colour, int x, int y, int rookNo) {
-        super(colour, x, y);
+    public MyRook(Color colour, int x, int y, int rookNo, int playerNum) {
+        super(colour, x, y, playerNum);
         setRookNo(rookNo);
     }
 
@@ -53,7 +53,7 @@ public class MyRook extends MyChessman {
         if (this == MyPanel.ch) {
             g.setColor(Color.GREEN); //changing colour to green
             Graphics2D g2 = (Graphics2D) g;//conversion to Graphics2D to set stroke
-            g2.setStroke(new BasicStroke(8));
+            g2.setStroke(new BasicStroke(8)); //setiing the width of the oval which we draw
             g.drawOval(getX() * b, getY() * b, b, b); //draving oval around the figure which was clicked
         }
     }

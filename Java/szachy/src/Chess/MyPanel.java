@@ -107,12 +107,40 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
             }
             //check if we hit the figure
             System.out.println(ch);
+            System.out.println("PlayerNumber="+ch.playerNum);
             repaint(); //repaint the stage to check show the marked figure
         } else { //if we have already figure clicked, then in next click we have to indicate the new location of the figure
 
             if (cx >= 8 || cy >= 8) {
                 System.out.println("Incorrect movement.");
             } else {
+
+                //capture mechanism                
+                MyChessman mch = null;
+                //let's check if on the field that we want to land is already a figure which should be captured in such case
+                if (ChessMainFrame.p1 != null) {
+                    //location we should divide by the b and check in the player container there is figure with such location
+                    //check if we clicked if the field on which we clicked is assigned to the one of the objects (figures) of the player
+                    for (int i = 0; i < ChessMainFrame.p1.getTab().size(); i++) {
+                        if ((ChessMainFrame.p1.getTab().get(i).getX() == cx) && (ChessMainFrame.p1.getTab().get(i).getY() == cy)) {
+                            mch = ChessMainFrame.p1.getTab().get(i); //if in container of figures there is object which have same location as click then assigned as ch
+                        }
+
+                    }
+                }
+                if (ChessMainFrame.p2 != null) {
+                    //location we should divide by the b and check in the player container there is figure with such location
+                    //check if we clicked if the field on which we clicked is assigned to the one of the objects (figures) of the player
+                    for (int i = 0; i < ChessMainFrame.p2.getTab().size(); i++) {
+                        if ((ChessMainFrame.p2.getTab().get(i).getX() == cx) && (ChessMainFrame.p2.getTab().get(i).getY() == cy)) {
+                            mch = ChessMainFrame.p2.getTab().get(i); //if in container of figures there is object which have same location as click then assigned as ch
+                        }
+
+                    }
+                }
+                //ch - figure which we are moving, mch - figure which is standing on the field where we want to land
+                
+
                 ch.setX(cx); //assigning as X cx - so new x location
                 ch.setY(cy); //assigning as Y cy - so new y location
                 ch = null; //null as ch cause now the figure won't be marked

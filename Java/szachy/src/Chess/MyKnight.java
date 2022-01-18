@@ -16,8 +16,8 @@ import java.awt.Graphics2D;
 public class MyKnight extends MyChessman {
 //class for horse figure
 private int knightNo;
-    public MyKnight(Color colour, int x, int y , int knightNo) {
-        super(colour, x, y);
+    public MyKnight(Color colour, int x, int y , int knightNo, int playerNum) {
+        super(colour, x, y, playerNum);
         setKnightNo(knightNo);
     }
 
@@ -42,7 +42,7 @@ private int knightNo;
         if (this == MyPanel.ch) {
             g.setColor(Color.GREEN); //changing colour to green
             Graphics2D g2 = (Graphics2D) g;//conversion to Graphics2D to set stroke
-            g2.setStroke(new BasicStroke(8));
+            g2.setStroke(new BasicStroke(8));//setiing the width of the oval which we draw
             g.drawOval(getX() * b, getY() * b, b, b); //draving oval around the figure which was clicked
         }
     }
