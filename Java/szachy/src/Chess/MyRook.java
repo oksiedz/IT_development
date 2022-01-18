@@ -8,12 +8,13 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.Serializable;
 
 /**
  *
  * @author tt
  */
-public class MyRook extends MyChessman {
+public class MyRook extends MyChessman implements Serializable {
 //class for Tower figure
 
     private int rookNo;
@@ -79,7 +80,7 @@ public class MyRook extends MyChessman {
         g.setColor(getColour());//setting the colour to the Player's colour
         g.fillOval(getX() * b, getY() * b, b, b); //drawing oval shape as a figure
         //setting the colour to the opposite colour to the Player's colour
-        if (getColour() == Color.WHITE) {
+        if (getPlayerNum() == 1) {
             g.setColor(Color.BLACK);
         } else {
             g.setColor(Color.WHITE);
