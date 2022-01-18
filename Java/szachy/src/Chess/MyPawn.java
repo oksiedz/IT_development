@@ -4,18 +4,22 @@
  */
 package Chess;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /**
  *
  * @author tt
  */
 public class MyPawn extends MyChessman {
-private int pawnNo;
+
+    private int pawnNo;
+
     public MyPawn(Color color, int x, int y, int pawnNo) {
         super(color, x, y); //constructor from Parent Class MyChessman
-        setPawnNo(pawnNo+1);
+        setPawnNo(pawnNo + 1);
     }
 
     public int getPawnNo() {
@@ -43,7 +47,14 @@ private int pawnNo;
             g.setColor(Color.WHITE);
         }
         //drawing name of the figure
-        g.drawString("Pawn"+" "+pawnNo, getX() * b + b / 3, getY() * b + b / 2);
+        g.drawString("Pawn" + " " + pawnNo, getX() * b + b / 3, getY() * b + b / 2);
+        //if the figure was clicked then it should be marked with new circle colour (this == ch from MyPanel
+        if (this == MyPanel.ch) {
+            g.setColor(Color.GREEN); //changing colour to green
+            Graphics2D g2 = (Graphics2D) g;//conversion to Graphics2D to set stroke
+            g2.setStroke(new BasicStroke(8));
+            g.drawOval(getX() * b, getY() * b, b, b); //draving oval around the figure which was clicked
+        }
 
     }
 }

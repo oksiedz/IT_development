@@ -4,8 +4,10 @@
  */
 package Chess;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /**
  *
@@ -46,6 +48,14 @@ public class MyRook extends MyChessman {
         }
         //drawing name of the figure
         g.drawString("Rook" + " " + rookNo, getX() * b + b / 3, getY() * b + b / 2);
+        //if the figure was clicked then it should be marked with new circle colour (this == ch from MyPanel
+        //if the figure was clicked then it should be marked with new circle colour (this == ch from MyPanel
+        if (this == MyPanel.ch) {
+            g.setColor(Color.GREEN); //changing colour to green
+            Graphics2D g2 = (Graphics2D) g;//conversion to Graphics2D to set stroke
+            g2.setStroke(new BasicStroke(8));
+            g.drawOval(getX() * b, getY() * b, b, b); //draving oval around the figure which was clicked
+        }
     }
 
 }

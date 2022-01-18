@@ -79,6 +79,7 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
         } else {
             b = getWidth() / 8;
         }
+        //index of field that we clicked
         int cx = x / b; //number of column which we have clicked
         int cy = y / b; //number of row which we have clicked
         System.out.println("X=" + x + ";cx=" + cx + ";Y=" + y + ";cy=" + cy + ";b=" + b);//returning location of click
@@ -106,6 +107,7 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
             }
             //check if we hit the figure
             System.out.println(ch);
+            repaint(); //repaint the stage to check show the marked figure
         } else { //if we have already figure clicked, then in next click we have to indicate the new location of the figure
 
             if (cx >= 8 || cy >= 8) {
