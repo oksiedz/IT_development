@@ -6,12 +6,13 @@ package Chess;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 /**
  *
  * @author tt
  */
-public abstract class MyChessman { //class is abstract cause it contains abstract methods
+public abstract class MyChessman implements Serializable { //class is abstract cause it contains abstract methods
     //base class for all other types of the figures
 
     private Color colour; //colour of the figure

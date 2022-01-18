@@ -5,13 +5,14 @@
 package Chess;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author tt
  */
-public class MyPlayer {
+public class MyPlayer implements Serializable { //class has to be serializable due to saving and loading funcionality
 
     private Color colour; //variable defining colour of the player
     private String name; //Name of the Player
