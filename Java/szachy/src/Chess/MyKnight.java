@@ -15,8 +15,10 @@ import java.awt.Graphics2D;
  */
 public class MyKnight extends MyChessman {
 //class for horse figure
-private int knightNo;
-    public MyKnight(Color colour, int x, int y , int knightNo, int playerNum) {
+
+    private int knightNo;
+
+    public MyKnight(Color colour, int x, int y, int knightNo, int playerNum) {
         super(colour, x, y, playerNum);
         setKnightNo(knightNo);
     }
@@ -37,7 +39,7 @@ private int knightNo;
             g.setColor(Color.WHITE);
         }
         //drawing name of the figure
-        g.drawString("Knight"+" "+knightNo, getX() * b + b / 3, getY() * b + b / 2);
+        g.drawString("Knight" + " " + knightNo, getX() * b + b / 3, getY() * b + b / 2);
         //if the figure was clicked then it should be marked with new circle colour (this == ch from MyPanel
         if (this == MyPanel.ch) {
             g.setColor(Color.GREEN); //changing colour to green

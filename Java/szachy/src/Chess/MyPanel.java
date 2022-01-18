@@ -106,8 +106,11 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                 }
             }
             //check if we hit the figure
-            System.out.println(ch);
-            System.out.println("PlayerNumber="+ch.playerNum);
+            if (ch != null) {
+                System.out.println(ch);
+                System.out.println("PlayerNumber=" + ch.playerNum);
+            }
+
             repaint(); //repaint the stage to check show the marked figure
         } else { //if we have already figure clicked, then in next click we have to indicate the new location of the figure
 
@@ -139,11 +142,31 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                     }
                 }
                 //ch - figure which we are moving, mch - figure which is standing on the field where we want to land
-                
 
-                ch.setX(cx); //assigning as X cx - so new x location
-                ch.setY(cy); //assigning as Y cy - so new y location
-                ch = null; //null as ch cause now the figure won't be marked
+                //we can proceed only if mch is any figure - cause if there is no figure no capture is needed
+                if (mch != null) {
+                    //checking if marked figure and figure which is standing on target place are owned by the same player
+                    if (ch.playerNum != mch.playerNum) {
+                        if (mch.playerNum == 1) { //if the figure on the target field is players one then
+                            ChessMainFrame.p1.getTab().remove(mch); //deleting from the container for player1 figure which is in mch - so on target field
+                        } else {
+                            ChessMainFrame.p2.getTab().remove(mch);
+                        }
+                    } else {
+                        System.out.println("Movement not allowed.");
+                        ch = null; //remarking the figure
+                        mch = null; //reselecting the target figure
+                        repaint();
+                    }
+                }
+
+                if (ch != null) {
+                    //moving the figure
+                    ch.setX(cx); //assigning as X cx - so new x location
+                    ch.setY(cy); //assigning as Y cy - so new y location
+                    ch = null; //null as ch cause now the figure won't be marked                    
+                }
+
                 repaint(); //refresh the board
             }
         }

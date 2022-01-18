@@ -15,7 +15,9 @@ import java.awt.Graphics2D;
  */
 public class MyBishop extends MyChessman {
 //Class for Bishop figure
-private int bishopNo;
+
+    private int bishopNo;
+
     public MyBishop(Color colour, int x, int y, int bishopNo, int playerNum) {
         super(colour, x, y, playerNum);
         setBishopNo(bishopNo);
@@ -37,7 +39,7 @@ private int bishopNo;
             g.setColor(Color.WHITE);
         }
         //drawing name of the figure
-        g.drawString("Bishop"+ " "+bishopNo, getX() * b + b / 3, getY() * b + b / 2);
+        g.drawString("Bishop" + " " + bishopNo, getX() * b + b / 3, getY() * b + b / 2);
         //if the figure was clicked then it should be marked with new circle colour (this == ch from MyPanel
         if (this == MyPanel.ch) {
             g.setColor(Color.GREEN); //changing colour to green
