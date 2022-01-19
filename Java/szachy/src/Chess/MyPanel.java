@@ -78,6 +78,7 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
         } else {
             b = getWidth() / 8;
         }
+        int captured = 0;
         //index of field that we clicked
         int cx = x / b; //number of column which we have clicked
         int cy = y / b; //number of row which we have clicked
@@ -94,7 +95,7 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
             repaint(); //repaint the stage to check show the marked figure
         } else { //if we have already figure clicked, then in next click we have to indicate the new location of the figure
 
-            if (cx > 7 || cy > 7 || cx <0 || cy < 0) {
+            if (cx > 7 || cy > 7 || cx < 0 || cy < 0) {
                 mvNotAll = true;
                 System.out.println("Incorrect movement.");
             } else {
@@ -114,14 +115,14 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                         } else {
                             ChessMainFrame.p2.getTab().remove(mch);
                         }
+                        captured = 1;
                     } else {
                         mvNotAll = true;
-
                     }
                 }
 
                 //setting mvNotAll (move not allowed to true if IsMoveOK is false - so if move is not ok (not allowed due to the movement rules) the mvNotAll should be true - saying that movement is not allowed
-                if (ch.IsMoveOk(cx, cy) == false) {
+                if (captured == 0 && ch.IsMoveOk(cx, cy) == false) {
                     mvNotAll = true;
                 }
 
