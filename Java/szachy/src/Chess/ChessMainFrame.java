@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,6 +22,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
 
     static MyPlayer p1;
     static MyPlayer p2;
+    static DefaultTableModel model;
 
     /**
      * Creates new form ChessMainFrame
@@ -46,6 +48,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new MyPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -54,15 +57,20 @@ public class ChessMainFrame extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Player", "Figure", "From", "To"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -102,7 +110,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,10 +120,14 @@ public class ChessMainFrame extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(jButton1)
                     .addComponent(jButton3))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.SOUTH);
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jLabel1.setText("Game movements");
+        jPanel1.add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
         jSplitPane1.setLeftComponent(jPanel1);
 
@@ -143,6 +155,8 @@ public class ChessMainFrame extends javax.swing.JFrame {
         p1 = new MyPlayer(Color.WHITE, "Player1", 1);
         p2 = new MyPlayer(Color.BLACK, "Player2", 2);
         MyPanel p = (MyPanel) jPanel2;
+        model = (DefaultTableModel) jTable1.getModel();
+        clearRowsMovTab();
         p.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -167,6 +181,8 @@ public class ChessMainFrame extends javax.swing.JFrame {
             p1 = (MyPlayer) ois.readObject();
             p2 = (MyPlayer) ois.readObject();
             MyPanel p = (MyPanel) jPanel2; //read data to MyPanel
+            model = (DefaultTableModel) jTable1.getModel();
+            clearRowsMovTab();
             p.repaint(); //repaint MyPanel after loading the data
         } catch (Exception ex) {
             Logger.getLogger(ChessMainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -231,10 +247,23 @@ public class ChessMainFrame extends javax.swing.JFrame {
         return figure;
     }
 
+    private void clearRowsMovTab() {
+        System.out.println("getRowCount=" + model.getRowCount());
+
+        if (model.getRowCount() > 0) {
+            while (model.getRowCount() != 0) {
+                model.removeRow(0);
+            }
+        }
+
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

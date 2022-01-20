@@ -21,9 +21,8 @@ public class MyPawn extends MyChessman implements Serializable {
     private int pawnNo;
     private boolean moved = false;
 
-    public MyPawn(Color color, int x, int y, int pawnNo, int playerNum) {
-        super(color, x, y, playerNum); //constructor from Parent Class MyChessman
-        setPawnNo(pawnNo + 1);
+    public MyPawn(Color color, int x, int y, int playerNum, String type) {
+        super(color, x, y, playerNum, type); //constructor from Parent Class MyChessman
     }
 
     public boolean isMoved() {
@@ -34,13 +33,6 @@ public class MyPawn extends MyChessman implements Serializable {
         this.moved = moved;
     }
 
-    public int getPawnNo() {
-        return pawnNo;
-    }
-
-    public void setPawnNo(int pawnNo) {
-        this.pawnNo = pawnNo;
-    }
 
     @Override
     public boolean IsMoveOk(int a, int b) {
@@ -90,7 +82,7 @@ public class MyPawn extends MyChessman implements Serializable {
             g.setColor(Color.WHITE);
         }
         //drawing name of the figure
-        g.drawString("Pawn" + " " + pawnNo, getX() * b + b / 3, getY() * b + b / 2);
+        g.drawString(getType(), getX() * b + b / 3, getY() * b + b / 2);
         //if the figure was clicked then it should be marked with new circle colour (this == ch from MyPanel
         if (this == MyPanel.ch) {
             g.setColor(Color.GREEN); //changing colour to green

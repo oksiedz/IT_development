@@ -19,7 +19,16 @@ public abstract class MyChessman implements Serializable { //class is abstract c
     //location of the figure
     private int x;
     private int y;
-    int playerNum;
+    private int playerNum;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public int getPlayerNum() {
         return playerNum;
@@ -29,11 +38,12 @@ public abstract class MyChessman implements Serializable { //class is abstract c
         this.playerNum = playerNum;
     }
 
-    public MyChessman(Color colour, int x, int y, int playerNum) {
+    public MyChessman(Color colour, int x, int y, int playerNum, String type) {
         this.colour = colour;
         this.x = x;
         this.y = y;
         this.playerNum = playerNum;
+        this.type = type;
     }
 
     public int getY() {

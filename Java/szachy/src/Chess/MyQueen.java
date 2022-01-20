@@ -18,8 +18,8 @@ import static java.lang.Math.abs;
 public class MyQueen extends MyChessman implements Serializable {
 //class for Queen figure
 
-    public MyQueen(Color colour, int x, int y, int playerNum) {
-        super(colour, x, y, playerNum);
+    public MyQueen(Color colour, int x, int y, int playerNum, String type) {
+        super(colour, x, y, playerNum, type);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class MyQueen extends MyChessman implements Serializable {
             g.setColor(Color.WHITE);
         }
         //drawing name of the figure
-        g.drawString("Queen", getX() * b + b / 3, getY() * b + b / 2);
+        g.drawString(getType(), getX() * b + b / 3, getY() * b + b / 2);
         //if the figure was clicked then it should be marked with new circle colour (this == ch from MyPanel
         if (this == MyPanel.ch) {
             g.setColor(Color.GREEN); //changing colour to green

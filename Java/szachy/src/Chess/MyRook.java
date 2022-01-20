@@ -17,19 +17,8 @@ import java.io.Serializable;
 public class MyRook extends MyChessman implements Serializable {
 //class for Tower figure
 
-    private int rookNo;
-
-    public int getRookNo() {
-        return rookNo;
-    }
-
-    public void setRookNo(int rookNo) {
-        this.rookNo = rookNo;
-    }
-
-    public MyRook(Color colour, int x, int y, int rookNo, int playerNum) {
-        super(colour, x, y, playerNum);
-        setRookNo(rookNo);
+    public MyRook(Color colour, int x, int y, int playerNum, String type) {
+        super(colour, x, y, playerNum, type);
     }
 
     @Override
@@ -86,7 +75,7 @@ public class MyRook extends MyChessman implements Serializable {
             g.setColor(Color.WHITE);
         }
         //drawing name of the figure
-        g.drawString("Rook" + " " + rookNo, getX() * b + b / 3, getY() * b + b / 2);
+        g.drawString(getType(), getX() * b + b / 3, getY() * b + b / 2);
         //if the figure was clicked then it should be marked with new circle colour (this == ch from MyPanel
         //if the figure was clicked then it should be marked with new circle colour (this == ch from MyPanel
         if (this == MyPanel.ch) {

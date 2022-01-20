@@ -4,10 +4,12 @@
  */
 package Chess;
 
+import static Chess.ChessMainFrame.model;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 
 /**
@@ -89,7 +91,8 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
             //check if we hit the figure
             if (ch != null) {
                 System.out.println(ch);
-                System.out.println("PlayerNumber=" + ch.playerNum);
+                System.out.println("PlayerNumber=" + ch.getPlayerNum());
+                System.out.println("Type of the figure=" + ch.getType());
             }
 
             repaint(); //repaint the stage to check show the marked figure
@@ -109,8 +112,8 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                 //we can proceed only if mch is any figure - cause if there is no figure no capture is needed
                 if (mch != null && ch.IsMoveOk(cx, cy)) { //capture can be done only if move is ok.
                     //checking if marked figure and figure which is standing on target place are owned by the same player
-                    if (ch.playerNum != mch.playerNum) {
-                        if (mch.playerNum == 1) { //if the figure on the target field is players one then
+                    if (ch.getPlayerNum() != mch.getPlayerNum()) {
+                        if (mch.getPlayerNum() == 1) { //if the figure on the target field is players one then
                             ChessMainFrame.p1.getTab().remove(mch); //deleting from the container for player1 figure which is in mch - so on target field
                         } else {
                             ChessMainFrame.p2.getTab().remove(mch);
@@ -131,10 +134,17 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                     //ch.setX(cx); //assigning as X cx - so new x location
                     //ch.setY(cy); //assigning as Y cy - so new y location
                     //above replace by moveChessman
+
+                    //saving the movement to the table
+                    Movement mov = new Movement(getPlayerName(ch.getPlayerNum()), ch.getType(), fieldAddress(ch.getX(), ch.getY()), fieldAddress(cx, cy));
+                    System.out.println("Movement=" + mov + ";PlayerName=" + mov.getPlayerName() + ";figure=" + mov.getFigure() + ";from=" + mov.getFieldFrom() + ";to=" + mov.getFieldTo());
+
                     ch.moveChessman(cx, cy); //moving the figure to new location
+                    ChessMainFrame.model.insertRow(model.getRowCount(), new Object[]{mov.getPlayerName(), mov.getFigure(), mov.getFieldFrom(), mov.getFieldTo()});
 
                     ch = null; //null as ch cause now the figure won't be marked  
                     mch = null; //nulling the 
+                    mov = null;
                 } else { //movement is not allowed
                     System.out.println("Movement not allowed.");
                     ch = null; //remarking the figure
@@ -164,5 +174,54 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
     @Override
     public void mouseExited(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private String fieldAddress(int a, int b) {
+        String fieldAddress = "";
+        switch (a) {
+            case 0 ->
+                fieldAddress = "A";
+            case 1 ->
+                fieldAddress = "B";
+            case 2 ->
+                fieldAddress = "C";
+            case 3 ->
+                fieldAddress = "D";
+            case 4 ->
+                fieldAddress = "E";
+            case 5 ->
+                fieldAddress = "F";
+            case 6 ->
+                fieldAddress = "G";
+            case 7 ->
+                fieldAddress = "H";
+        };
+        switch (b) {
+            case 0 ->
+                fieldAddress = fieldAddress + "8";
+            case 1 ->
+                fieldAddress = fieldAddress + "7";
+            case 2 ->
+                fieldAddress = fieldAddress + "6";
+            case 3 ->
+                fieldAddress = fieldAddress + "5";
+            case 4 ->
+                fieldAddress = fieldAddress + "4";
+            case 5 ->
+                fieldAddress = fieldAddress + "3";
+            case 6 ->
+                fieldAddress = fieldAddress + "2";
+            case 7 ->
+                fieldAddress = fieldAddress + "1";
+        };
+        return fieldAddress;
+    }
+
+    private String getPlayerName(int playerNum) {
+        if (playerNum == 1) {
+            return ChessMainFrame.p1.getName();
+        } else {
+            return ChessMainFrame.p2.getName();
+        }
     }
 }

@@ -18,11 +18,8 @@ import static java.lang.Math.abs;
 public class MyBishop extends MyChessman implements Serializable {
 //Class for Bishop figure
 
-    private int bishopNo;
-
-    public MyBishop(Color colour, int x, int y, int bishopNo, int playerNum) {
-        super(colour, x, y, playerNum);
-        setBishopNo(bishopNo);
+    public MyBishop(Color colour, int x, int y, int playerNum, String type) {
+        super(colour, x, y, playerNum, type);
     }
 
     @Override
@@ -81,7 +78,7 @@ public class MyBishop extends MyChessman implements Serializable {
             g.setColor(Color.WHITE);
         }
         //drawing name of the figure
-        g.drawString("Bishop" + " " + bishopNo, getX() * b + b / 3, getY() * b + b / 2);
+        g.drawString(getType(), getX() * b + b / 3, getY() * b + b / 2);
         //if the figure was clicked then it should be marked with new circle colour (this == ch from MyPanel
         if (this == MyPanel.ch) {
             g.setColor(Color.GREEN); //changing colour to green
@@ -89,14 +86,6 @@ public class MyBishop extends MyChessman implements Serializable {
             g2.setStroke(new BasicStroke(8));//setiing the width of the oval which we draw
             g.drawOval(getX() * b, getY() * b, b, b); //draving oval around the figure which was clicked
         }
-    }
-
-    public int getBishopNo() {
-        return bishopNo;
-    }
-
-    public void setBishopNo(int bishopNo) {
-        this.bishopNo = bishopNo;
     }
 
     @Override
