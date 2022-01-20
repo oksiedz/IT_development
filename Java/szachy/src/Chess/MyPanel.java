@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import javax.swing.JPanel;
 
 /**
@@ -109,8 +108,12 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                 mch = ChessMainFrame.isOccupied(cx, cy);
                 //ch - figure which we are moving, mch - figure which is standing on the field where we want to land
 
+                if (mch != null && mch.getType() == "King") {
+                        mvNotAll = true;
+                    }
+                
                 //we can proceed only if mch is any figure - cause if there is no figure no capture is needed
-                if (mch != null && ch.IsMoveOk(cx, cy)) { //capture can be done only if move is ok.
+                if (mch != null && ch.IsMoveOk(cx, cy) && !mvNotAll) { //capture can be done only if move is ok.
                     //checking if marked figure and figure which is standing on target place are owned by the same player
                     if (ch.getPlayerNum() != mch.getPlayerNum()) {
                         if (mch.getPlayerNum() == 1) { //if the figure on the target field is players one then
