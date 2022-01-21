@@ -19,7 +19,16 @@ public abstract class MyChessman implements Serializable { //class is abstract c
     //location of the figure
     private int x;
     private int y;
-    int playerNum;
+    private int playerNum;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public int getPlayerNum() {
         return playerNum;
@@ -29,11 +38,12 @@ public abstract class MyChessman implements Serializable { //class is abstract c
         this.playerNum = playerNum;
     }
 
-    public MyChessman(Color colour, int x, int y, int playerNum) {
+    public MyChessman(Color colour, int x, int y, int playerNum, String type) {
         this.colour = colour;
         this.x = x;
         this.y = y;
         this.playerNum = playerNum;
+        this.type = type;
     }
 
     public int getY() {
@@ -64,5 +74,5 @@ public abstract class MyChessman implements Serializable { //class is abstract c
 
     public abstract void drawChessman(Graphics g, int b);//this is abstract method to paint the figure, b - lenght of the rectangle defining field
 
-    public abstract void moveChessman(int a, int b);//method which will be changing the location of the figure and will be overwritten for Pawn to update moved variable
+    public abstract void moveChessman(int a, int b, int playerNo);//method which will be changing the location of the figure and will be overwritten for Pawn to update moved variable
 }

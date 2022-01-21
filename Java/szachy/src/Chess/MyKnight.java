@@ -17,11 +17,9 @@ import java.io.Serializable;
 public class MyKnight extends MyChessman implements Serializable {
 //class for horse figure
 
-    private int knightNo;
 
-    public MyKnight(Color colour, int x, int y, int knightNo, int playerNum) {
-        super(colour, x, y, playerNum);
-        setKnightNo(knightNo);
+    public MyKnight(Color colour, int x, int y, int playerNum, String type) {
+        super(colour, x, y, playerNum, type);
     }
 
     @Override
@@ -40,7 +38,7 @@ public class MyKnight extends MyChessman implements Serializable {
             g.setColor(Color.WHITE);
         }
         //drawing name of the figure
-        g.drawString("Knight" + " " + knightNo, getX() * b + b / 3, getY() * b + b / 2);
+        g.drawString(getType(), getX() * b + b / 3, getY() * b + b / 2);
         //if the figure was clicked then it should be marked with new circle colour (this == ch from MyPanel
         if (this == MyPanel.ch) {
             g.setColor(Color.GREEN); //changing colour to green
@@ -50,16 +48,8 @@ public class MyKnight extends MyChessman implements Serializable {
         }
     }
 
-    public int getKnightNo() {
-        return knightNo;
-    }
-
-    public void setKnightNo(int knightNo) {
-        this.knightNo = knightNo;
-    }
-
     @Override
-    public void moveChessman(int a, int b) {
+    public void moveChessman(int a, int b, int playerNo) {
         setX(a);
         setY(b);
     }

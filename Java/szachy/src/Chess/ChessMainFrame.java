@@ -9,8 +9,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import static java.lang.Math.abs;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,12 +23,14 @@ public class ChessMainFrame extends javax.swing.JFrame {
 
     static MyPlayer p1;
     static MyPlayer p2;
+    static DefaultTableModel model;
 
     /**
      * Creates new form ChessMainFrame
      */
     public ChessMainFrame() {
         initComponents();
+        jLabelVisibitilty(0);
     }
 
     /**
@@ -46,6 +50,8 @@ public class ChessMainFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new MyPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -54,21 +60,26 @@ public class ChessMainFrame extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Player", "Figure", "From", "To"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel3.setPreferredSize(new java.awt.Dimension(286, 50));
+        jPanel3.setPreferredSize(new java.awt.Dimension(286, 80));
 
         jButton2.setText("Start game");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -91,31 +102,43 @@ public class ChessMainFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel2.setText("Check!");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3))
+                    .addComponent(jLabel2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton1)
                     .addComponent(jButton3))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.SOUTH);
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jLabel1.setText("Game movements");
+        jPanel1.add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
         jSplitPane1.setLeftComponent(jPanel1);
 
@@ -125,11 +148,11 @@ public class ChessMainFrame extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 386, Short.MAX_VALUE)
+            .addGap(0, 551, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 389, Short.MAX_VALUE)
+            .addGap(0, 492, Short.MAX_VALUE)
         );
 
         jSplitPane1.setRightComponent(jPanel2);
@@ -143,6 +166,9 @@ public class ChessMainFrame extends javax.swing.JFrame {
         p1 = new MyPlayer(Color.WHITE, "Player1", 1);
         p2 = new MyPlayer(Color.BLACK, "Player2", 2);
         MyPanel p = (MyPanel) jPanel2;
+        model = (DefaultTableModel) jTable1.getModel();
+        clearRowsMovTab();
+        jLabelVisibitilty(0);
         p.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -167,6 +193,23 @@ public class ChessMainFrame extends javax.swing.JFrame {
             p1 = (MyPlayer) ois.readObject();
             p2 = (MyPlayer) ois.readObject();
             MyPanel p = (MyPanel) jPanel2; //read data to MyPanel
+            model = (DefaultTableModel) jTable1.getModel();
+            clearRowsMovTab();
+            jLabelVisibitilty(0);
+            
+            for (int i = 0; i < p1.getTab().size(); i++) {
+                if (p1.getTab().get(i).getType()=="King") {
+                    p1.setKingX(p1.getTab().get(i).getX());
+                    p1.setKingY(p1.getTab().get(i).getY());
+                }
+            }
+            for (int i = 0; i < p2.getTab().size(); i++) {
+                if (p2.getTab().get(i).getType()=="King") {
+                    p2.setKingX(p2.getTab().get(i).getX());
+                    p2.setKingY(p2.getTab().get(i).getY());
+                }
+            }
+            
             p.repaint(); //repaint MyPanel after loading the data
         } catch (Exception ex) {
             Logger.getLogger(ChessMainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -231,10 +274,300 @@ public class ChessMainFrame extends javax.swing.JFrame {
         return figure;
     }
 
+    private void clearRowsMovTab() {
+        System.out.println("getRowCount=" + model.getRowCount());
+
+        if (model.getRowCount() > 0) {
+            while (model.getRowCount() != 0) {
+                model.removeRow(0);
+            }
+        }
+    }
+
+    public static boolean bishopCheck(int x, int y, int a, int b) {
+        if ((abs(x - a) == 1 && abs(y - b) == 1)
+                || //two field distance
+                (isOccupied(x - 1, y - 1) == null && (x - a) == 2 && (y - b) == 2)
+                || (isOccupied(x + 1, y - 1) == null && (x - a) == -2 && (y - b) == 2)
+                || (isOccupied(x - 1, y + 1) == null && (x - a) == 2 && (y - b) == -2)
+                || (isOccupied(x + 1, y + 1) == null && (x - a) == -2 && (y - b) == -2)
+                || //three field distance
+                (isOccupied(x - 1, y - 1) == null && isOccupied(x - 2, y - 2) == null && (x - a) == 3 && (y - b) == 3)
+                || (isOccupied(x + 1, y - 1) == null && isOccupied(x + 2, y - 2) == null && (x - a) == -3 && (y - b) == 3)
+                || (isOccupied(x - 1, y + 1) == null && isOccupied(x - 2, y + 2) == null && (x - a) == 3 && (y - b) == -3)
+                || (isOccupied(x + 1, y + 1) == null && isOccupied(x + 2, y + 2) == null && (x - a) == -3 && (y - b) == -3)
+                ||//four field distance
+                (isOccupied(x - 1, y - 1) == null && isOccupied(x - 2, y - 2) == null && isOccupied(x - 3, y - 3) == null && (x - a) == 4 && (y - b) == 4)
+                || (isOccupied(x + 1, y - 1) == null && isOccupied(x + 2, y - 2) == null && isOccupied(x + 3, y - 3) == null && (x - a) == -4 && (y - b) == 4)
+                || (isOccupied(x - 1, y + 1) == null && isOccupied(x - 2, y + 2) == null && isOccupied(x - 3, y + 3) == null && (x - a) == 4 && (y - b) == -4)
+                || (isOccupied(x + 1, y + 1) == null && isOccupied(x + 2, y + 2) == null && isOccupied(x + 3, y + 3) == null && (x - a) == -4 && (y - b) == -4)
+                ||//five fields distance
+                (isOccupied(x - 1, y - 1) == null && isOccupied(x - 2, y - 2) == null && isOccupied(x - 3, y - 3) == null && isOccupied(x - 4, y - 4) == null && (x - a) == 5 && (y - b) == 5)
+                || (isOccupied(x + 1, y - 1) == null && isOccupied(x + 2, y - 2) == null && isOccupied(x + 3, y - 3) == null && isOccupied(x + 4, y - 4) == null && (x - a) == -5 && (y - b) == 5)
+                || (isOccupied(x - 1, y + 1) == null && isOccupied(x - 2, y + 2) == null && isOccupied(x - 3, y + 3) == null && isOccupied(x - 4, y + 4) == null && (x - a) == 5 && (y - b) == -5)
+                || (isOccupied(x + 1, y + 1) == null && isOccupied(x + 2, y + 2) == null && isOccupied(x + 3, y + 3) == null && isOccupied(x + 4, y + 4) == null && (x - a) == -5 && (y - b) == -5)
+                ||//six fields distance
+                (isOccupied(x - 1, y - 1) == null && isOccupied(x - 2, y - 2) == null && isOccupied(x - 3, y - 3) == null && isOccupied(x - 4, y - 4) == null && isOccupied(x - 5, y - 5) == null && (x - a) == 6 && (y - b) == 6)
+                || (isOccupied(x + 1, y - 1) == null && isOccupied(x + 2, y - 2) == null && isOccupied(x + 3, y - 3) == null && isOccupied(x + 4, y - 4) == null && isOccupied(x + 5, y - 5) == null && (x - a) == -6 && (y - b) == 6)
+                || (isOccupied(x - 1, y + 1) == null && isOccupied(x - 2, y + 2) == null && isOccupied(x - 3, y + 3) == null && isOccupied(x - 4, y + 4) == null && isOccupied(x - 5, y + 5) == null && (x - a) == 6 && (y - b) == -6)
+                || (isOccupied(x + 1, y + 1) == null && isOccupied(x + 2, y + 2) == null && isOccupied(x + 3, y + 3) == null && isOccupied(x + 4, y + 4) == null && isOccupied(x + 5, y + 5) == null && (x - a) == -6 && (y - b) == -6)
+                ||//seven fields distance
+                (isOccupied(x - 1, y - 1) == null && isOccupied(x - 2, y - 2) == null && isOccupied(x - 3, y - 3) == null && isOccupied(x - 4, y - 4) == null && isOccupied(x - 5, y - 5) == null && isOccupied(x - 6, y - 6) == null && (x - a) == 7 && (y - b) == 7)
+                || (isOccupied(x + 1, y - 1) == null && isOccupied(x + 2, y - 2) == null && isOccupied(x + 3, y - 3) == null && isOccupied(x + 4, y - 4) == null && isOccupied(x + 5, y - 5) == null && isOccupied(x + 6, y - 6) == null && (x - a) == -7 && (y - b) == 7)
+                || (isOccupied(x - 1, y + 1) == null && isOccupied(x - 2, y + 2) == null && isOccupied(x - 3, y + 3) == null && isOccupied(x - 4, y + 4) == null && isOccupied(x - 5, y + 5) == null && isOccupied(x - 6, y + 6) == null && (x - a) == 7 && (y - b) == -7)
+                || (isOccupied(x + 1, y + 1) == null && isOccupied(x + 2, y + 2) == null && isOccupied(x + 3, y + 3) == null && isOccupied(x + 4, y + 4) == null && isOccupied(x + 5, y + 5) == null && isOccupied(x + 6, y + 6) == null && (x - a) == -7 && (y - b) == -7)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean rookCheck(int x, int y, int a, int b) {
+        if (x != a && y != b) {
+            return false;
+        } else {
+            if (x == a
+                    && ((abs(y - b) == 1)
+                    //two fields distance
+                    || ((isOccupied(x, y + 1) == null && (y - b) == -2) || (isOccupied(x, y - 1) == null && (y - b) == 2))
+                    //three fields distance
+                    || ((isOccupied(x, y + 1) == null && isOccupied(x, y + 2) == null && (y - b) == -3) || (isOccupied(x, y - 1) == null && isOccupied(x, y - 2) == null && (y - b) == 3))
+                    //four fields distance
+                    || ((isOccupied(x, y + 1) == null && isOccupied(x, y + 2) == null && isOccupied(x, y + 3) == null && (y - b) == -4) || (isOccupied(x, y - 1) == null && isOccupied(x, y - 2) == null && isOccupied(x, y - 3) == null && (y - b) == 4))
+                    //five fields distance
+                    || ((isOccupied(x, y + 1) == null && isOccupied(x, y + 2) == null && isOccupied(x, y + 3) == null && isOccupied(x, y + 4) == null && (y - b) == -5) || (isOccupied(x, y - 1) == null && isOccupied(x, y - 2) == null && isOccupied(x, y - 3) == null && isOccupied(x, y - 4) == null && (y - b) == 5))
+                    //six fields distance
+                    || ((isOccupied(x, y + 1) == null && isOccupied(x, y + 2) == null && isOccupied(x, y + 3) == null && isOccupied(x, y + 4) == null && isOccupied(x, y + 5) == null && (y - b) == -6) || (isOccupied(x, y - 1) == null && isOccupied(x, y - 2) == null && isOccupied(x, y - 3) == null && isOccupied(x, y - 4) == null && isOccupied(x, y - 5) == null && (y - b) == 6))
+                    //seven fields distance
+                    || ((isOccupied(x, y + 1) == null && isOccupied(x, y + 2) == null && isOccupied(x, y + 3) == null && isOccupied(x, y + 4) == null && isOccupied(x, y + 5) == null && isOccupied(x, y + 6) == null && (y - b) == -7) || (isOccupied(x, y - 1) == null && isOccupied(x, y - 2) == null && isOccupied(x, y - 3) == null && isOccupied(x, y - 4) == null && isOccupied(x, y - 5) == null && isOccupied(x, y - 6) == null && (y - b) == 7)))) {
+                return true;
+            }
+            if (y == b
+                    && ((abs(x - a) == 1)
+                    //two fields distance
+                    || ((isOccupied(x + 1, y) == null && (x - a) == -2) || (isOccupied(x - 1, y) == null && (x - a) == 2))
+                    //three fields distance
+                    || ((isOccupied(x + 1, y) == null && isOccupied(x + 2, y) == null && (x - a) == -3) || (isOccupied(x - 1, y) == null && isOccupied(x - 2, y) == null && (x - a) == 3))
+                    //four fields distance
+                    || ((isOccupied(x + 1, y) == null && isOccupied(x + 2, y) == null && isOccupied(x + 3, y) == null && (x - a) == -4) || (isOccupied(x - 1, y) == null && isOccupied(x - 2, y) == null && isOccupied(x - 3, y) == null && (x - a) == 4))
+                    //five fields distance
+                    || ((isOccupied(x + 1, y) == null && isOccupied(x + 2, y) == null && isOccupied(x + 3, y) == null && isOccupied(x + 4, y) == null && (x - a) == -5) || (isOccupied(x - 1, y) == null && isOccupied(x - 2, y) == null && isOccupied(x - 3, y) == null && isOccupied(x - 4, y) == null && (x - a) == 5))
+                    //six fields distance
+                    || ((isOccupied(x + 1, y) == null && isOccupied(x + 2, y) == null && isOccupied(x + 3, y) == null && isOccupied(x + 4, y) == null && isOccupied(x + 5, y) == null && (x - a) == -6) || (isOccupied(x - 1, y) == null && isOccupied(x - 2, y) == null && isOccupied(x - 3, y) == null && isOccupied(x - 4, y) == null && isOccupied(x - 5, y) == null && (x - a) == 6))
+                    //seven fields distance
+                    || ((isOccupied(x + 1, y) == null && isOccupied(x + 2, y) == null && isOccupied(x + 3, y) == null && isOccupied(x + 4, y) == null && isOccupied(x + 5, y) == null && isOccupied(x + 6, y) == null && (x - a) == -7) || (isOccupied(x - 1, y) == null && isOccupied(x - 2, y) == null && isOccupied(x - 3, y) == null && isOccupied(x - 4, y) == null && isOccupied(x - 5, y) == null && isOccupied(x - 6, y) == null && (x - a) == 7)))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isCheckWhiteKing(int kingX, int kingY) {
+        int x = kingX;
+        int y = kingY;
+        int isCheck = 0;
+        int knight1X = -1;
+        int knight1Y = -1;
+        int knight2X = -1;
+        int knight2Y = -1;
+        int bishop1X = -1;
+        int bishop1Y = -1;
+        int bishop2X = -1;
+        int bishop2Y = -1;
+        int rook1X = -1;
+        int rook1Y = -1;
+        int rook2X = -1;
+        int rook2Y = -1;
+        int Queen1X = -1;
+        int Queen1Y = -1;
+        
+        for (int i = 0; i < ChessMainFrame.p2.getTab().size(); i++) {
+            if (ChessMainFrame.p2.getTab().get(i).getType() == "Knight 1") {
+                knight1X = ChessMainFrame.p2.getTab().get(i).getX();
+                knight1Y = ChessMainFrame.p2.getTab().get(i).getY();
+            }
+            if (ChessMainFrame.p2.getTab().get(i).getType() == "Knight 2") {
+                knight2X = ChessMainFrame.p2.getTab().get(i).getX();
+                knight2Y = ChessMainFrame.p2.getTab().get(i).getY();
+            }
+            if (ChessMainFrame.p2.getTab().get(i).getType() == "Bishop 1") {
+                bishop1X = ChessMainFrame.p2.getTab().get(i).getX();
+                bishop1Y = ChessMainFrame.p2.getTab().get(i).getY();
+            }
+            if (ChessMainFrame.p2.getTab().get(i).getType() == "Bishop 2") {
+                bishop2X = ChessMainFrame.p2.getTab().get(i).getX();
+                bishop2Y = ChessMainFrame.p2.getTab().get(i).getY();
+            }
+            if (ChessMainFrame.p2.getTab().get(i).getType() == "Rook 1") {
+                rook1X = ChessMainFrame.p2.getTab().get(i).getX();
+                rook1Y = ChessMainFrame.p2.getTab().get(i).getY();
+            }
+            if (ChessMainFrame.p2.getTab().get(i).getType() == "Rook 2") {
+                rook2X = ChessMainFrame.p2.getTab().get(i).getX();
+                rook2Y = ChessMainFrame.p2.getTab().get(i).getY();
+            }
+            if (ChessMainFrame.p2.getTab().get(i).getType() == "Queen") {
+                Queen1X = ChessMainFrame.p2.getTab().get(i).getX();
+                Queen1Y = ChessMainFrame.p2.getTab().get(i).getY();
+            }
+        }
+        
+        //Pawn one up and left and Pawn one up and left
+        if ((isOccupied(x - 1, y - 1) != null && isOccupied(x - 1, y - 1).getType().contains("Pawn") == true && isOccupied(x - 1, y - 1).getPlayerNum() == 2) || (isOccupied(x + 1, y - 1) != null && isOccupied(x + 1, y - 1).getType().contains("Pawn") == true && isOccupied(x + 1, y - 1).getPlayerNum() == 2)) {
+            return true;
+        }
+        //Knight
+        //assignment of location of knight
+        //check if knight is in distance of ~1 for x and ~2 for y or opposite
+        if (knight1X > 0) {
+            if ((abs(x - knight1X) == 1 && abs(y - knight1Y) == 2) || (abs(x - knight1X) == 2 && abs(y - knight1Y) == 1)) {
+                isCheck = 1;
+            }
+        }
+        if (knight2X > 0) {
+            if ((abs(x - knight2X) == 1 && abs(y - knight2Y) == 2) || (abs(x - knight2X) == 2 && abs(y - knight2Y) == 1)) {
+                isCheck = 1;
+            }
+        }
+        //Bishop
+        //assignment of location of bishop
+        if (bishop1X > 0 && bishopCheck(x, y, bishop1X, bishop1Y) == true) {
+            isCheck = 1;
+        }
+        if (bishop2X > 0 && bishopCheck(x, y, bishop2X, bishop2Y) == true) {
+            isCheck = 1;
+        }
+        //Rook
+        if (rook1X > 0 && rookCheck(x, y, rook1X, rook1Y) == true) {
+            isCheck = 1;
+        }
+        if (rook2X > 0 && rookCheck(x, y, rook2X, rook2Y) == true) {
+            isCheck = 1;
+        }
+
+        //Queen
+        if (Queen1X > 0 && (bishopCheck(x, y, Queen1X, Queen1Y) == true || rookCheck(x, y, Queen1X, Queen1Y) == true)) {
+            isCheck = 1;
+        }
+
+//final return
+        if (isCheck == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean isCheckBlackKing(int kingX, int kingY) {
+        int x = kingX;
+        int y = kingY;
+        int isCheck = 0;
+        int knight1X = -1;
+        int knight1Y = -1;
+        int knight2X = -1;
+        int knight2Y = -1;
+        int bishop1X = -1;
+        int bishop1Y = -1;
+        int bishop2X = -1;
+        int bishop2Y = -1;
+        int rook1X = -1;
+        int rook1Y = -1;
+        int rook2X = -1;
+        int rook2Y = -1;
+        int Queen1X = -1;
+        int Queen1Y = -1;
+
+        for (int i = 0; i < ChessMainFrame.p1.getTab().size(); i++) {
+            if (ChessMainFrame.p1.getTab().get(i).getType() == "Knight 1") {
+                knight1X = ChessMainFrame.p1.getTab().get(i).getX();
+                knight1Y = ChessMainFrame.p1.getTab().get(i).getY();
+            }
+            if (ChessMainFrame.p1.getTab().get(i).getType() == "Knight 2") {
+                knight2X = ChessMainFrame.p1.getTab().get(i).getX();
+                knight2Y = ChessMainFrame.p1.getTab().get(i).getY();
+            }
+            if (ChessMainFrame.p2.getTab().get(i).getType() == "Bishop 1") {
+                bishop1X = ChessMainFrame.p1.getTab().get(i).getX();
+                bishop1Y = ChessMainFrame.p1.getTab().get(i).getY();
+            }
+            if (ChessMainFrame.p1.getTab().get(i).getType() == "Bishop 2") {
+                bishop2X = ChessMainFrame.p1.getTab().get(i).getX();
+                bishop2Y = ChessMainFrame.p1.getTab().get(i).getY();
+            }
+            if (ChessMainFrame.p1.getTab().get(i).getType() == "Rook 1") {
+                rook1X = ChessMainFrame.p1.getTab().get(i).getX();
+                rook1Y = ChessMainFrame.p1.getTab().get(i).getY();
+            }
+            if (ChessMainFrame.p1.getTab().get(i).getType() == "Rook 2") {
+                rook2X = ChessMainFrame.p1.getTab().get(i).getX();
+                rook2Y = ChessMainFrame.p1.getTab().get(i).getY();
+            }
+            if (ChessMainFrame.p1.getTab().get(i).getType() == "Queen") {
+                Queen1X = ChessMainFrame.p1.getTab().get(i).getX();
+                Queen1Y = ChessMainFrame.p1.getTab().get(i).getY();
+            }
+        }
+        //Pawn one up and left and Pawn one up and left
+        if ((isOccupied(x - 1, y - 1) != null && isOccupied(x - 1, y - 1).getType().contains("Pawn") == true && isOccupied(x - 1, y - 1).getPlayerNum() == 2) || (isOccupied(x + 1, y - 1) != null && isOccupied(x + 1, y - 1).getType().contains("Pawn") == true && isOccupied(x + 1, y - 1).getPlayerNum() == 2)) {
+            return true;
+        }
+        //Knight
+        //assignment of location of knight
+
+        //check if knight is in distance of ~1 for x and ~2 for y or opposite
+        if (knight1X > 0) {
+            if ((abs(x - knight1X) == 1 && abs(y - knight1Y) == 2) || (abs(x - knight1X) == 2 && abs(y - knight1Y) == 1)) {
+                isCheck = 1;
+            }
+        }
+        if (knight2X > 0) {
+            if ((abs(x - knight2X) == 1 && abs(y - knight2Y) == 2) || (abs(x - knight2X) == 2 && abs(y - knight2Y) == 1)) {
+                isCheck = 1;
+            }
+        }
+        //Bishop
+        if (bishop1X > 0 && bishopCheck(x, y, bishop1X, bishop1Y) == true) {
+            isCheck = 1;
+        }
+        if (bishop2X > 0 && bishopCheck(x, y, bishop2X, bishop2Y) == true) {
+            isCheck = 1;
+        }
+        //Rook
+        if (rook1X > 0 && rookCheck(x, y, rook1X, rook1Y) == true) {
+            isCheck = 1;
+        }
+        if (rook2X > 0 && rookCheck(x, y, rook2X, rook2Y) == true) {
+            isCheck = 1;
+        }
+
+        //Queen
+        if (Queen1X > 0 && (bishopCheck(x, y, Queen1X, Queen1Y) == true || rookCheck(x, y, Queen1X, Queen1Y) == true)) {
+            isCheck = 1;
+        }
+        
+        //final return
+        if (isCheck == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public static void jLabelVisibitilty(int a){
+        if (a == 1) {
+            jLabel2.setVisible(true);
+        } else {
+            jLabel2.setVisible(false);
+        }
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
+    public static javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
