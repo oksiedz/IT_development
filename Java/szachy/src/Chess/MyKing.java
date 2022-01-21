@@ -14,16 +14,20 @@ import java.io.Serializable;
  *
  * @author tt
  */
-public class MyKing extends MyChessman implements Serializable {
-//class for King figure
+public class MyKing extends MyChessman implements Serializable 
+{   //class for King figure
 
-    public MyKing(Color colour, int x, int y, int playerNum) {
+    
+    public MyKing(Color colour, int x, int y, int playerNum) 
+    {
         super(colour, x, y, playerNum);
     }
 
     @Override
-    public boolean IsMoveOk(int a, int b) {
-        return true;
+    public boolean IsMoveOk(int a, int b) 
+    {
+                return (((a == getX() || a == getX() - 1 || a == getX() + 1) ) && (b == getY() || b == getY() - 1 || b == getY() + 1 )&& !(a==getX() && b==getY()));
+            
     }
 
     @Override
