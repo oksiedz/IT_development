@@ -49,7 +49,7 @@ public class MyKnight extends MyChessman implements Serializable {
     }
 
     @Override
-    public void moveChessman(int a, int b) {
+    public void moveChessman(int a, int b, int playerNo) {
         setX(a);
         setY(b);
     }

@@ -48,9 +48,17 @@ public class MyKing extends MyChessman implements Serializable {
     }
 
     @Override
-    public void moveChessman(int a, int b) {
+    public void moveChessman(int a, int b, int playerNo) {
         setX(a);
         setY(b);
+        if (playerNo == 1) {
+            ChessMainFrame.p1.setKingX(a);
+            ChessMainFrame.p1.setKingY(b);            
+        }
+        else {
+            ChessMainFrame.p2.setKingX(a);
+            ChessMainFrame.p2.setKingY(b);            
+        }
     }
 
 }

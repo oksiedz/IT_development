@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 public class MyPanel extends JPanel implements MouseListener {//mouselsitener is an abstract listener
 
     static MyChessman ch = null;//creating object which will contain the figure on which we clicked
+    static int check = 0;
 
     public MyPanel() {
         addMouseListener(this); //we added the Panel as a tool to listen to mouse listener
@@ -109,8 +110,18 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                 //ch - figure which we are moving, mch - figure which is standing on the field where we want to land
 
                 if (mch != null && mch.getType() == "King") {
-                        mvNotAll = true;
+                    mvNotAll = true;
+                }
+
+                //Blokade that if there is Check, movement of king that it still will be check is not allowed
+                if (ch.getType()=="King") {
+                    if (ch.getPlayerNum()==1 && ChessMainFrame.isCheckWhiteKing(cx, cy)) {
+                        mvNotAll=true;
                     }
+                    if (ch.getPlayerNum()==2 && ChessMainFrame.isCheckBlackKing(cx, cy)) {
+                        mvNotAll=true;
+                    }
+                }
                 
                 //we can proceed only if mch is any figure - cause if there is no figure no capture is needed
                 if (mch != null && ch.IsMoveOk(cx, cy) && !mvNotAll) { //capture can be done only if move is ok.
@@ -132,6 +143,8 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                     mvNotAll = true;
                 }
 
+                
+                
                 if (!mvNotAll) { //movement is allowed
                     //moving the figure
                     //ch.setX(cx); //assigning as X cx - so new x location
@@ -142,9 +155,19 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                     Movement mov = new Movement(getPlayerName(ch.getPlayerNum()), ch.getType(), fieldAddress(ch.getX(), ch.getY()), fieldAddress(cx, cy));
                     System.out.println("Movement=" + mov + ";PlayerName=" + mov.getPlayerName() + ";figure=" + mov.getFigure() + ";from=" + mov.getFieldFrom() + ";to=" + mov.getFieldTo());
 
-                    ch.moveChessman(cx, cy); //moving the figure to new location
+                    ch.moveChessman(cx, cy, ch.getPlayerNum()); //moving the figure to new location
+                    
                     ChessMainFrame.model.insertRow(model.getRowCount(), new Object[]{mov.getPlayerName(), mov.getFigure(), mov.getFieldFrom(), mov.getFieldTo()});
-
+                    System.out.println("BlackKingCheck="+ChessMainFrame.isCheckBlackKing(ChessMainFrame.p2.getKingX(),ChessMainFrame.p2.getKingY()));
+                    System.out.println("WhiteKingCheck="+ChessMainFrame.isCheckWhiteKing(ChessMainFrame.p1.getKingX(),ChessMainFrame.p1.getKingY()));
+                    if (ChessMainFrame.isCheckBlackKing(ChessMainFrame.p2.getKingX(),ChessMainFrame.p2.getKingY()) || ChessMainFrame.isCheckWhiteKing(ChessMainFrame.p1.getKingX(),ChessMainFrame.p1.getKingY())) {
+                        MyPanel.check = 1;
+                        ChessMainFrame.jLabelVisibitilty(1);
+                    }
+                    else {
+                        MyPanel.check = 0;
+                        ChessMainFrame.jLabelVisibitilty(0);
+                    }
                     ch = null; //null as ch cause now the figure won't be marked  
                     mch = null; //nulling the 
                     mov = null;

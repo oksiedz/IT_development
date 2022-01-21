@@ -17,7 +17,25 @@ public class MyPlayer implements Serializable { //class has to be serializable d
     private Color colour; //variable defining colour of the player
     private String name; //Name of the Player
     private int playerNum; //number of the player 1 - first, 2 - second
+    private int kingX; //coordinate X of a king
+    private int kingY;//coordinate Y of a king
     //Player contains also figures - so we need to have table with all figures
+
+    public int getKingX() {
+        return kingX;
+    }
+
+    public void setKingX(int kingX) {
+        this.kingX = kingX;
+    }
+
+    public int getKingY() {
+        return kingY;
+    }
+
+    public void setKingY(int kingY) {
+        this.kingY = kingY;
+    }
 
 //container for 16 objects which is owned by the player
     //MyChessman tab[] = new MyChessman[16]; //one method
@@ -28,6 +46,17 @@ public class MyPlayer implements Serializable { //class has to be serializable d
         this.colour = colour;
         this.name = Name;
         this.playerNum = playerNum;
+        
+        if (playerNum == 1) {
+            kingX = 4;
+            kingY = 7;
+        }
+        else {
+            kingX = 3;
+            kingY = 0;
+        }
+        setKingX(kingX);
+        setKingY(kingY);
 
         if (getPlayerNum() == 1) {
             //setting pawns
@@ -47,7 +76,7 @@ public class MyPlayer implements Serializable { //class has to be serializable d
             //setting Queen
             tab.add(new MyQueen(colour, 3, 7, playerNum, "Queen"));//first row, position four
             //setting King
-            tab.add(new MyKing(colour, 4, 7, playerNum, "King"));//first row, position five
+            tab.add(new MyKing(colour, getKingX(), getKingY(), playerNum, "King"));//first row, position five
         } else {
             //setting pawns
             for (int i = 0; i < 8; i++) {
@@ -66,7 +95,7 @@ public class MyPlayer implements Serializable { //class has to be serializable d
             //setting Queen
             tab.add(new MyQueen(colour, 4, 0, playerNum, "Queen"));
             //setting King
-            tab.add(new MyKing(colour, 3, 0, playerNum, "King"));
+            tab.add(new MyKing(colour, getKingX(), getKingY(), playerNum, "King"));
         }
 
     }
