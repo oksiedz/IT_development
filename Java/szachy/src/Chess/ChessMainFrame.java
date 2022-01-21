@@ -196,6 +196,20 @@ public class ChessMainFrame extends javax.swing.JFrame {
             model = (DefaultTableModel) jTable1.getModel();
             clearRowsMovTab();
             jLabelVisibitilty(0);
+            
+            for (int i = 0; i < p1.getTab().size(); i++) {
+                if (p1.getTab().get(i).getType()=="King") {
+                    p1.setKingX(p1.getTab().get(i).getX());
+                    p1.setKingY(p1.getTab().get(i).getY());
+                }
+            }
+            for (int i = 0; i < p2.getTab().size(); i++) {
+                if (p2.getTab().get(i).getType()=="King") {
+                    p2.setKingX(p2.getTab().get(i).getX());
+                    p2.setKingY(p2.getTab().get(i).getY());
+                }
+            }
+            
             p.repaint(); //repaint MyPanel after loading the data
         } catch (Exception ex) {
             Logger.getLogger(ChessMainFrame.class.getName()).log(Level.SEVERE, null, ex);
