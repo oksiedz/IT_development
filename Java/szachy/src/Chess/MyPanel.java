@@ -163,10 +163,12 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                     if (ChessMainFrame.isCheckBlackKing(ChessMainFrame.p2.getKingX(),ChessMainFrame.p2.getKingY()) || ChessMainFrame.isCheckWhiteKing(ChessMainFrame.p1.getKingX(),ChessMainFrame.p1.getKingY())) {
                         MyPanel.check = 1;
                         ChessMainFrame.jLabelVisibitilty(1);
+                        ch.setChecksKing(true);
                     }
                     else {
                         MyPanel.check = 0;
                         ChessMainFrame.jLabelVisibitilty(0);
+                        ch.setChecksKing(false);
                     }
                     ch = null; //null as ch cause now the figure won't be marked  
                     mch = null; //nulling the 
@@ -175,6 +177,14 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                     System.out.println("Movement not allowed.");
                     ch = null; //remarking the figure
                     mch = null; //reselecting the target figure
+                }
+                
+                //printing all figures
+                for (int i = 0; i < ChessMainFrame.p1.getTab().size(); i++) {
+                    System.out.println("Player:"+ChessMainFrame.p1.getPlayerNum()+";Figure="+ChessMainFrame.p1.getTab().get(i).getType()+";PositionX="+ChessMainFrame.p1.getTab().get(i).getX()+";PositionY="+ChessMainFrame.p1.getTab().get(i).getY()+";ChecksKing="+ChessMainFrame.p1.getTab().get(i).isChecksKing());                   
+                }
+                for (int i = 0; i < ChessMainFrame.p2.getTab().size(); i++) {
+                    System.out.println("Player:"+ChessMainFrame.p2.getPlayerNum()+";Figure="+ChessMainFrame.p2.getTab().get(i).getType()+";PositionX="+ChessMainFrame.p2.getTab().get(i).getX()+";PositionY="+ChessMainFrame.p2.getTab().get(i).getY()+";ChecksKing="+ChessMainFrame.p2.getTab().get(i).isChecksKing());                   
                 }
 
                 repaint(); //refresh the board

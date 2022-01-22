@@ -196,20 +196,20 @@ public class ChessMainFrame extends javax.swing.JFrame {
             model = (DefaultTableModel) jTable1.getModel();
             clearRowsMovTab();
             jLabelVisibitilty(0);
-            
+
             for (int i = 0; i < p1.getTab().size(); i++) {
-                if (p1.getTab().get(i).getType()=="King") {
+                if (p1.getTab().get(i).getType() == "King") {
                     p1.setKingX(p1.getTab().get(i).getX());
                     p1.setKingY(p1.getTab().get(i).getY());
                 }
             }
             for (int i = 0; i < p2.getTab().size(); i++) {
-                if (p2.getTab().get(i).getType()=="King") {
+                if (p2.getTab().get(i).getType() == "King") {
                     p2.setKingX(p2.getTab().get(i).getX());
                     p2.setKingY(p2.getTab().get(i).getY());
                 }
             }
-            
+
             p.repaint(); //repaint MyPanel after loading the data
         } catch (Exception ex) {
             Logger.getLogger(ChessMainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -380,7 +380,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
         int rook2Y = -1;
         int Queen1X = -1;
         int Queen1Y = -1;
-        
+
         for (int i = 0; i < ChessMainFrame.p2.getTab().size(); i++) {
             if (ChessMainFrame.p2.getTab().get(i).getType() == "Knight 1") {
                 knight1X = ChessMainFrame.p2.getTab().get(i).getX();
@@ -411,7 +411,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
                 Queen1Y = ChessMainFrame.p2.getTab().get(i).getY();
             }
         }
-        
+
         //Pawn one up and left and Pawn one up and left
         if ((isOccupied(x - 1, y - 1) != null && isOccupied(x - 1, y - 1).getType().contains("Pawn") == true && isOccupied(x - 1, y - 1).getPlayerNum() == 2) || (isOccupied(x + 1, y - 1) != null && isOccupied(x + 1, y - 1).getType().contains("Pawn") == true && isOccupied(x + 1, y - 1).getPlayerNum() == 2)) {
             return true;
@@ -486,7 +486,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
                 knight2X = ChessMainFrame.p1.getTab().get(i).getX();
                 knight2Y = ChessMainFrame.p1.getTab().get(i).getY();
             }
-            if (ChessMainFrame.p2.getTab().get(i).getType() == "Bishop 1") {
+            if (ChessMainFrame.p1.getTab().get(i).getType() == "Bishop 1") {
                 bishop1X = ChessMainFrame.p1.getTab().get(i).getX();
                 bishop1Y = ChessMainFrame.p1.getTab().get(i).getY();
             }
@@ -507,8 +507,9 @@ public class ChessMainFrame extends javax.swing.JFrame {
                 Queen1Y = ChessMainFrame.p1.getTab().get(i).getY();
             }
         }
+
         //Pawn one up and left and Pawn one up and left
-        if ((isOccupied(x - 1, y - 1) != null && isOccupied(x - 1, y - 1).getType().contains("Pawn") == true && isOccupied(x - 1, y - 1).getPlayerNum() == 2) || (isOccupied(x + 1, y - 1) != null && isOccupied(x + 1, y - 1).getType().contains("Pawn") == true && isOccupied(x + 1, y - 1).getPlayerNum() == 2)) {
+        if ((isOccupied(x - 1, y + 1) != null && isOccupied(x - 1, y + 1).getType().contains("Pawn") == true && isOccupied(x - 1, y + 1).getPlayerNum() == 1) || (isOccupied(x + 1, y + 1) != null && isOccupied(x + 1, y + 1).getType().contains("Pawn") == true && isOccupied(x + 1, y + 1).getPlayerNum() == 1)) {
             return true;
         }
         //Knight
@@ -544,7 +545,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
         if (Queen1X > 0 && (bishopCheck(x, y, Queen1X, Queen1Y) == true || rookCheck(x, y, Queen1X, Queen1Y) == true)) {
             isCheck = 1;
         }
-        
+
         //final return
         if (isCheck == 1) {
             return true;
@@ -552,8 +553,8 @@ public class ChessMainFrame extends javax.swing.JFrame {
             return false;
         }
     }
-    
-    public static void jLabelVisibitilty(int a){
+
+    public static void jLabelVisibitilty(int a) {
         if (a == 1) {
             jLabel2.setVisible(true);
         } else {
