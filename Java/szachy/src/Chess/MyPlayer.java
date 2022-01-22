@@ -19,6 +19,7 @@ public class MyPlayer implements Serializable { //class has to be serializable d
     private int playerNum; //number of the player 1 - first, 2 - second
     private int kingX; //coordinate X of a king
     private int kingY;//coordinate Y of a king
+    private int isPlaying;
     //Player contains also figures - so we need to have table with all figures
 
     public int getKingX() {
@@ -130,6 +131,14 @@ public class MyPlayer implements Serializable { //class has to be serializable d
 
     public void setPlayerNum(int playerNum) {
         this.playerNum = playerNum;
+    }
+
+    public int getIsPlaying() {
+        return isPlaying;
+    }
+
+    public void setIsPlaying(int isPlaying) {
+        this.isPlaying = isPlaying;
     }
 
 }

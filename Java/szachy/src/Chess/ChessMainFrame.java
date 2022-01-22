@@ -31,6 +31,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
     public ChessMainFrame() {
         initComponents();
         jLabelVisibitilty(0);
+        jLabel3.setVisible(false);
     }
 
     /**
@@ -51,6 +52,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new MyPanel();
 
@@ -106,6 +108,10 @@ public class ChessMainFrame extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 51, 51));
         jLabel2.setText("Check!");
 
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(102, 255, 0));
+        jLabel3.setText("jLabel3");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -118,9 +124,11 @@ public class ChessMainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3))
                     .addComponent(jLabel2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,10 +136,11 @@ public class ChessMainFrame extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton1)
-                    .addComponent(jButton3))
+                    .addComponent(jButton3)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 28, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.SOUTH);
@@ -169,6 +178,10 @@ public class ChessMainFrame extends javax.swing.JFrame {
         model = (DefaultTableModel) jTable1.getModel();
         clearRowsMovTab();
         jLabelVisibitilty(0);
+        p1.setIsPlaying(1);
+        p2.setIsPlaying(0);
+        whoPlayes();
+        jLabel3.setVisible(true);
         p.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -209,6 +222,8 @@ public class ChessMainFrame extends javax.swing.JFrame {
                     p2.setKingY(p2.getTab().get(i).getY());
                 }
             }
+            whoPlayes();
+            jLabel3.setVisible(true);
 
             p.repaint(); //repaint MyPanel after loading the data
         } catch (Exception ex) {
@@ -562,6 +577,14 @@ public class ChessMainFrame extends javax.swing.JFrame {
         }
     }
 
+    public static void whoPlayes() {
+        if (p1.getIsPlaying() == 1) {
+            jLabel3.setText("Plays: " + p1.getName());
+        } else {
+            jLabel3.setText("Plays: " + p2.getName());
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -569,6 +592,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     public static javax.swing.JLabel jLabel2;
+    public static javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
