@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.Serializable;
+import static java.lang.Math.abs;
 
 /**
  *
@@ -24,7 +25,7 @@ public class MyKnight extends MyChessman implements Serializable {
 
     @Override
     public boolean IsMoveOk(int a, int b) {
-        return true;
+        return ((abs(a - getX()) == 1 && abs(b - getY()) == 2) || (abs(a - getX()) == 2 && abs(b - getY()) == 1));
     }
 
     @Override
