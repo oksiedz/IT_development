@@ -21,6 +21,7 @@ public abstract class MyChessman implements Serializable { //class is abstract c
     private int y;
     private int playerNum;
     private String type;
+    private boolean checksKing;
 
     public String getType() {
         return type;
@@ -44,6 +45,7 @@ public abstract class MyChessman implements Serializable { //class is abstract c
         this.y = y;
         this.playerNum = playerNum;
         this.type = type;
+        this.checksKing = false;
     }
 
     public int getY() {
@@ -75,4 +77,12 @@ public abstract class MyChessman implements Serializable { //class is abstract c
     public abstract void drawChessman(Graphics g, int b);//this is abstract method to paint the figure, b - lenght of the rectangle defining field
 
     public abstract void moveChessman(int a, int b, int playerNo);//method which will be changing the location of the figure and will be overwritten for Pawn to update moved variable
+
+    public boolean isChecksKing() {
+        return checksKing;
+    }
+
+    public void setChecksKing(boolean checksKing) {
+        this.checksKing = checksKing;
+    }
 }
