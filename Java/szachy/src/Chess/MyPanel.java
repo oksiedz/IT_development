@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 public class MyPanel extends JPanel implements MouseListener {//mouselsitener is an abstract listener
 
     static MyChessman ch = null;//creating object which will contain the figure on which we clicked
-    static int check = 0;
+    static int check = 0; //variable if there is check
 
     public MyPanel() {
         addMouseListener(this); //we added the Panel as a tool to listen to mouse listener
@@ -65,6 +65,9 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
 
     @Override
     public void mouseClicked(MouseEvent e) { //e - event
+        //refreshing the remaining time
+        ChessMainFrame.playedPlayerTime();
+        //refreshing the remaining time
 
         boolean mvNotAll = false; //variable defining if the movement is not allowed - false - movement allowed.
         //ch = null; //by default we don't have anything clicked
@@ -86,23 +89,38 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
         int cy = y / b; //number of row which we have clicked
         System.out.println("X=" + x + ";cx=" + cx + ";Y=" + y + ";cy=" + cy + ";b=" + b);//returning location of click
         if (ch == null) { //if we don't have marked any figure then we are checking it
+            //refreshing the remaining time
+            ChessMainFrame.playedPlayerTime();
+            //refreshing the remaining time
+            //check whose turn it is
+            if (ChessMainFrame.isOccupied(cx, cy) != null) {
+                if (ChessMainFrame.p1.getIsPlaying() == 1 && ChessMainFrame.isOccupied(cx, cy).getPlayerNum() == 1) {
+                    ch = ChessMainFrame.isOccupied(cx, cy);
+                }
+                if (ChessMainFrame.p2.getIsPlaying() == 1 && ChessMainFrame.isOccupied(cx, cy).getPlayerNum() == 2) {
+                    ch = ChessMainFrame.isOccupied(cx, cy);
+                }
+            }
 
-            ch = ChessMainFrame.isOccupied(cx, cy);
             //check if we hit the figure
             if (ch != null) {
                 System.out.println(ch);
-                System.out.println("PlayerNumber=" + ch.getPlayerNum());
-                System.out.println("Type of the figure=" + ch.getType());
+                //System.out.println("PlayerNumber=" + ch.getPlayerNum());
+                //System.out.println("Type of the figure=" + ch.getType());
             }
 
             repaint(); //repaint the stage to check show the marked figure
         } else { //if we have already figure clicked, then in next click we have to indicate the new location of the figure
-
+            //refreshing the remaining time
+            ChessMainFrame.playedPlayerTime();
+            //refreshing the remaining time
             if (cx > 7 || cy > 7 || cx < 0 || cy < 0) {
                 mvNotAll = true;
                 System.out.println("Incorrect movement.");
             } else {
-
+//refreshing the remaining time
+                ChessMainFrame.playedPlayerTime();
+                //refreshing the remaining time
                 //capture mechanism                
                 MyChessman mch = null;
                 //let's check if on the field that we want to land is already a figure which should be captured in such case
@@ -114,15 +132,15 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                 }
 
                 //Blokade that if there is Check, movement of king that it still will be check is not allowed
-                if (ch.getType()=="King") {
-                    if (ch.getPlayerNum()==1 && ChessMainFrame.isCheckWhiteKing(cx, cy)) {
-                        mvNotAll=true;
+                if (ch.getType() == "King") {
+                    if (ch.getPlayerNum() == 1 && ChessMainFrame.isCheckWhiteKing(cx, cy)) {
+                        mvNotAll = true;
                     }
-                    if (ch.getPlayerNum()==2 && ChessMainFrame.isCheckBlackKing(cx, cy)) {
-                        mvNotAll=true;
+                    if (ch.getPlayerNum() == 2 && ChessMainFrame.isCheckBlackKing(cx, cy)) {
+                        mvNotAll = true;
                     }
                 }
-                
+
                 //we can proceed only if mch is any figure - cause if there is no figure no capture is needed
                 if (mch != null && ch.IsMoveOk(cx, cy) && !mvNotAll) { //capture can be done only if move is ok.
                     //checking if marked figure and figure which is standing on target place are owned by the same player
@@ -143,8 +161,6 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                     mvNotAll = true;
                 }
 
-                
-                
                 if (!mvNotAll) { //movement is allowed
                     //moving the figure
                     //ch.setX(cx); //assigning as X cx - so new x location
@@ -156,16 +172,15 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                     System.out.println("Movement=" + mov + ";PlayerName=" + mov.getPlayerName() + ";figure=" + mov.getFigure() + ";from=" + mov.getFieldFrom() + ";to=" + mov.getFieldTo());
 
                     ch.moveChessman(cx, cy, ch.getPlayerNum()); //moving the figure to new location
-                    
+
                     ChessMainFrame.model.insertRow(model.getRowCount(), new Object[]{mov.getPlayerName(), mov.getFigure(), mov.getFieldFrom(), mov.getFieldTo()});
-                    System.out.println("BlackKingCheck="+ChessMainFrame.isCheckBlackKing(ChessMainFrame.p2.getKingX(),ChessMainFrame.p2.getKingY()));
-                    System.out.println("WhiteKingCheck="+ChessMainFrame.isCheckWhiteKing(ChessMainFrame.p1.getKingX(),ChessMainFrame.p1.getKingY()));
-                    if (ChessMainFrame.isCheckBlackKing(ChessMainFrame.p2.getKingX(),ChessMainFrame.p2.getKingY()) || ChessMainFrame.isCheckWhiteKing(ChessMainFrame.p1.getKingX(),ChessMainFrame.p1.getKingY())) {
+                    System.out.println("BlackKingCheck=" + ChessMainFrame.isCheckBlackKing(ChessMainFrame.p2.getKingX(), ChessMainFrame.p2.getKingY()));
+                    System.out.println("WhiteKingCheck=" + ChessMainFrame.isCheckWhiteKing(ChessMainFrame.p1.getKingX(), ChessMainFrame.p1.getKingY()));
+                    if (ChessMainFrame.isCheckBlackKing(ChessMainFrame.p2.getKingX(), ChessMainFrame.p2.getKingY()) || ChessMainFrame.isCheckWhiteKing(ChessMainFrame.p1.getKingX(), ChessMainFrame.p1.getKingY())) {
                         MyPanel.check = 1;
                         ChessMainFrame.jLabelVisibitilty(1);
                         ch.setChecksKing(true);
-                    }
-                    else {
+                    } else {
                         MyPanel.check = 0;
                         ChessMainFrame.jLabelVisibitilty(0);
                         ch.setChecksKing(false);
@@ -173,18 +188,32 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                     ch = null; //null as ch cause now the figure won't be marked  
                     mch = null; //nulling the 
                     mov = null;
+
+                    //setting who is playing now
+                    if (ChessMainFrame.p1.getIsPlaying() == 1) {
+                        ChessMainFrame.p1.setIsPlaying(0);
+                        ChessMainFrame.p2.setIsPlaying(1);
+                    } else {
+                        ChessMainFrame.p1.setIsPlaying(1);
+                        ChessMainFrame.p2.setIsPlaying(0);
+                    }
+                    //refreshing the remaining time
+                    ChessMainFrame.playedPlayerTime();
+                    //refreshing the remaining time
                 } else { //movement is not allowed
                     System.out.println("Movement not allowed.");
                     ch = null; //remarking the figure
                     mch = null; //reselecting the target figure
                 }
-                
+                //refreshing the label
+                ChessMainFrame.whoPlayes();
+
                 //printing all figures
                 for (int i = 0; i < ChessMainFrame.p1.getTab().size(); i++) {
-                    System.out.println("Player:"+ChessMainFrame.p1.getPlayerNum()+";Figure="+ChessMainFrame.p1.getTab().get(i).getType()+";PositionX="+ChessMainFrame.p1.getTab().get(i).getX()+";PositionY="+ChessMainFrame.p1.getTab().get(i).getY()+";ChecksKing="+ChessMainFrame.p1.getTab().get(i).isChecksKing());                   
+                    System.out.println("Player:" + ChessMainFrame.p1.getPlayerNum() + ";Figure=" + ChessMainFrame.p1.getTab().get(i).getType() + ";PositionX=" + ChessMainFrame.p1.getTab().get(i).getX() + ";PositionY=" + ChessMainFrame.p1.getTab().get(i).getY() + ";ChecksKing=" + ChessMainFrame.p1.getTab().get(i).isChecksKing());
                 }
                 for (int i = 0; i < ChessMainFrame.p2.getTab().size(); i++) {
-                    System.out.println("Player:"+ChessMainFrame.p2.getPlayerNum()+";Figure="+ChessMainFrame.p2.getTab().get(i).getType()+";PositionX="+ChessMainFrame.p2.getTab().get(i).getX()+";PositionY="+ChessMainFrame.p2.getTab().get(i).getY()+";ChecksKing="+ChessMainFrame.p2.getTab().get(i).isChecksKing());                   
+                    System.out.println("Player:" + ChessMainFrame.p2.getPlayerNum() + ";Figure=" + ChessMainFrame.p2.getTab().get(i).getType() + ";PositionX=" + ChessMainFrame.p2.getTab().get(i).getX() + ";PositionY=" + ChessMainFrame.p2.getTab().get(i).getY() + ";ChecksKing=" + ChessMainFrame.p2.getTab().get(i).isChecksKing());
                 }
 
                 repaint(); //refresh the board

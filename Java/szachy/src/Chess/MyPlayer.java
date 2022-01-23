@@ -19,7 +19,17 @@ public class MyPlayer implements Serializable { //class has to be serializable d
     private int playerNum; //number of the player 1 - first, 2 - second
     private int kingX; //coordinate X of a king
     private int kingY;//coordinate Y of a king
+    private int isPlaying;
+    private int secondsPlayed;
     //Player contains also figures - so we need to have table with all figures
+
+    public int getSecondsPlayed() {
+        return secondsPlayed;
+    }
+
+    public void setSecondsPlayed(int secondsPlayed) {
+        this.secondsPlayed = secondsPlayed;
+    }
 
     public int getKingX() {
         return kingX;
@@ -46,12 +56,11 @@ public class MyPlayer implements Serializable { //class has to be serializable d
         this.colour = colour;
         this.name = Name;
         this.playerNum = playerNum;
-        
+
         if (playerNum == 1) {
             kingX = 4;
             kingY = 7;
-        }
-        else {
+        } else {
             kingX = 3;
             kingY = 0;
         }
@@ -62,7 +71,7 @@ public class MyPlayer implements Serializable { //class has to be serializable d
             //setting pawns
             for (int i = 0; i < 8; i++) {
                 //creation of Pawns for Player
-                tab.add(new MyPawn(colour, i, 6, playerNum, "Pawn "+(i+1))); //adding Pawns in second row in each column
+                tab.add(new MyPawn(colour, i, 6, playerNum, "Pawn " + (i + 1))); //adding Pawns in second row in each column
             }
             //setting first rook
             tab.add(new MyRook(colour, 0, 7, playerNum, "Rook 1")); //first row, position one
@@ -81,7 +90,7 @@ public class MyPlayer implements Serializable { //class has to be serializable d
             //setting pawns
             for (int i = 0; i < 8; i++) {
                 //creation of Pawns for Player
-                tab.add(new MyPawn(colour, i, 1, playerNum, "Pawn "+(i+1))); //adding Pawns in second row in each column
+                tab.add(new MyPawn(colour, i, 1, playerNum, "Pawn " + (i + 1))); //adding Pawns in second row in each column
             }
             //setting first rook
             tab.add(new MyRook(colour, 0, 0, playerNum, "Rook 1"));
@@ -130,6 +139,14 @@ public class MyPlayer implements Serializable { //class has to be serializable d
 
     public void setPlayerNum(int playerNum) {
         this.playerNum = playerNum;
+    }
+
+    public int getIsPlaying() {
+        return isPlaying;
+    }
+
+    public void setIsPlaying(int isPlaying) {
+        this.isPlaying = isPlaying;
     }
 
 }

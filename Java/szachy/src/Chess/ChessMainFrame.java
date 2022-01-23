@@ -24,6 +24,9 @@ public class ChessMainFrame extends javax.swing.JFrame {
     static MyPlayer p1;
     static MyPlayer p2;
     static DefaultTableModel model;
+    public static int gameLength = 3600; //definition of game length
+    static TimeThread tt;
+    static TimeThread tt2;
 
     /**
      * Creates new form ChessMainFrame
@@ -31,6 +34,9 @@ public class ChessMainFrame extends javax.swing.JFrame {
     public ChessMainFrame() {
         initComponents();
         jLabelVisibitilty(0);
+        jLabel3.setVisible(false);
+        jLabel4.setVisible(false);
+        jLabel5.setVisible(false);
     }
 
     /**
@@ -51,6 +57,9 @@ public class ChessMainFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new MyPanel();
 
@@ -106,6 +115,16 @@ public class ChessMainFrame extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 51, 51));
         jLabel2.setText("Check!");
 
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(102, 255, 0));
+        jLabel3.setText("jLabel3");
+
+        jLabel4.setForeground(new java.awt.Color(255, 255, 51));
+        jLabel4.setText("jLabel4");
+
+        jLabel5.setForeground(new java.awt.Color(255, 255, 51));
+        jLabel5.setText("jLabel5");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -116,11 +135,17 @@ public class ChessMainFrame extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
+                        .addComponent(jButton1))
                     .addComponent(jLabel2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,10 +153,15 @@ public class ChessMainFrame extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton1)
-                    .addComponent(jButton3))
+                    .addComponent(jButton3)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addContainerGap())
         );
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.SOUTH);
@@ -169,6 +199,21 @@ public class ChessMainFrame extends javax.swing.JFrame {
         model = (DefaultTableModel) jTable1.getModel();
         clearRowsMovTab();
         jLabelVisibitilty(0);
+        //setting who should play now
+        p1.setIsPlaying(1);
+        p2.setIsPlaying(0);
+        whoPlayes();
+        //set visible label with info who is playing
+        jLabel3.setVisible(true);
+        //starting threads
+        TimeThread tt = new TimeThread(1);
+        TimeThread tt2 = new TimeThread(2);
+        tt.start();
+        tt2.start();
+        playedPlayerTime(); //calculating remaining time
+        //set visible labels with timers
+        jLabel4.setVisible(true);
+        jLabel5.setVisible(true);
         p.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -209,6 +254,17 @@ public class ChessMainFrame extends javax.swing.JFrame {
                     p2.setKingY(p2.getTab().get(i).getY());
                 }
             }
+            whoPlayes();
+            jLabel3.setVisible(true);
+            //starting threads
+            TimeThread tt = new TimeThread(1);
+            TimeThread tt2 = new TimeThread(2);
+            tt.start();
+            tt2.start();
+            playedPlayerTime();//calculating remaining time
+            //set visible labels with timers
+            jLabel4.setVisible(true);
+            jLabel5.setVisible(true);
 
             p.repaint(); //repaint MyPanel after loading the data
         } catch (Exception ex) {
@@ -245,6 +301,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new ChessMainFrame().setVisible(true);
             }
@@ -451,11 +508,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
         }
 
 //final return
-        if (isCheck == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return isCheck == 1;
     }
 
     public static boolean isCheckBlackKing(int kingX, int kingY) {
@@ -547,19 +600,35 @@ public class ChessMainFrame extends javax.swing.JFrame {
         }
 
         //final return
-        if (isCheck == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return isCheck == 1;
     }
 
     public static void jLabelVisibitilty(int a) {
+        //setting visibility of check label
         if (a == 1) {
             jLabel2.setVisible(true);
         } else {
             jLabel2.setVisible(false);
         }
+    }
+
+    public static void whoPlayes() {
+        //method calculating whose turn it is now
+        if (p1.getIsPlaying() == 1) {
+            jLabel3.setText("Plays: " + p1.getName());
+        } else {
+            jLabel3.setText("Plays: " + p2.getName());
+        }
+    }
+
+    public static void playedPlayerTime() {
+//calculating remaining time and populating it in labels 4 and 5
+        int minutes1 = (gameLength - p1.getSecondsPlayed()) / 60;
+        int minutes2 = (gameLength - p2.getSecondsPlayed()) / 60;
+        int seconds1 = gameLength - p1.getSecondsPlayed() - minutes1 * 60;
+        int seconds2 = gameLength - p2.getSecondsPlayed() - minutes2 * 60;
+        jLabel4.setText("Player 1 remaining time: " + minutes1 + "m " + seconds1 + "s");
+        jLabel5.setText("Player 2 remaining time: " + minutes2 + "m " + seconds2 + "s");
     }
 
 
@@ -569,6 +638,9 @@ public class ChessMainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     public static javax.swing.JLabel jLabel2;
+    public static javax.swing.JLabel jLabel3;
+    public static javax.swing.JLabel jLabel4;
+    public static javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -576,4 +648,5 @@ public class ChessMainFrame extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
 }

@@ -9,8 +9,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  *
@@ -18,7 +16,6 @@ import java.util.Set;
  */
 public class MyPawn extends MyChessman implements Serializable {
 
-    private int pawnNo;
     private boolean moved = false;
 
     public MyPawn(Color color, int x, int y, int playerNum, String type) {
@@ -32,7 +29,6 @@ public class MyPawn extends MyChessman implements Serializable {
     public void setMoved(boolean moved) {
         this.moved = moved;
     }
-
 
     @Override
     public boolean IsMoveOk(int a, int b) {
