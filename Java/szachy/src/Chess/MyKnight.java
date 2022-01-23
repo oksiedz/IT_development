@@ -17,7 +17,6 @@ import java.io.Serializable;
 public class MyKnight extends MyChessman implements Serializable {
 //class for horse figure
 
-
     public MyKnight(Color colour, int x, int y, int playerNum, String type) {
         super(colour, x, y, playerNum, type);
     }

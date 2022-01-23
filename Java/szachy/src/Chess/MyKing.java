@@ -14,18 +14,16 @@ import java.io.Serializable;
  *
  * @author tt
  */
-public class MyKing extends MyChessman implements Serializable 
-{   //class for King figure
+public class MyKing extends MyChessman implements Serializable {   //class for King figure
 
     public MyKing(Color colour, int x, int y, int playerNum, String type) {
         super(colour, x, y, playerNum, type);
     }
 
     @Override
-    public boolean IsMoveOk(int a, int b) 
-    {
-                return (((a == getX() || a == getX() - 1 || a == getX() + 1) ) && (b == getY() || b == getY() - 1 || b == getY() + 1 )&& !(a==getX() && b==getY()));
-            
+    public boolean IsMoveOk(int a, int b) {
+        return (((a == getX() || a == getX() - 1 || a == getX() + 1)) && (b == getY() || b == getY() - 1 || b == getY() + 1) && !(a == getX() && b == getY()));
+
     }
 
     @Override
@@ -53,11 +51,11 @@ public class MyKing extends MyChessman implements Serializable
     public void moveChessman(int a, int b, int playerNo) {
         setX(a);
         setY(b);
+        //updating coordinates of the king
         if (playerNo == 1) {
             ChessMainFrame.p1.setKingX(a);
             ChessMainFrame.p1.setKingY(b);
-        }
-        else {
+        } else {
             ChessMainFrame.p2.setKingX(a);
             ChessMainFrame.p2.setKingY(b);
         }

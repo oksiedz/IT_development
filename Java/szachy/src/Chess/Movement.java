@@ -9,6 +9,7 @@ package Chess;
  * @author tt
  */
 public class Movement {
+
     private String playerName;
     private String figure;
     private String fieldFrom;
@@ -52,5 +53,5 @@ public class Movement {
     public void setFieldFrom(String fieldFrom) {
         this.fieldFrom = fieldFrom;
     }
-    
+
 }
