@@ -65,9 +65,6 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
 
     @Override
     public void mouseClicked(MouseEvent e) { //e - event
-        //refreshing the remaining time
-        ChessMainFrame.playedPlayerTime();
-        //refreshing the remaining time
 
         boolean mvNotAll = false; //variable defining if the movement is not allowed - false - movement allowed.
         //ch = null; //by default we don't have anything clicked
@@ -89,9 +86,7 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
         int cy = y / b; //number of row which we have clicked
         System.out.println("X=" + x + ";cx=" + cx + ";Y=" + y + ";cy=" + cy + ";b=" + b);//returning location of click
         if (ch == null) { //if we don't have marked any figure then we are checking it
-            //refreshing the remaining time
-            ChessMainFrame.playedPlayerTime();
-            //refreshing the remaining time
+
             //check whose turn it is
             if (ChessMainFrame.isOccupied(cx, cy) != null) {
                 if (ChessMainFrame.p1.getIsPlaying() == 1 && ChessMainFrame.isOccupied(cx, cy).getPlayerNum() == 1) {
@@ -111,16 +106,10 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
 
             repaint(); //repaint the stage to check show the marked figure
         } else { //if we have already figure clicked, then in next click we have to indicate the new location of the figure
-            //refreshing the remaining time
-            ChessMainFrame.playedPlayerTime();
-            //refreshing the remaining time
             if (cx > 7 || cy > 7 || cx < 0 || cy < 0) {
                 mvNotAll = true;
                 System.out.println("Incorrect movement.");
             } else {
-//refreshing the remaining time
-                ChessMainFrame.playedPlayerTime();
-                //refreshing the remaining time
                 //capture mechanism                
                 MyChessman mch = null;
                 //let's check if on the field that we want to land is already a figure which should be captured in such case
@@ -197,9 +186,6 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                         ChessMainFrame.p1.setIsPlaying(1);
                         ChessMainFrame.p2.setIsPlaying(0);
                     }
-                    //refreshing the remaining time
-                    ChessMainFrame.playedPlayerTime();
-                    //refreshing the remaining time
                 } else { //movement is not allowed
                     System.out.println("Movement not allowed.");
                     ch = null; //remarking the figure

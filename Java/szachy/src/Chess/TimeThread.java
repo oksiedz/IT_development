@@ -58,5 +58,12 @@ public class TimeThread extends Thread {
             }
 
         }
+        if (number == 3) {
+            //refreshing the remaining time
+            while (ChessMainFrame.p2.getSecondsPlayed() != ChessMainFrame.gameLength || ChessMainFrame.p1.getSecondsPlayed() != ChessMainFrame.gameLength) {
+                ChessMainFrame.playedPlayerTime();
+            }
+
+        }
     }
 }
