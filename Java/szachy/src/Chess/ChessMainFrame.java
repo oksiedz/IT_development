@@ -208,8 +208,10 @@ public class ChessMainFrame extends javax.swing.JFrame {
         //starting threads
         TimeThread tt = new TimeThread(1);
         TimeThread tt2 = new TimeThread(2);
+        TimeThread tt3 = new TimeThread(3);
         tt.start();
         tt2.start();
+        tt3.start();
         playedPlayerTime(); //calculating remaining time
         //set visible labels with timers
         jLabel4.setVisible(true);
@@ -259,8 +261,10 @@ public class ChessMainFrame extends javax.swing.JFrame {
             //starting threads
             TimeThread tt = new TimeThread(1);
             TimeThread tt2 = new TimeThread(2);
+            TimeThread tt3 = new TimeThread(3);
             tt.start();
             tt2.start();
+            tt3.start();
             playedPlayerTime();//calculating remaining time
             //set visible labels with timers
             jLabel4.setVisible(true);
