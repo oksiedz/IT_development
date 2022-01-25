@@ -24,9 +24,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
     static MyPlayer p1;
     static MyPlayer p2;
     static DefaultTableModel model;
-    public static int gameLength = 3600; //definition of game length
-    static TimeThread tt;
-    static TimeThread tt2;
+    static GameStatus gs;
 
     /**
      * Creates new form ChessMainFrame
@@ -37,6 +35,8 @@ public class ChessMainFrame extends javax.swing.JFrame {
         jLabel3.setVisible(false);
         jLabel4.setVisible(false);
         jLabel5.setVisible(false);
+        jLabel6.setVisible(false);
+        jLabel7.setVisible(false);
     }
 
     /**
@@ -60,6 +60,8 @@ public class ChessMainFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new MyPanel();
 
@@ -111,7 +113,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 51, 51));
         jLabel2.setText("Check!");
 
@@ -125,6 +127,14 @@ public class ChessMainFrame extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 51));
         jLabel5.setText("jLabel5");
 
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 255, 255));
+        jLabel6.setText("jLabel6");
+
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel7.setText("Mate!");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -136,7 +146,11 @@ public class ChessMainFrame extends javax.swing.JFrame {
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
-                    .addComponent(jLabel2))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel7))
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -145,7 +159,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,9 +172,12 @@ public class ChessMainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel5)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
                 .addContainerGap())
         );
 
@@ -178,11 +195,11 @@ public class ChessMainFrame extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 551, Short.MAX_VALUE)
+            .addGap(0, 653, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 492, Short.MAX_VALUE)
+            .addGap(0, 522, Short.MAX_VALUE)
         );
 
         jSplitPane1.setRightComponent(jPanel2);
@@ -195,13 +212,14 @@ public class ChessMainFrame extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         p1 = new MyPlayer(Color.WHITE, "Player1", 1);
         p2 = new MyPlayer(Color.BLACK, "Player2", 2);
+        gs = new GameStatus();
         MyPanel p = (MyPanel) jPanel2;
         model = (DefaultTableModel) jTable1.getModel();
         clearRowsMovTab();
         jLabelVisibitilty(0);
         //setting who should play now
-        p1.setIsPlaying(1);
-        p2.setIsPlaying(0);
+        gs.setWhoseTurn(1);
+        gs.setGameLength(3600);
         whoPlayes();
         //set visible label with info who is playing
         jLabel3.setVisible(true);
@@ -216,6 +234,8 @@ public class ChessMainFrame extends javax.swing.JFrame {
         //set visible labels with timers
         jLabel4.setVisible(true);
         jLabel5.setVisible(true);
+        jLabel6.setVisible(false);
+        jLabel7.setVisible(false);
         p.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -226,6 +246,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(p1);
             oos.writeObject(p2);
+            oos.writeObject(gs);
             oos.close();
             fos.close();
         } catch (Exception ex) {
@@ -239,6 +260,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
             ObjectInputStream ois = new ObjectInputStream(fis);
             p1 = (MyPlayer) ois.readObject();
             p2 = (MyPlayer) ois.readObject();
+            gs = (GameStatus) ois.readObject();
             MyPanel p = (MyPanel) jPanel2; //read data to MyPanel
             model = (DefaultTableModel) jTable1.getModel();
             clearRowsMovTab();
@@ -336,7 +358,6 @@ public class ChessMainFrame extends javax.swing.JFrame {
     }
 
     private void clearRowsMovTab() {
-        System.out.println("getRowCount=" + model.getRowCount());
 
         if (model.getRowCount() > 0) {
             while (model.getRowCount() != 0) {
@@ -618,21 +639,177 @@ public class ChessMainFrame extends javax.swing.JFrame {
 
     public static void whoPlayes() {
         //method calculating whose turn it is now
-        if (p1.getIsPlaying() == 1) {
-            jLabel3.setText("Plays: " + p1.getName());
+        if (gs.getEndGame() == 1) {
+            jLabel3.setVisible(false);
         } else {
-            jLabel3.setText("Plays: " + p2.getName());
+            if (gs.getWhoseTurn() == 1) {
+                jLabel3.setText("Plays: " + p1.getName());
+            } else {
+                jLabel3.setText("Plays: " + p2.getName());
+            }
+        }
+    }
+
+    public static void isMate() {
+        int fieldsavailable = 0;
+        int fieldsNotAvailable = 0;
+        if (gs.getCheck() == 1) {
+            //when the white king is checked
+            if (ChessMainFrame.isCheckWhiteKing(p1.getKingX(), p1.getKingY())) {
+                if (p1.getKingX() >= 0 && p1.getKingX() <= 7 && p1.getKingY() - 1 >= 0 && p1.getKingY() - 1 <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p1.getKingX(), p1.getKingY() - 1) != null || ChessMainFrame.isCheckWhiteKing(p1.getKingX(), p1.getKingY() - 1)) {
+                        fieldsNotAvailable++;
+                    }
+                }
+                if (p1.getKingX() >= 0 && p1.getKingX() <= 7 && p1.getKingY() + 1 >= 0 && p1.getKingY() + 1 <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p1.getKingX(), p1.getKingY() + 1) != null || ChessMainFrame.isCheckWhiteKing(p1.getKingX(), p1.getKingY() + 1)) {
+                        fieldsNotAvailable++;
+                    }
+                }
+                if (p1.getKingX() - 1 >= 0 && p1.getKingX() - 1 <= 7 && p1.getKingY() + 1 >= 0 && p1.getKingY() + 1 <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p1.getKingX() - 1, p1.getKingY() + 1) != null || ChessMainFrame.isCheckWhiteKing(p1.getKingX() - 1, p1.getKingY() + 1)) {
+                        fieldsNotAvailable++;
+                    }
+                }
+                if (p1.getKingX() - 1 >= 0 && p1.getKingX() - 1 <= 7 && p1.getKingY() >= 0 && p1.getKingY() <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p1.getKingX() - 1, p1.getKingY()) != null || ChessMainFrame.isCheckWhiteKing(p1.getKingX() - 1, p1.getKingY())) {
+                        fieldsNotAvailable++;
+                    }
+                }
+                if (p1.getKingX() - 1 >= 0 && p1.getKingX() - 1 <= 7 && p1.getKingY() - 1 >= 0 && p1.getKingY() - 1 <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p1.getKingX() - 1, p1.getKingY() - 1) != null || ChessMainFrame.isCheckWhiteKing(p1.getKingX() - 1, p1.getKingY() - 1)) {
+                        fieldsNotAvailable++;
+                    }
+                }
+                if (p1.getKingX() + 1 >= 0 && p1.getKingX() + 1 <= 7 && p1.getKingY() - 1 >= 0 && p1.getKingY() - 1 <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p1.getKingX() + 1, p1.getKingY() - 1) != null || ChessMainFrame.isCheckWhiteKing(p1.getKingX() + 1, p1.getKingY() - 1)) {
+                        fieldsNotAvailable++;
+                    }
+                }
+                if (p1.getKingX() + 1 >= 0 && p1.getKingX() + 1 <= 7 && p1.getKingY() >= 0 && p1.getKingY() <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p1.getKingX() + 1, p1.getKingY()) != null || ChessMainFrame.isCheckWhiteKing(p1.getKingX() + 1, p1.getKingY())) {
+                        fieldsNotAvailable++;
+                    }
+                }
+                if (p1.getKingX() + 1 >= 0 && p1.getKingX() + 1 <= 7 && p1.getKingY() + 1 >= 0 && p1.getKingY() + 1 <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p1.getKingX() + 1, p1.getKingY() + 1) != null || ChessMainFrame.isCheckWhiteKing(p1.getKingX() + 1, p1.getKingY() + 1)) {
+                        fieldsNotAvailable++;
+                    }
+                }
+            }
+//when the black king is checked
+            if (ChessMainFrame.isCheckBlackKing(p2.getKingX(), p2.getKingY())) {
+                if (p2.getKingX() >= 0 && p2.getKingX() <= 7 && p2.getKingY() - 1 >= 0 && p2.getKingY() - 1 <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p2.getKingX(), p2.getKingY() - 1) != null || ChessMainFrame.isCheckBlackKing(p2.getKingX(), p2.getKingY() - 1)) {
+                        fieldsNotAvailable++;
+                    }
+                }
+                if (p2.getKingX() >= 0 && p2.getKingX() <= 7 && p2.getKingY() + 1 >= 0 && p2.getKingY() + 1 <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p2.getKingX(), p2.getKingY() + 1) != null || ChessMainFrame.isCheckBlackKing(p2.getKingX(), p2.getKingY() + 1)) {
+                        fieldsNotAvailable++;
+                    }
+                }
+                if (p2.getKingX() - 1 >= 0 && p2.getKingX() - 1 <= 7 && p2.getKingY() + 1 >= 0 && p2.getKingY() + 1 <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p2.getKingX() - 1, p2.getKingY() + 1) != null || ChessMainFrame.isCheckBlackKing(p2.getKingX() - 1, p2.getKingY() + 1)) {
+                        fieldsNotAvailable++;
+                    }
+                }
+                if (p2.getKingX() - 1 >= 0 && p2.getKingX() - 1 <= 7 && p2.getKingY() >= 0 && p2.getKingY() <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p2.getKingX() - 1, p2.getKingY()) != null || ChessMainFrame.isCheckBlackKing(p2.getKingX() - 1, p2.getKingY())) {
+                        fieldsNotAvailable++;
+                    }
+                }
+                if (p2.getKingX() - 1 >= 0 && p2.getKingX() - 1 <= 7 && p2.getKingY() - 1 >= 0 && p2.getKingY() - 1 <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p2.getKingX() - 1, p2.getKingY() - 1) != null || ChessMainFrame.isCheckBlackKing(p2.getKingX() - 1, p2.getKingY() - 1)) {
+                        fieldsNotAvailable++;
+                    }
+                }
+                if (p2.getKingX() + 1 >= 0 && p2.getKingX() + 1 <= 7 && p2.getKingY() - 1 >= 0 && p2.getKingY() - 1 <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p2.getKingX() + 1, p2.getKingY() - 1) != null || ChessMainFrame.isCheckBlackKing(p2.getKingX() + 1, p2.getKingY() - 1)) {
+                        fieldsNotAvailable++;
+                    }
+                }
+                if (p2.getKingX() + 1 >= 0 && p2.getKingX() + 1 <= 7 && p2.getKingY() >= 0 && p2.getKingY() <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p2.getKingX() + 1, p2.getKingY()) != null || ChessMainFrame.isCheckBlackKing(p2.getKingX() + 1, p2.getKingY())) {
+                        fieldsNotAvailable++;
+                    }
+                }
+                if (p2.getKingX() + 1 >= 0 && p2.getKingX() + 1 <= 7 && p2.getKingY() + 1 >= 0 && p2.getKingY() + 1 <= 7) {
+                    fieldsavailable++;
+                    if (isOccupied(p2.getKingX() + 1, p2.getKingY() + 1) != null || ChessMainFrame.isCheckBlackKing(p2.getKingX() + 1, p2.getKingY() + 1)) {
+                        fieldsNotAvailable++;
+                    }
+                }
+            }
+            if (fieldsavailable == fieldsNotAvailable) {
+                gs.setMate(1);
+                gs.setEndGame(1);
+                jLabel7.setVisible(true);
+
+            }
         }
     }
 
     public static void playedPlayerTime() {
 //calculating remaining time and populating it in labels 4 and 5
-        int minutes1 = (gameLength - p1.getSecondsPlayed()) / 60;
-        int minutes2 = (gameLength - p2.getSecondsPlayed()) / 60;
-        int seconds1 = gameLength - p1.getSecondsPlayed() - minutes1 * 60;
-        int seconds2 = gameLength - p2.getSecondsPlayed() - minutes2 * 60;
+        int minutes1 = (gs.getGameLength() - gs.getSecondsplayedP1()) / 60;
+        int minutes2 = (gs.getGameLength() - gs.getSecondsplayedP2()) / 60;
+        int seconds1 = gs.getGameLength() - gs.getSecondsplayedP1() - minutes1 * 60;
+        int seconds2 = gs.getGameLength() - gs.getSecondsplayedP2() - minutes2 * 60;
         jLabel4.setText("Player 1 remaining time: " + minutes1 + "m " + seconds1 + "s");
         jLabel5.setText("Player 2 remaining time: " + minutes2 + "m " + seconds2 + "s");
+    }
+
+    public static void resultLabel(int type) {
+        switch (type) {
+            case 0 ->
+                jLabel6.setText("Draw");
+            case 1 ->
+                jLabel6.setText("Won Player 1");
+            case 2 ->
+                jLabel6.setText("Won Player 2");
+        };
+    }
+
+    public static void whoWon() {
+        ChessMainFrame.jLabel6.setVisible(true);
+
+        int sizeP1 = ChessMainFrame.p1.getTab().size();
+        int sizeP2 = ChessMainFrame.p2.getTab().size();
+        if (gs.getEndGame() == 1 && gs.getMate() == 0) {
+            if (sizeP1 == sizeP2) {
+                resultLabel(0);
+            } else {
+                if (sizeP1 > sizeP2) {
+                    resultLabel(1);
+
+                } else {
+                    resultLabel(2);
+                }
+            }
+        }
+        if (gs.getEndGame() == 1 && gs.getMate() == 1 && ChessMainFrame.isCheckWhiteKing(ChessMainFrame.p1.getKingX(), ChessMainFrame.p1.getKingY())) {
+            resultLabel(2);
+        } else {
+            if (gs.getEndGame() == 1 && gs.getMate() == 1 && ChessMainFrame.isCheckBlackKing(ChessMainFrame.p2.getKingX(), ChessMainFrame.p2.getKingY())) {
+                resultLabel(1);
+            }
+        }
     }
 
 
@@ -645,6 +822,8 @@ public class ChessMainFrame extends javax.swing.JFrame {
     public static javax.swing.JLabel jLabel3;
     public static javax.swing.JLabel jLabel4;
     public static javax.swing.JLabel jLabel5;
+    public static javax.swing.JLabel jLabel6;
+    public static javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

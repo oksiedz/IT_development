@@ -22,46 +22,54 @@ public class TimeThread extends Thread {
     @Override
     public void run() {
 
-        System.out.println("Thread Number=" + number);
         //code for first thread
         if (number == 1) {
-            while (ChessMainFrame.p1.getSecondsPlayed() != ChessMainFrame.gameLength) { //calculate time since the timer for Player1 won't reach time for the game
-                if (ChessMainFrame.p1.getIsPlaying() == 1) {
-                    ChessMainFrame.p1.setSecondsPlayed(ChessMainFrame.p1.getSecondsPlayed() + 1); //if it's Player 1 turn then add seconds
+            while (ChessMainFrame.gs.getSecondsplayedP1() != ChessMainFrame.gs.getGameLength()) { //calculate time since the timer for Player1 won't reach time for the game
+                if (ChessMainFrame.gs.getWhoseTurn() == 1) {
+                    ChessMainFrame.gs.setSecondsplayedP1(ChessMainFrame.gs.getSecondsplayedP1() + 1); //if it's Player 1 turn then add seconds
                 } else {
-                    ChessMainFrame.p1.setSecondsPlayed(ChessMainFrame.p1.getSecondsPlayed());//if it's not Player 1 turn then do not add seconds
-                    System.out.println("Player1 is not playing");
+                    ChessMainFrame.gs.setSecondsplayedP1(ChessMainFrame.gs.getSecondsplayedP1());//if it's not Player 1 turn then do not add seconds
                 }
-                System.out.println("secondsPlayed P1=" + ChessMainFrame.p1.getSecondsPlayed());
                 try {
                     sleep(1000); //wait one second
                 } catch (InterruptedException ex) {
                     Logger.getLogger(TimeThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            if (ChessMainFrame.gs.getSecondsplayedP1() == ChessMainFrame.gs.getGameLength()) {
+                ChessMainFrame.gs.setEndGame(1);
+                ChessMainFrame.gs.setMate(0);
+                ChessMainFrame.whoPlayes();
+            }
         }
         //code for second thread
         if (number == 2) {
-            while (ChessMainFrame.p2.getSecondsPlayed() != ChessMainFrame.gameLength) { //calculate time since the timer for Player2 won't reach time for the game
-                if (ChessMainFrame.p2.getIsPlaying() == 1) {
-                    ChessMainFrame.p2.setSecondsPlayed(ChessMainFrame.p2.getSecondsPlayed() + 1);//if it's Player 2 turn then add seconds
+            while (ChessMainFrame.gs.getSecondsplayedP2() != ChessMainFrame.gs.getGameLength()) { //calculate time since the timer for Player2 won't reach time for the game
+                if (ChessMainFrame.gs.getWhoseTurn() == 2) {
+                    ChessMainFrame.gs.setSecondsplayedP2(ChessMainFrame.gs.getSecondsplayedP2() + 1);//if it's Player 2 turn then add seconds
                 } else {
-                    ChessMainFrame.p2.setSecondsPlayed(ChessMainFrame.p2.getSecondsPlayed());//if it's not Player 1 turn then do not add seconds
-                    System.out.println("Player2 is not playing");
+                    ChessMainFrame.gs.setSecondsplayedP2(ChessMainFrame.gs.getSecondsplayedP2());//if it's not Player 1 turn then do not add seconds
                 }
-                System.out.println("secondsPlayed P2=" + ChessMainFrame.p2.getSecondsPlayed());
                 try {
                     sleep(1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(TimeThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            if (ChessMainFrame.gs.getSecondsplayedP2() == ChessMainFrame.gs.getGameLength()) {
+                ChessMainFrame.gs.setEndGame(1);
+                ChessMainFrame.gs.setMate(0);
+                ChessMainFrame.whoPlayes();
+            }
 
         }
         if (number == 3) {
             //refreshing the remaining time
-            while (ChessMainFrame.p2.getSecondsPlayed() != ChessMainFrame.gameLength || ChessMainFrame.p1.getSecondsPlayed() != ChessMainFrame.gameLength) {
+            while (ChessMainFrame.gs.getSecondsplayedP1() != ChessMainFrame.gs.getGameLength() || ChessMainFrame.gs.getSecondsplayedP2() != ChessMainFrame.gs.getGameLength()) {
                 ChessMainFrame.playedPlayerTime();
+                if (ChessMainFrame.gs.getEndGame() == 1) {
+                    ChessMainFrame.whoWon();
+                }
             }
 
         }

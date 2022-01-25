@@ -19,17 +19,7 @@ public class MyPlayer implements Serializable { //class has to be serializable d
     private int playerNum; //number of the player 1 - first, 2 - second
     private int kingX; //coordinate X of a king
     private int kingY;//coordinate Y of a king
-    private int isPlaying;
-    private int secondsPlayed;
     //Player contains also figures - so we need to have table with all figures
-
-    public int getSecondsPlayed() {
-        return secondsPlayed;
-    }
-
-    public void setSecondsPlayed(int secondsPlayed) {
-        this.secondsPlayed = secondsPlayed;
-    }
 
     public int getKingX() {
         return kingX;
@@ -61,7 +51,7 @@ public class MyPlayer implements Serializable { //class has to be serializable d
             kingX = 4;
             kingY = 7;
         } else {
-            kingX = 3;
+            kingX = 4;
             kingY = 0;
         }
         setKingX(kingX);
@@ -102,7 +92,7 @@ public class MyPlayer implements Serializable { //class has to be serializable d
             tab.add(new MyBishop(colour, 2, 0, playerNum, "Bishop 1"));
             tab.add(new MyBishop(colour, 5, 0, playerNum, "Bishop 2"));
             //setting Queen
-            tab.add(new MyQueen(colour, 4, 0, playerNum, "Queen"));
+            tab.add(new MyQueen(colour, 3, 0, playerNum, "Queen"));
             //setting King
             tab.add(new MyKing(colour, getKingX(), getKingY(), playerNum, "King"));
         }
@@ -139,14 +129,6 @@ public class MyPlayer implements Serializable { //class has to be serializable d
 
     public void setPlayerNum(int playerNum) {
         this.playerNum = playerNum;
-    }
-
-    public int getIsPlaying() {
-        return isPlaying;
-    }
-
-    public void setIsPlaying(int isPlaying) {
-        this.isPlaying = isPlaying;
     }
 
 }

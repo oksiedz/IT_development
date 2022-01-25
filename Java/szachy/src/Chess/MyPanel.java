@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 public class MyPanel extends JPanel implements MouseListener {//mouselsitener is an abstract listener
 
     static MyChessman ch = null;//creating object which will contain the figure on which we clicked
-    static int check = 0; //variable if there is check
 
     public MyPanel() {
         addMouseListener(this); //we added the Panel as a tool to listen to mouse listener
@@ -66,145 +65,131 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
     @Override
     public void mouseClicked(MouseEvent e) { //e - event
 
-        boolean mvNotAll = false; //variable defining if the movement is not allowed - false - movement allowed.
-        //ch = null; //by default we don't have anything clicked
-        //System.out.println("X="+e.getX()+";Y="+e.getY());//returning location of click
-        //checking if the click was done on one of the figure
-        int x = e.getX();
-        int y = e.getY();
-        //assignment of field width/height on the board
-        int b; //variable to handle 1/8 of panel to paint the board
-        //setting the value of b
-        if (getWidth() > getHeight()) {
-            b = getHeight() / 8;
-        } else {
-            b = getWidth() / 8;
-        }
-        int captured = 0;
-        //index of field that we clicked
-        int cx = x / b; //number of column which we have clicked
-        int cy = y / b; //number of row which we have clicked
-        System.out.println("X=" + x + ";cx=" + cx + ";Y=" + y + ";cy=" + cy + ";b=" + b);//returning location of click
-        if (ch == null) { //if we don't have marked any figure then we are checking it
+        if (ChessMainFrame.gs.getEndGame() != 1) {
+            boolean mvNotAll = false; //variable defining if the movement is not allowed - false - movement allowed.
 
-            //check whose turn it is
-            if (ChessMainFrame.isOccupied(cx, cy) != null) {
-                if (ChessMainFrame.p1.getIsPlaying() == 1 && ChessMainFrame.isOccupied(cx, cy).getPlayerNum() == 1) {
-                    ch = ChessMainFrame.isOccupied(cx, cy);
-                }
-                if (ChessMainFrame.p2.getIsPlaying() == 1 && ChessMainFrame.isOccupied(cx, cy).getPlayerNum() == 2) {
-                    ch = ChessMainFrame.isOccupied(cx, cy);
-                }
-            }
-
-            //check if we hit the figure
-            if (ch != null) {
-                System.out.println(ch);
-                //System.out.println("PlayerNumber=" + ch.getPlayerNum());
-                //System.out.println("Type of the figure=" + ch.getType());
-            }
-
-            repaint(); //repaint the stage to check show the marked figure
-        } else { //if we have already figure clicked, then in next click we have to indicate the new location of the figure
-            if (cx > 7 || cy > 7 || cx < 0 || cy < 0) {
-                mvNotAll = true;
-                System.out.println("Incorrect movement.");
+            //checking if the click was done on one of the figure
+            int x = e.getX();
+            int y = e.getY();
+            //assignment of field width/height on the board
+            int b; //variable to handle 1/8 of panel to paint the board
+            //setting the value of b
+            if (getWidth() > getHeight()) {
+                b = getHeight() / 8;
             } else {
-                //capture mechanism                
-                MyChessman mch = null;
-                //let's check if on the field that we want to land is already a figure which should be captured in such case
-                mch = ChessMainFrame.isOccupied(cx, cy);
-                //ch - figure which we are moving, mch - figure which is standing on the field where we want to land
+                b = getWidth() / 8;
+            }
+            int captured = 0;
+            //index of field that we clicked
+            int cx = x / b; //number of column which we have clicked
+            int cy = y / b; //number of row which we have clicked
+            if (ch == null) { //if we don't have marked any figure then we are checking it
 
-                if (mch != null && mch.getType() == "King") {
+                //check whose turn it is
+                if (ChessMainFrame.isOccupied(cx, cy) != null) {
+                    if (ChessMainFrame.gs.getWhoseTurn() == 1 && ChessMainFrame.isOccupied(cx, cy).getPlayerNum() == 1) {
+                        ch = ChessMainFrame.isOccupied(cx, cy);
+                    }
+                    if (ChessMainFrame.gs.getWhoseTurn() == 2 && ChessMainFrame.isOccupied(cx, cy).getPlayerNum() == 2) {
+                        ch = ChessMainFrame.isOccupied(cx, cy);
+                    }
+                }
+
+                //check if we hit the figure
+                if (ch != null) {
+                }
+
+                repaint(); //repaint the stage to check show the marked figure
+            } else { //if we have already figure clicked, then in next click we have to indicate the new location of the figure
+                if (cx > 7 || cy > 7 || cx < 0 || cy < 0) {
                     mvNotAll = true;
-                }
+                    System.out.println("Incorrect movement.");
+                } else {
+                    //capture mechanism                
+                    MyChessman mch = null;
+                    //let's check if on the field that we want to land is already a figure which should be captured in such case
+                    mch = ChessMainFrame.isOccupied(cx, cy);
+                    //ch - figure which we are moving, mch - figure which is standing on the field where we want to land
 
-                //Blokade that if there is Check, movement of king that it still will be check is not allowed
-                if (ch.getType() == "King") {
-                    if (ch.getPlayerNum() == 1 && ChessMainFrame.isCheckWhiteKing(cx, cy)) {
+                    if (mch != null && mch.getType() == "King") {
                         mvNotAll = true;
                     }
-                    if (ch.getPlayerNum() == 2 && ChessMainFrame.isCheckBlackKing(cx, cy)) {
-                        mvNotAll = true;
-                    }
-                }
 
-                //we can proceed only if mch is any figure - cause if there is no figure no capture is needed
-                if (mch != null && ch.IsMoveOk(cx, cy) && !mvNotAll) { //capture can be done only if move is ok.
-                    //checking if marked figure and figure which is standing on target place are owned by the same player
-                    if (ch.getPlayerNum() != mch.getPlayerNum()) {
-                        if (mch.getPlayerNum() == 1) { //if the figure on the target field is players one then
-                            ChessMainFrame.p1.getTab().remove(mch); //deleting from the container for player1 figure which is in mch - so on target field
-                        } else {
-                            ChessMainFrame.p2.getTab().remove(mch);
+                    //Blokade that if there is Check, movement of king that it still will be check is not allowed
+                    if (ch.getType() == "King") {
+                        if (ch.getPlayerNum() == 1 && ChessMainFrame.isCheckWhiteKing(cx, cy)) {
+                            mvNotAll = true;
                         }
-                        captured = 1;
-                    } else {
+                        if (ch.getPlayerNum() == 2 && ChessMainFrame.isCheckBlackKing(cx, cy)) {
+                            mvNotAll = true;
+                        }
+                    }
+
+                    //we can proceed only if mch is any figure - cause if there is no figure no capture is needed
+                    if (mch != null && ch.IsMoveOk(cx, cy) && !mvNotAll) { //capture can be done only if move is ok.
+                        //checking if marked figure and figure which is standing on target place are owned by the same player
+                        if (ch.getPlayerNum() != mch.getPlayerNum()) {
+                            if (mch.getPlayerNum() == 1) { //if the figure on the target field is players one then
+                                ChessMainFrame.p1.getTab().remove(mch); //deleting from the container for player1 figure which is in mch - so on target field
+                            } else {
+                                ChessMainFrame.p2.getTab().remove(mch);
+                            }
+                            captured = 1;
+                        } else {
+                            mvNotAll = true;
+                        }
+                    }
+
+                    //setting mvNotAll (move not allowed to true if IsMoveOK is false - so if move is not ok (not allowed due to the movement rules) the mvNotAll should be true - saying that movement is not allowed
+                    if (captured == 0 && ch.IsMoveOk(cx, cy) == false) {
                         mvNotAll = true;
                     }
-                }
 
-                //setting mvNotAll (move not allowed to true if IsMoveOK is false - so if move is not ok (not allowed due to the movement rules) the mvNotAll should be true - saying that movement is not allowed
-                if (captured == 0 && ch.IsMoveOk(cx, cy) == false) {
-                    mvNotAll = true;
-                }
+                    if (!mvNotAll) { //movement is allowed
+                        //moving the figure
+                        //ch.setX(cx); //assigning as X cx - so new x location
+                        //ch.setY(cy); //assigning as Y cy - so new y location
+                        //above replace by moveChessman
 
-                if (!mvNotAll) { //movement is allowed
-                    //moving the figure
-                    //ch.setX(cx); //assigning as X cx - so new x location
-                    //ch.setY(cy); //assigning as Y cy - so new y location
-                    //above replace by moveChessman
+                        //saving the movement to the table
+                        Movement mov = new Movement(getPlayerName(ch.getPlayerNum()), ch.getType(), fieldAddress(ch.getX(), ch.getY()), fieldAddress(cx, cy));
 
-                    //saving the movement to the table
-                    Movement mov = new Movement(getPlayerName(ch.getPlayerNum()), ch.getType(), fieldAddress(ch.getX(), ch.getY()), fieldAddress(cx, cy));
-                    System.out.println("Movement=" + mov + ";PlayerName=" + mov.getPlayerName() + ";figure=" + mov.getFigure() + ";from=" + mov.getFieldFrom() + ";to=" + mov.getFieldTo());
+                        ch.moveChessman(cx, cy, ch.getPlayerNum()); //moving the figure to new location
 
-                    ch.moveChessman(cx, cy, ch.getPlayerNum()); //moving the figure to new location
+                        ChessMainFrame.model.insertRow(model.getRowCount(), new Object[]{mov.getPlayerName(), mov.getFigure(), mov.getFieldFrom(), mov.getFieldTo()});
+                        if (ChessMainFrame.isCheckBlackKing(ChessMainFrame.p2.getKingX(), ChessMainFrame.p2.getKingY()) || ChessMainFrame.isCheckWhiteKing(ChessMainFrame.p1.getKingX(), ChessMainFrame.p1.getKingY())) {
+                            ChessMainFrame.gs.setCheck(1);
+                            ChessMainFrame.isMate();
+                            ChessMainFrame.jLabelVisibitilty(1);
+                            ch.setChecksKing(true);
+                        } else {
+                            ChessMainFrame.gs.setCheck(0);
+                            ChessMainFrame.jLabelVisibitilty(0);
+                            ch.setChecksKing(false);
+                        }
+                        ch = null; //null as ch cause now the figure won't be marked  
+                        mch = null; //nulling the 
+                        mov = null;
 
-                    ChessMainFrame.model.insertRow(model.getRowCount(), new Object[]{mov.getPlayerName(), mov.getFigure(), mov.getFieldFrom(), mov.getFieldTo()});
-                    System.out.println("BlackKingCheck=" + ChessMainFrame.isCheckBlackKing(ChessMainFrame.p2.getKingX(), ChessMainFrame.p2.getKingY()));
-                    System.out.println("WhiteKingCheck=" + ChessMainFrame.isCheckWhiteKing(ChessMainFrame.p1.getKingX(), ChessMainFrame.p1.getKingY()));
-                    if (ChessMainFrame.isCheckBlackKing(ChessMainFrame.p2.getKingX(), ChessMainFrame.p2.getKingY()) || ChessMainFrame.isCheckWhiteKing(ChessMainFrame.p1.getKingX(), ChessMainFrame.p1.getKingY())) {
-                        MyPanel.check = 1;
-                        ChessMainFrame.jLabelVisibitilty(1);
-                        ch.setChecksKing(true);
-                    } else {
-                        MyPanel.check = 0;
-                        ChessMainFrame.jLabelVisibitilty(0);
-                        ch.setChecksKing(false);
+                        //setting who is playing now
+                        if (ChessMainFrame.gs.getWhoseTurn() == 1) {
+                            ChessMainFrame.gs.setWhoseTurn(2);
+                        } else {
+                            ChessMainFrame.gs.setWhoseTurn(1);
+                        }
+                    } else { //movement is not allowed
+                        System.out.println("Movement not allowed.");
+                        ch = null; //remarking the figure
+                        mch = null; //reselecting the target figure
                     }
-                    ch = null; //null as ch cause now the figure won't be marked  
-                    mch = null; //nulling the 
-                    mov = null;
+                    //refreshing the label
+                    ChessMainFrame.whoPlayes();
 
-                    //setting who is playing now
-                    if (ChessMainFrame.p1.getIsPlaying() == 1) {
-                        ChessMainFrame.p1.setIsPlaying(0);
-                        ChessMainFrame.p2.setIsPlaying(1);
-                    } else {
-                        ChessMainFrame.p1.setIsPlaying(1);
-                        ChessMainFrame.p2.setIsPlaying(0);
-                    }
-                } else { //movement is not allowed
-                    System.out.println("Movement not allowed.");
-                    ch = null; //remarking the figure
-                    mch = null; //reselecting the target figure
+                    repaint(); //refresh the board
                 }
-                //refreshing the label
-                ChessMainFrame.whoPlayes();
-
-                //printing all figures
-                for (int i = 0; i < ChessMainFrame.p1.getTab().size(); i++) {
-                    System.out.println("Player:" + ChessMainFrame.p1.getPlayerNum() + ";Figure=" + ChessMainFrame.p1.getTab().get(i).getType() + ";PositionX=" + ChessMainFrame.p1.getTab().get(i).getX() + ";PositionY=" + ChessMainFrame.p1.getTab().get(i).getY() + ";ChecksKing=" + ChessMainFrame.p1.getTab().get(i).isChecksKing());
-                }
-                for (int i = 0; i < ChessMainFrame.p2.getTab().size(); i++) {
-                    System.out.println("Player:" + ChessMainFrame.p2.getPlayerNum() + ";Figure=" + ChessMainFrame.p2.getTab().get(i).getType() + ";PositionX=" + ChessMainFrame.p2.getTab().get(i).getX() + ";PositionY=" + ChessMainFrame.p2.getTab().get(i).getY() + ";ChecksKing=" + ChessMainFrame.p2.getTab().get(i).isChecksKing());
-                }
-
-                repaint(); //refresh the board
             }
         }
+
     }
 
     @Override
