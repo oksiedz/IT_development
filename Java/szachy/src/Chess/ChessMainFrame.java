@@ -24,6 +24,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
     static MyPlayer p1;
     static MyPlayer p2;
     static DefaultTableModel model;
+    static DefaultTableModel model2;
     static GameStatus gs;
 
     /**
@@ -63,6 +64,8 @@ public class ChessMainFrame extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
         jPanel2 = new MyPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -184,8 +187,31 @@ public class ChessMainFrame extends javax.swing.JFrame {
         jPanel1.add(jPanel3, java.awt.BorderLayout.SOUTH);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        jLabel1.setText("Game movements");
+        jLabel1.setText("Table with movements done during game and list of captured figures");
         jPanel1.add(jLabel1, java.awt.BorderLayout.PAGE_START);
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Player who lost figure", "Figure lost"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(jTable3);
+        if (jTable3.getColumnModel().getColumnCount() > 0) {
+            jTable3.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        jPanel1.add(jScrollPane3, java.awt.BorderLayout.LINE_END);
 
         jSplitPane1.setLeftComponent(jPanel1);
 
@@ -210,12 +236,14 @@ public class ChessMainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //start new game
         p1 = new MyPlayer(Color.WHITE, "Player1", 1);
         p2 = new MyPlayer(Color.BLACK, "Player2", 2);
         gs = new GameStatus();
         MyPanel p = (MyPanel) jPanel2;
         model = (DefaultTableModel) jTable1.getModel();
-        clearRowsMovTab();
+        model2 = (DefaultTableModel) jTable3.getModel();
+        clearRowsFromTab();
         jLabelVisibitilty(0);
         //setting who should play now
         gs.setWhoseTurn(1);
@@ -256,6 +284,7 @@ public class ChessMainFrame extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
+            //load game state
             FileInputStream fis = new FileInputStream("plik.txt");
             ObjectInputStream ois = new ObjectInputStream(fis);
             p1 = (MyPlayer) ois.readObject();
@@ -263,7 +292,8 @@ public class ChessMainFrame extends javax.swing.JFrame {
             gs = (GameStatus) ois.readObject();
             MyPanel p = (MyPanel) jPanel2; //read data to MyPanel
             model = (DefaultTableModel) jTable1.getModel();
-            clearRowsMovTab();
+            model2 = (DefaultTableModel) jTable3.getModel();
+            clearRowsFromTab();
             jLabelVisibitilty(0);
 
             for (int i = 0; i < p1.getTab().size(); i++) {
@@ -357,11 +387,17 @@ public class ChessMainFrame extends javax.swing.JFrame {
         return figure;
     }
 
-    private void clearRowsMovTab() {
+    private void clearRowsFromTab() {
 
         if (model.getRowCount() > 0) {
             while (model.getRowCount() != 0) {
                 model.removeRow(0);
+            }
+        }
+        
+        if (model2.getRowCount() > 0) {
+            while (model2.getRowCount() != 0) {
+                model2.removeRow(0);
             }
         }
     }
@@ -828,8 +864,10 @@ public class ChessMainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable3;
     // End of variables declaration//GEN-END:variables
 
 }

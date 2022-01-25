@@ -134,6 +134,8 @@ public class MyPanel extends JPanel implements MouseListener {//mouselsitener is
                             } else {
                                 ChessMainFrame.p2.getTab().remove(mch);
                             }
+                            //adding figure to the table with captured figures
+                            ChessMainFrame.model2.insertRow(ChessMainFrame.model2.getRowCount(), new Object[]{getPlayerName(mch.getPlayerNum()), mch.getType()});
                             captured = 1;
                         } else {
                             mvNotAll = true;
