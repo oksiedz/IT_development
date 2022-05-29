@@ -8,9 +8,9 @@ namespace db4o
 {
 	public abstract class User
 	{
-		public string Full_name { get; set; };
-		public int ID { get; set; };
-		public string Login { get; set; };
+		public string Full_name { get; set; }
+		public int ID { get; set; }
+		public string Login { get; set; }
 		private string Password { get; set; }
 
 		public void login()
