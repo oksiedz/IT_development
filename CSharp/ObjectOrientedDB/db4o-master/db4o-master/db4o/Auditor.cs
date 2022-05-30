@@ -10,14 +10,34 @@ namespace db4o
 	{
 		public string position { get; set; }
 
-		void add_comment()
-		{
-			Console.WriteLine("Comment Added");
-		}
-
-		void add_ticket_label()
+		public void add_ticket_label()
 		{
 			Console.WriteLine("Label Added");
 		}
+
+		public void change_ticket_Status()
+        {
+			Console.WriteLine("Status changed");
+        }
+
+		public void change_attribute_ticket()
+        {
+			Console.WriteLine("Attribute changed");
+        }
+
+		public void export_ticket()
+        {
+			Console.WriteLine("Ticket exported");
+        }
+
+		public void filter_ticket_list()
+        {
+			Console.WriteLine("Ticket's list exported");
+        }
+
+		public void view_ticket()
+        {
+			Console.WriteLine("Ticket viewed");
+        }
 	}
 }

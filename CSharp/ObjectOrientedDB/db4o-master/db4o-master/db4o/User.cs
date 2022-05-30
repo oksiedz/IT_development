@@ -11,8 +11,23 @@ namespace db4o
 		public string Full_name { get; set; }
 		public int ID { get; set; }
 		public string Login { get; set; }
+		public Boolean is_active {get; set;}
 		private string Password { get; set; }
 
+		public void add_attachment()
+		{
+			Console.WriteLine("Attachment added");
+		}
+
+		public void add_comment()
+		{
+			Console.WriteLine("Comment added");
+		}
+
+		public void add_ticket()
+		{
+			Console.WriteLine("Ticket added");
+		}
 		public void login()
 		{
 			Console.WriteLine("Logged in");
@@ -28,3 +43,4 @@ namespace db4o
 			Console.WriteLine("Menu opened");
 		}
 	}
+}

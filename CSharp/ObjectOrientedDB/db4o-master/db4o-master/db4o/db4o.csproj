@@ -94,6 +94,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Auditor.cs" />
+    <Compile Include="Administrator.cs" />
+    <Compile Include="Attachment.cs" />
+    <Compile Include="Notifier.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
