@@ -9,8 +9,7 @@ namespace db4o
     public class Attachment
     {
         public DateTime Date { get; set; }
-        private string Object { get; set; }
-
+        public string Object;
         public void load_object()
         {
             Console.WriteLine("Object loaded");
