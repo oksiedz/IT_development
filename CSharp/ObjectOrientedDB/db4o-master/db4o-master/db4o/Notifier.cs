@@ -9,7 +9,6 @@ namespace db4o
     public class Notifier : User
     {
         private new string Full_name = null;
-        private new int ID = 0;
         private new string login = null;
         private new string password = null;
 

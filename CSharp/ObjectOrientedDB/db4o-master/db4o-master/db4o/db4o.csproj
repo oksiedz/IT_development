@@ -96,7 +96,11 @@
     <Compile Include="Auditor.cs" />
     <Compile Include="Administrator.cs" />
     <Compile Include="Attachment.cs" />
+    <Compile Include="Category.cs" />
+    <Compile Include="Comment.cs" />
+    <Compile Include="Department.cs" />
     <Compile Include="Notifier.cs" />
+    <Compile Include="Ticket.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
