@@ -20,29 +20,38 @@ namespace db4o
                 {
                     Console.WriteLine("Guide: " + item.Unique_guid);
                     Console.WriteLine("Subject: " + item.subject);
+                    Console.WriteLine("Description: " + item.Description);
+                    Console.WriteLine("Priority: " + item.priority);
                     Console.WriteLine("Creation date: " + item.creation_date);
                     Console.WriteLine("Closing date: " + item.closing_date);
-                    Console.WriteLine("Priority: " + item.priority);
                     Console.WriteLine("Labels: " + item.Label);
                     Console.WriteLine("Expected update date: " + item.Expected_update_date);
-                    Console.WriteLine("Description: " + item.Description);
                     Console.WriteLine("Comments:");
-                    foreach (var itemCom in item.Comments)
+                    if (item.Comments != null)
                     {
-                        Console.WriteLine("Date: " + itemCom.Date);
-                        Console.WriteLine("Content: " + itemCom.Text);
-                        Console.WriteLine("Attachments for comments:");
-                        foreach (var itemAttach in itemCom.Attachments)
+                        foreach (var itemCom in item.Comments)
                         {
-                            Console.WriteLine("Date: " + itemAttach.Date);
-                            Console.WriteLine("Attachment: " + itemAttach.Object);
+                            Console.WriteLine("Date: " + itemCom.Date);
+                            Console.WriteLine("Content: " + itemCom.Text);
+                            Console.WriteLine("Attachments for comments:");
+                            if (itemCom.Attachments != null)
+                            {
+                                foreach (var itemAttach in itemCom.Attachments)
+                                {
+                                    Console.WriteLine("Date: " + itemAttach.Date);
+                                    Console.WriteLine("Attachment: " + itemAttach.Object);
+                                }
+                            }
                         }
                     }
                     Console.WriteLine("Attachments to the ticket:");
-                    foreach(var itemTicketAttach in item.Attachments)
+                    if (item.Attachments != null)
                     {
-                        Console.WriteLine("Date: " + itemTicketAttach.Date);
-                        Console.WriteLine("Attachment: " + itemTicketAttach.Object);
+                        foreach (var itemTicketAttach in item.Attachments)
+                        {
+                            Console.WriteLine("Date: " + itemTicketAttach.Date);
+                            Console.WriteLine("Attachment: " + itemTicketAttach.Object);
+                        }
                     }
                 }
                 catch
@@ -50,45 +59,63 @@ namespace db4o
                 Console.WriteLine();
             }
         }
-
-        public static void wyjscie()
+        public static void ListAuditors(List<Auditor> result)
+        {
+            Console.WriteLine(result.Count);
+            foreach (var item in result)
+            {
+                try
+                {
+                    Console.WriteLine("Full name: " + item.Full_name);
+                    Console.WriteLine("Login: " + item.Login);
+                    Console.WriteLine("Position: " + item.position);
+                    Console.WriteLine("Is Active: " + item.is_active);
+                    Console.WriteLine("Password: " + item.Password);
+                }
+                catch
+                { }
+                Console.WriteLine();
+            }
+        }
+        public static void exit()
         {
             Console.Clear();
             Environment.Exit(0);
         }
-
-
         static void Main(string[] args)
         {
             ConsoleKeyInfo cki;
             do
             {
                 Console.Clear();
-                Console.WriteLine("Witaj w bazie:");
+                Console.WriteLine("Welcome:");
                 Console.WriteLine("==============");
                 Console.WriteLine();
-                Console.WriteLine("0 -> Wyswietlenie danych");
-                Console.WriteLine("1 -> Wprowadzenie nowej osoby");
-                Console.WriteLine("2 -> Wyszukanie osoby");
-                Console.WriteLine("3 -> Update");
-                Console.WriteLine("4 -> Usun wpis");
-                Console.WriteLine("9 -> WYJSCIE");
+                Console.WriteLine("0 -> List all tickets");
+                Console.WriteLine("1 -> Add new ticket");
+                Console.WriteLine("2 -> Search for ticket");
+                Console.WriteLine("3 -> Update ticket");
+                Console.WriteLine("4 -> Add comment to the ticket");
+                Console.WriteLine("5 -> Add attachment to the ticket");
+                Console.WriteLine("6 -> Add Auditor");
+                Console.WriteLine("7 -> Activate auditor");
+                Console.WriteLine("8 -> List auditors");
+                Console.WriteLine("9 -> Exit");
                 Console.WriteLine();
 
-                IObjectContainer db = Db4oEmbedded.OpenFile(Db4oEmbedded.NewConfiguration(), "person.data");
+                IObjectContainer db = Db4oEmbedded.OpenFile(Db4oEmbedded.NewConfiguration(), "Database");
 
                 cki = Console.ReadKey();
 
-                if (cki.Key == ConsoleKey.D0) //wyswietlanie
+                if (cki.Key == ConsoleKey.D0) //presentation of tickets
                 {
                     try
                     {
-                        var auditor = new Auditor();
                         Console.Clear();
-                        var osoby = db.Query<Person>().ToList();
-                        ListResult(osoby);
+                        var tickets = db.Query<Ticket>().ToList();
+                        ListTickets(tickets);
                         Console.WriteLine();
-                        Console.WriteLine("Nacisnij ENTER by wrocic do menu.");
+                        Console.WriteLine("Press ENTER to go back to menu.");
                         Console.ReadLine();
                         db.Close();
                     }
@@ -98,81 +125,31 @@ namespace db4o
                     }
                 }
 
-                else if (cki.Key == ConsoleKey.D1) //dodawanie
+                else if (cki.Key == ConsoleKey.D1) //add ticket
                 {
-                    var person = new Person();
-                    var address = new Address();
-                    person.Telefon = new List<Phone>();
+                    var ticket = new Ticket();
                     Console.Clear();
-                    Console.Write("Podaj imie:\n");
-                    person.Imie = Console.ReadLine();
-                    Console.Write("\nPodaj nazwisko:\n");
-                    person.Nazwisko = Console.ReadLine();
-
-                    try //sprawdzenie czy dany wpis juz jest w bazie i czy mozna dodac nowy
-                    {
-                        var osoby = db.Query<Person>(x => x.Imie == person.Imie && x.Nazwisko == person.Nazwisko).ToList();
-                        if (person.Imie == osoby.FirstOrDefault().Imie && person.Nazwisko == osoby.FirstOrDefault().Nazwisko)
-                        {
-                            Console.WriteLine("Taka osoba juz istnieje w bazie, wracamy do menu.");
-                            Console.ReadLine();
-                            db.Close();
-                            continue;
-                        }
-                    }
-                    catch { };
-
-
-                    Console.WriteLine("\nCzy chcesz dodać adres? [T/N]");
-                    ConsoleKeyInfo takNie = Console.ReadKey();
-                    if (takNie.Key == ConsoleKey.T)
-                    {
-                        address = new Address();
-                        Console.WriteLine("\n\nPodaj ulice:");
-                        address.Ulica = Console.ReadLine();
-                        Console.WriteLine("\nPodaj miasto:");
-                        address.Miasto = Console.ReadLine();
-                        person.Adres = address;
-                    }
-
-                    do
-                    {
-                        if (takNie.Key != ConsoleKey.N)
-                        {
-                            Console.WriteLine("\nCzy chcesz dodać telefon? [T/N]");
-                            takNie = Console.ReadKey();
-                            if (takNie.Key == ConsoleKey.T)
-                            {
-                                var telefon = new Phone();
-                                Console.WriteLine("\n\nPodaj telefon:");
-                                try
-                                {
-                                    telefon.Numer = int.Parse(Console.ReadLine());
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("\n Bledny numer. Wracamy do menu.");
-                                    break;
-                                }
-                                Console.WriteLine("\nPodaj operatora:");
-                                telefon.operatorTel = Console.ReadLine();
-                                person.Telefon.Add(telefon);
-                            }
-                        }
-                    } while (takNie.Key != ConsoleKey.N);
+                    Console.Write("Subject:\n");
+                    ticket.subject = Console.ReadLine();
+                    Console.Write("Description: \n");
+                    ticket.Description = Console.ReadLine();
+                    ticket.creation_date = DateTime.Now;
+                    Guid guid = Guid.NewGuid();
+                    ticket.Unique_guid = guid.ToString();
+                    Console.Write("Ticket Identifier: " + ticket.Unique_guid);
 
                     try
                     {
-                        db.Store(person);
+                        db.Store(ticket);
                         db.Commit();
                         Console.WriteLine();
-                        Console.WriteLine("Dane zostaly zapisane poprawnie. Wracamy do menu.");
+                        Console.WriteLine("Ticket was added to the data base");
                         Console.ReadLine();
                         db.Close();
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Wpis nie zostal dodany");
+                        Console.WriteLine("Ticket was not created");
                         Console.WriteLine(e);
                         Console.ReadLine();
                     }
@@ -183,21 +160,18 @@ namespace db4o
                     }
                 }
 
-                else if (cki.Key == ConsoleKey.D2) //szukanie osoby
+                else if (cki.Key == ConsoleKey.D2) //search for ticket
                 {
                     Console.Clear();
-                    var person = new Person();
-                    Console.WriteLine("Podaj dane szukanej osoby.");
-                    Console.WriteLine("Imie: ");
-                    person.Imie = Console.ReadLine();
-                    Console.WriteLine("Nazwisko: ");
-                    person.Nazwisko = Console.ReadLine();
+                    var ticket = new Ticket();
+                    Console.WriteLine("Put the UniqueIdenifier of the ticket:");
+                    ticket.Unique_guid = Console.ReadLine();
+                    
+                    var tickets = db.Query<Ticket>(x => x.Unique_guid == ticket.Unique_guid).ToList();
 
-                    var osoby = db.Query<Person>(x => x.Imie == person.Imie && x.Nazwisko == person.Nazwisko).ToList();
-
-                    ListResult(osoby);
+                    ListTickets(tickets);
                     Console.WriteLine();
-                    Console.WriteLine("Nacisnij ENTER by wrocic do menu.");
+                    Console.WriteLine("Press enter to go back to menu.");
                     Console.ReadLine();
                     db.Close();
                 }
@@ -205,59 +179,57 @@ namespace db4o
                 else if (cki.Key == ConsoleKey.D3) //update
                 {
                     Console.Clear();
-                    var person = new Person();
-                    Console.WriteLine("Podaj dane szukanej osoby.");
-                    Console.WriteLine("Imie: ");
-                    person.Imie = Console.ReadLine();
-                    Console.WriteLine("Nazwisko: ");
-                    person.Nazwisko = Console.ReadLine();
+                    var ticket = new Ticket();
+                    Console.WriteLine("Put the UniqueIdentifier of the ticket:");
+                    ticket.Unique_guid = Console.ReadLine();
 
-                    var osoby = db.Query<Person>(x => x.Imie == person.Imie && x.Nazwisko == person.Nazwisko).ToList();
-                    ListResult(osoby);
+
+                    var tickets = db.Query<Ticket>(x => x.Unique_guid == ticket.Unique_guid).ToList();
+                    ListTickets(tickets);
                     Console.WriteLine();
 
-                    Person p = osoby.First();
-                    Address a = p.Adres;
-                    List<Phone> ph = p.Telefon;
-
-                    Console.Write("Podaj nowe imie:\n");
-                    p.Imie = Console.ReadLine();
-                    Console.Write("\nPodaj nowe nazwisko:\n");
-                    p.Nazwisko = Console.ReadLine();
-                    Console.WriteLine("\n\nPodaj ulice:");
-                    a.Ulica = Console.ReadLine();
-                    Console.WriteLine("\nPodaj miasto:");
-                    a.Miasto = Console.ReadLine();
-
-                    int iloscTelefonow = p.Telefon.Count;
-                    for (int i = 0; i < iloscTelefonow; i++)
+                    Ticket t = tickets.First();
+                    
+                    Console.Write("Press T to change label\n");
+                    ConsoleKeyInfo yesNo = Console.ReadKey();
+                    if (yesNo.Key == ConsoleKey.T)
                     {
-                        p.Telefon.RemoveAt(0);
-                        Console.WriteLine("Wprowadz nowy telefon:");
-                        Phone telefon = new Phone();
-                        telefon.Numer = int.Parse(Console.ReadLine());
-
-                        Console.WriteLine("Wprowadz nowego operatora:");
-                        telefon.operatorTel = Console.ReadLine();
-                        p.Telefon.Add(telefon);
+                        Console.Write("Write new label:\n");
+                        if (t.Label == null)
+                        {
+                            t.Label = Console.ReadLine();
+                        }
+                        else
+                        {
+                            t.Label = t.Label + "," + Console.ReadLine();
+                        }
                     }
-
+                    Console.Write("Press T to change priority");
+                    yesNo = Console.ReadKey();
+                    if (yesNo.Key == ConsoleKey.T)
+                    {
+                        Console.Write("Set new priority:\n");
+                        t.priority = int.Parse(Console.ReadLine());
+                    }
+                    Console.Write("Press T to change Expected update date");
+                    yesNo = Console.ReadKey();
+                    if (yesNo.Key == ConsoleKey.T)
+                    {
+                        Console.Write("Set new Expected update date (YYYY-MM-DD):\n");
+                        t.Expected_update_date = DateTime.Parse(Console.ReadLine());
+                    }
                     try
                     {
-                        db.Store(p);
-                        db.Store(p.Telefon);
-                        db.Store(a);
-
-
+                        db.Store(t);
                         db.Commit();
                         Console.WriteLine();
-                        Console.WriteLine("Dane zostaly zapisane poprawnie. Wracamy do menu.");
+                        Console.WriteLine("Data were udpated properly. Returning to menu.");
                         Console.ReadLine();
                         db.Close();
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Wpis nie zostal dodany");
+                        Console.WriteLine("Data were not updated.");
                         Console.WriteLine(e);
                         Console.ReadLine();
                     }
@@ -267,86 +239,216 @@ namespace db4o
                         db.Close();
                     }
                 }
-                else if (cki.Key == ConsoleKey.D4) //usuwanie wpisu
+                else if (cki.Key == ConsoleKey.D4) //add comment to the ticket
                 {
                     Console.Clear();
-                    var person = new Person();
-                    Console.WriteLine("Podaj dane szukanej osoby.");
-                    Console.WriteLine("Imie: ");
-                    person.Imie = Console.ReadLine();
-                    Console.WriteLine("Nazwisko: ");
-                    person.Nazwisko = Console.ReadLine();
+                    var ticket = new Ticket();
+                    Console.WriteLine("Put the UniqueIdentifier of the ticket:");
+                    ticket.Unique_guid = Console.ReadLine();
 
-                    var osoby = db.Query<Person>(x => x.Imie == person.Imie && x.Nazwisko == person.Nazwisko).ToList();
 
-                    try //sprawdzenie czy dany wpis istnieje
+                    var tickets = db.Query<Ticket>(x => x.Unique_guid == ticket.Unique_guid).ToList();
+                    ListTickets(tickets);
+                    Console.WriteLine();
+
+                    Ticket t = tickets.First();
+                    Console.WriteLine("Write please the comment below:");
+                    var Comment = new Comment();
+                    Comment.Text = Console.ReadLine();
+                    Comment.Date = DateTime.Now;
+                    
+                    if (t.Comments == null)
                     {
-                        if (person.Imie == osoby.FirstOrDefault().Imie && person.Nazwisko == osoby.FirstOrDefault().Nazwisko)
-                        {
-                            Console.WriteLine("Taka osoba juz istnieje w bazie, wracamy do menu.");
-
-
-                            ListResult(osoby);
-                            Console.WriteLine();
-
-                            Person p = osoby.First();
-                            Address a = p.Adres;
-                            List<Phone> ph = p.Telefon;
-
-
-                            int iloscWpisowTel = p.Telefon.Count;
-                            for (int i = 0; i < iloscWpisowTel; i++)
-                            {
-                                p.Telefon.RemoveAt(0);
-                            }
-
-                            try
-                            {
-                                db.Store(p);
-                                db.Store(p.Telefon);
-                                if (a != null)
-                                {
-                                    db.Delete(a);
-                                }
-                                db.Delete(p);
-
-                                db.Commit();
-                                Console.WriteLine();
-                                Console.WriteLine("Wpis zostal usuniety. Wracamy do menu.");
-                                Console.ReadLine();
-                                db.Close();
-                            }
-                            catch (Exception e)
-                            {
-                                Console.WriteLine("Wpis nie zostal usuniety poprawnie");
-                                Console.WriteLine(e);
-                                Console.ReadLine();
-                            }
-
-                            finally
-                            {
-                                db.Close();
-                            }
-
-                        }
-                        else
-                        {
-                            Console.WriteLine("Nie odnalazlem wpisu, wracamy do menu");
-                            Console.ReadLine();
-                        }
+                        t.Comments = new List<Comment>();
                     }
-                    catch
+                    t.Comments.Add(Comment);
+                    ConsoleKeyInfo yesNo = Console.ReadKey();
+                    do
                     {
-
-                        Console.WriteLine("Nie odnalazlem wpisu, wracamy do menu");
+                        if (yesNo.Key != ConsoleKey.N)
+                        {
+                            Console.WriteLine("\nDo you want to add attachment? [T/N]");
+                            yesNo = Console.ReadKey();
+                            if (yesNo.Key == ConsoleKey.T)
+                            {
+                                var attachment = new Attachment();
+                                Console.WriteLine("\n\nAdd attachment:");
+                                attachment.Object = Console.ReadLine();
+                                attachment.Date = DateTime.Now;
+                                if (Comment.Attachments == null)
+                                {
+                                    Comment.Attachments = new List<Attachment>();
+                                }
+                                Comment.Attachments.Add(attachment);
+                            }
+                        }
+                    } while (yesNo.Key != ConsoleKey.N);
+                    try
+                    {
+                        db.Store(t);
+                        db.Store(t.Comments);
+                        db.Commit();
+                        Console.WriteLine();
+                        Console.WriteLine("Comment was added.");
                         Console.ReadLine();
-                    };
-                }
+                        db.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Comment was not added properly.");
+                        Console.WriteLine(e);
+                        Console.ReadLine();
+                    }
 
+                    finally
+                    {
+                        db.Close();
+                    }
+
+                }
+                else if (cki.Key == ConsoleKey.D5) //add attachment to the ticket
+                {
+                    Console.Clear();
+                    var ticket = new Ticket();
+                    Console.WriteLine("Put the UniqueIdentifier of the ticket:");
+                    ticket.Unique_guid = Console.ReadLine();
+
+
+                    var tickets = db.Query<Ticket>(x => x.Unique_guid == ticket.Unique_guid).ToList();
+                    ListTickets(tickets);
+                    Console.WriteLine();
+
+                    Ticket t = tickets.First();
+                    Console.WriteLine("Write please the attachment below:");
+                    var Attachment = new Attachment();
+                    Attachment.Object = Console.ReadLine();
+                    Attachment.Date = DateTime.Now;
+
+                    if (t.Attachments == null)
+                    {
+                        t.Attachments = new List<Attachment>();
+                    }
+                    t.Attachments.Add(Attachment);
+                    try
+                    {
+                        db.Store(t);
+                        db.Store(t.Attachments);
+                        db.Commit();
+                        Console.WriteLine();
+                        Console.WriteLine("Attachment was added.");
+                        Console.ReadLine();
+                        db.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Attachment was not added properly.");
+                        Console.WriteLine(e);
+                        Console.ReadLine();
+                    }
+
+                    finally
+                    {
+                        db.Close();
+                    }
+
+                }
+                else if (cki.Key == ConsoleKey.D6) //add auditor
+                {
+                    Console.Clear();
+                    var auditor = new Auditor();
+                    Console.Write("Full name:\n");
+                    auditor.Full_name = Console.ReadLine();
+                    Console.Write("Login: \n");
+                    auditor.Login = Console.ReadLine();
+                    Console.Write("Position: \n");
+                    auditor.position = Console.ReadLine();
+                    auditor.is_active = false;
+                    Guid guid = Guid.NewGuid();
+                    auditor.Password = guid.ToString();
+
+                    try
+                    {
+                        db.Store(auditor);
+                        db.Commit();
+                        Console.WriteLine();
+                        Console.WriteLine("Auditor was added to the data base");
+                        Console.WriteLine("login: " + auditor.Login + ", password: " + auditor.Password);
+                        Console.ReadLine();
+                        db.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Auditor was not added.");
+                        Console.WriteLine(e);
+                        Console.ReadLine();
+                    }
+
+                    finally
+                    {
+                        db.Close();
+                    }
+
+                }
+                else if (cki.Key == ConsoleKey.D7) //activate auditor
+                {
+                    Console.Clear();
+                    var auditor = new Auditor();
+                    Console.WriteLine("Put the login of the auditor:");
+                    auditor.Login = Console.ReadLine();
+
+
+                    var auditors = db.Query<Auditor>(x => x.Login == auditor.Login).ToList();
+
+                    ListAuditors(auditors);
+                    Console.WriteLine();
+
+                    Auditor t = auditors.First();
+
+                    t.is_active = true;
+                    try
+                    {
+                        db.Store(t);
+                        db.Commit();
+                        Console.WriteLine();
+                        Console.WriteLine("Auditor with login " + t.Login + " was activated.");
+                        Console.ReadLine();
+                        db.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Auditor was not activated.");
+                        Console.WriteLine(e);
+                        Console.ReadLine();
+                    }
+
+                    finally
+                    {
+                        db.Close();
+                    }
+
+                }
+                else if (cki.Key == ConsoleKey.D8) //list auditors
+                {
+                    try
+                    {
+                        Console.Clear();
+                        var auditors = db.Query<Auditor>().ToList();
+                        ListAuditors(auditors);
+                        Console.WriteLine();
+                        Console.WriteLine("Press ENTER to go back to menu.");
+                        Console.ReadLine();
+                        db.Close();
+                    }
+                    finally
+                    {
+                        db.Close();
+                    }
+
+                }
                 db.Close();
             } while (cki.Key != ConsoleKey.D9);
 
-            wyjscie();
+            exit();
 
 
             //IObjectContainer db = Db4oEmbedded.OpenFile(Db4oEmbedded.NewConfiguration(), "person.data");

@@ -9,7 +9,6 @@ namespace db4o
     public class Comment
     {
         public DateTime Date { get; set; }
-        private string text;
         public string Text { get; set; }
         public List<Attachment> Attachments { get; set; }
 

@@ -10,6 +10,7 @@ namespace db4o
 	{
 		public string position { get; set; }
 
+
 		public void add_ticket_label()
 		{
 			Console.WriteLine("Label Added");

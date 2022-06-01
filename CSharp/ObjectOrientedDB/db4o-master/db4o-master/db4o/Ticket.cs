@@ -20,11 +20,13 @@ namespace db4o
         public string Unique_guid { get; set; }
         public List<Comment> Comments;
         public List<Attachment> Attachments;
-        private void add_estimated_end_time()
+        public Department Department;
+        public Category Category;
+        public void add_estimated_end_time()
         {
             Console.WriteLine("Estimated end time updated");
         }
-        private void register_ticket()
+        public void register_ticket()
         {
             Console.WriteLine("Ticket registered");
         }

@@ -8,9 +8,9 @@ namespace db4o
 {
     public class Notifier : User
     {
-        private new string Full_name = null;
-        private new string login = null;
-        private new string password = null;
+        public string Full_name = null;
+        public string login = null;
+        public string password = null;
 
         public void choose_category()
         {
