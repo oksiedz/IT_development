@@ -10,9 +10,9 @@ def morse_translator():
         while action not in ("encrypt", "decrypt"):
             action = input("Please write:\n"
                            "- 'encrypt' if you want to translate text into Morse code\n"
-                           "- 'decrypt' if you want to translate Morse code into text\n")
+                           "- 'decrypt' if you want to translate Morse code into text\n").lower()
 
-        input_text = input(f"Please write down text to be {action}ed:\n")
+        input_text = input(f"Please write down text to be {action}ed:\n").lower()
 
         if action == "encrypt":
             print(encryption_decryption.encrypt(input_text))
@@ -21,7 +21,7 @@ def morse_translator():
 
         next_translation = ""
         while next_translation not in ("yes", "no"):
-            next_translation = input("Do you want to translate further? Please write yes or no:\n")
+            next_translation = input("Do you want to translate further? Please write yes or no:\n").lower()
             if next_translation == "no":
                 continue_loop = False
             else:
