@@ -9,7 +9,7 @@ def gaderypoluki():
         while action not in ("encrypt", "decrypt"):
             action = input("Please write:\n"
                            "- encrypt to encrypt inserted text\n"
-                           "- decrypt to decrypt inserted text\n")
+                           "- decrypt to decrypt inserted text\n").lower()
 
         input_text = input(f"Please provide the text to be {action}ed:\n").lower()
         print(gaderypoluki_translator(input_text))
