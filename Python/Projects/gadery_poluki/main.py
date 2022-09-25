@@ -1,16 +1,23 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from translator import gaderypoluki_translator
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def gaderypoluki():
+    main_loop = True
+    while main_loop:
+        action = ""
+        print("Welcome to the GADERY POLUKI cipher")
+        while action not in ("encrypt", "decrypt"):
+            action = input("Please write:\n"
+                           "- encrypt to encrypt inserted text\n"
+                           "- decrypt to decrypt inserted text\n")
 
+        input_text = input(f"Please provide the text to be {action}ed:\n").lower()
+        print(gaderypoluki_translator(input_text))
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+        continue_loop = ""
+        while continue_loop not in ("yes", "no"):
+            continue_loop = input("Write yes to translate next text or no to close the program.\n").lower()
+            if continue_loop == "no":
+                main_loop = False
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+gaderypoluki()
