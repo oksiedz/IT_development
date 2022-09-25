@@ -2,6 +2,8 @@ alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'
 
 
 def cesar_cipher(input_text, input_shift, input_direction):
+    """Provide input text, shift and direction (encryption, decryption)
+    and the provided letters will be encoded/decoded)"""
     output_word = ""
     for letter in input_text:
         if letter not in alphabet:
@@ -20,7 +22,6 @@ def cesar_cipher(input_text, input_shift, input_direction):
                     new_letter = alphabet[alphabet.index(letter) - input_shift]
             output_word += new_letter
     print(f"Message {input_text} was {input_direction}d to {output_word}")
-
 
 
 continue_loop = True
