@@ -13,26 +13,16 @@
 # import section
 import random
 
-# variable creation
-cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
-
-
-def calculate_sum_of_cards(deck):
-    """function calculates sum of card in the deck
-    returns sum of cards"""
-    sum_of_cards = 0
-    for card in deck:
-        sum_of_cards += card
-    return sum_of_cards
-
 
 def add_card(deck):
     """function selects the random card and add it to the deck
     if the card is ace and sum of cards with ace is higher than 21
     then it counts ace as 1
     returns extended deck"""
+    # variable creation
+    cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
     new_card = random.choice(cards)
-    if new_card == 11 and (calculate_sum_of_cards(deck) + new_card) > 21:
+    if new_card == 11 and (sum(deck) + new_card) > 21:
         new_card = 1
     deck.append(new_card)
     return deck
@@ -52,9 +42,9 @@ def check_game_status(deck_of_player, deck_of_dealer):
     """function checks end of game conditions:
     - if sum of players cards exceeds 21 - player loses return 1
     - if sum of dealers cards is 21 - player loses return 2"""
-    if calculate_sum_of_cards(deck_of_player) > 21:
+    if sum(deck_of_player) > 21:
         return 1
-    elif calculate_sum_of_cards(deck_of_dealer) == 21:
+    elif sum(deck_of_dealer) == 21:
         return 2
 
 
@@ -71,49 +61,49 @@ def check_two_card_conditions(deck1, deck2):
 
 
 def print_players_deck(deck):
-    print(f"Your deck is: {show_cards(deck, 1)}, with sum of cards equal = {calculate_sum_of_cards(deck)}")
+    print(f"Your deck is: {show_cards(deck, 1)}, with sum of cards equal = {sum(deck)}")
+
+
+def calculate_score(deck):
+    """Function Calculates the score"""
+    # if there are two cards, and it's blackjack - specific situation
+    if len(deck) == 2 and sum(deck) == 21:
+        return -1
+    return sum(deck)
 
 
 def play_blackjack():
+    # empty decks
+    players_deck = []
+    dealers_deck = []
+
+    # two cards for computer and for player
+    for i in range(2):
+        add_card(deck=players_deck)
+        add_card(deck=dealers_deck)
+
+    # flag for game loop
     game_over = False
     while not game_over:
-        # empty decks
-        players_deck = []
-        dealers_deck = []
-        # two cards for computer and for player
-        for i in range(2):
-            players_deck.append(random.choice(cards))
-            dealers_deck.append(random.choice(cards))
+        # calculation of the sum of cards
+        user_score = calculate_score(players_deck)
+        dealers_score = calculate_score(dealers_deck)
 
-        # first check if after first cards game can continue
-        if check_two_card_conditions(deck1=players_deck, deck2=dealers_deck) == 0:
-            game_over = True
-
-        print(f"First card of the dealer is: {show_cards(dealers_deck, 0)}")
         print_players_deck(players_deck)
+        print(f"First card of the dealer is: {show_cards(dealers_deck, 0)}")
 
-        take_next_card = ""
-        while take_next_card not in ("yes","no"):
-            take_next_card = input("Do you want to take another card? yes/no").lower()
-            if take_next_card == "yes":
-                game_over = False
-                # take new card and check game over conditions
-            elif take_next_card == "no":
-                game_over = True
-                # stop taking cards for the player and continue with dealer
-
-        # check of game status to be checked after each card is taken
-        if check_game_status(deck_of_player=players_deck, deck_of_dealer=dealers_deck) == 1:
-            print("Player's cards exceed 21 - you lose")
+        # if after two cards, and it's blackjack or player has more than 21 - game_over
+        if user_score == -1 or dealers_score ==-1 or user_score > 21:
             game_over = True
-        elif check_game_status(deck_of_player=players_deck, deck_of_dealer=dealers_deck) == 2:
-            print("Dealer has blackjack - you lose")
-            game_over = True
+        else:
+            take_next_card = ""
+            while take_next_card not in ("yes", "no"):
+                take_next_card = input("Do you want to take another card? yes/no\n").lower()
+                if take_next_card == "yes":
+                    # take new card
+                    add_card(deck=players_deck)
+                elif take_next_card == "no":
+                    # stop taking cards for the player
+                    game_over = True
 
-        print(players_deck)
-        print(calculate_sum_of_cards(players_deck))
-
-        print(dealers_deck)
-        print(calculate_sum_of_cards(dealers_deck))
-
-        game_over = True
+play_blackjack()
