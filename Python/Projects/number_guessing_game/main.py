@@ -4,6 +4,10 @@ import random
 
 print(logo)
 
+# constant variables
+EASY_LEVEL_REP = 10
+HARD_LEVEL_REP = 5
+
 
 def check_if_int(variable):
     """boolean function checks if variable is int."""
@@ -17,9 +21,9 @@ def check_if_int(variable):
 def set_repetition_number(difficulty_level):
     """function returns the int number of repetition based on the difficulty level"""
     if difficulty_level == "easy":
-        return 10
+        return EASY_LEVEL_REP
     else:
-        return 5
+        return HARD_LEVEL_REP
 
 
 def ask_difficulty_level():
@@ -49,16 +53,16 @@ def starting_new_game():
 
 
 def play_game():
-    """funtion starts the guessing a number game :)"""
+    """function starts the guessing a number game :)"""
     max_number = ""
     while not check_if_int(max_number):
         max_number = input("Please provide max number in range for computer random number selection: ")
 
     print(f"I selected randomly number between 1 and {max_number}.")
 
-    SELECTED_NUMBER = random.randint(1, int(max_number))
-    REPETITION = set_repetition_number(ask_difficulty_level())
-    available_repetition = REPETITION
+    selected_number = random.randint(1, int(max_number))
+    repetition = set_repetition_number(ask_difficulty_level())
+    available_repetition = repetition
 
     continue_guessing = True
     while continue_guessing:
@@ -69,25 +73,22 @@ def play_game():
 
         guessed_number = int(guessed_number)
 
-        if guessed_number == SELECTED_NUMBER:
-            print(f"Bravo, you guessed the number in {REPETITION - available_repetition - 1} attempts.")
+        if guessed_number == selected_number:
+            print(f"Bravo, you guessed the number in {repetition - available_repetition - 1} attempts.")
             continue_guessing = False
-            available_repetition = 0
             starting_new_game()
-        elif guessed_number > SELECTED_NUMBER:
+        elif guessed_number > selected_number:
             print("Guessed number is too high.")
-            continue_guessing = True
             available_repetition -= 1
             if available_repetition == 0:
-                no_more_guesses(SELECTED_NUMBER)
+                no_more_guesses(selected_number)
                 continue_guessing = False
                 starting_new_game()
         else:
             print("Guessed number is too low.")
-            continue_guessing = True
             available_repetition -= 1
             if available_repetition == 0:
-                no_more_guesses(SELECTED_NUMBER)
+                no_more_guesses(selected_number)
                 continue_guessing = False
                 starting_new_game()
 
