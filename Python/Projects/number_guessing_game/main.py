@@ -6,6 +6,7 @@ print(logo)
 
 
 def check_if_int(variable):
+    """boolean function checks if variable is int."""
     try:
         int(variable)
         return True
@@ -14,6 +15,7 @@ def check_if_int(variable):
 
 
 def set_repetition_number(difficulty_level):
+    """function returns the int number of repetition based on the difficulty level"""
     if difficulty_level == "easy":
         return 10
     else:
@@ -21,6 +23,8 @@ def set_repetition_number(difficulty_level):
 
 
 def ask_difficulty_level():
+    """function returns the difficulty level based on user input
+    available values: easy, hard"""
     level = ""
     while level not in ("easy", "hard"):
         level = input("Choose the difficulty level: easy or hard: ").lower()
@@ -28,14 +32,15 @@ def ask_difficulty_level():
 
 
 def no_more_guesses(number):
+    """function prints when there is end of game due usage of all guesses"""
     print(f"You lost. You didn't guess the number {number}")
 
 
 def starting_new_game():
+    """function starts new game, based on user answer"""
     start_new_game = ""
     while start_new_game not in ("yes", "no"):
         start_new_game = input("Do you want to start the new game? yes or no: ").lower()
-
     if start_new_game == "no":
         print("This is the end of game. Thank you for playing.")
         return 0
@@ -44,7 +49,7 @@ def starting_new_game():
 
 
 def play_game():
-
+    """funtion starts the guessing a number game :)"""
     max_number = ""
     while not check_if_int(max_number):
         max_number = input("Please provide max number in range for computer random number selection: ")
@@ -85,14 +90,5 @@ def play_game():
                 no_more_guesses(SELECTED_NUMBER)
                 continue_guessing = False
                 starting_new_game()
-
-    # Task list
-    # 1. Computer selects the random number ==> Done
-    # 2. Set the difficulty level ==> Done
-    # 3. Guess the number and evaluate the result
-    # 4. Repeat above till the end of repetition
-    # 5. Check if number is the one which was selected
-    # 6. Finish repetition when the selected number was guessed
-    # 7. Start new/game, or finish
 
 play_game()
