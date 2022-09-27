@@ -38,30 +38,8 @@ def show_cards(deck, mode):
         return deck
 
 
-def check_game_status(deck_of_player, deck_of_dealer):
-    """function checks end of game conditions:
-    - if sum of players cards exceeds 21 - player loses return 1
-    - if sum of dealers cards is 21 - player loses return 2"""
-    if sum(deck_of_player) > 21:
-        return 1
-    elif sum(deck_of_dealer) == 21:
-        return 2
-
-
-def check_two_card_conditions(deck1, deck2):
-    """deck 1 - players deck
-    deck 2 - dealers deck
-    it's checking if two first cards give blackjack"""
-    if 10 in deck2 and 11 in deck2:
-        print("Dealer's blackjack - you lose")
-        return 0
-    elif 10 in deck1 and 11 in deck1:
-        print("Player's blackjack - you won")
-        return 0
-
-
-def print_players_deck(deck):
-    print(f"Your deck is: {show_cards(deck, 1)}, with sum of cards equal = {sum(deck)}")
+def print_players_deck(deck, who):
+    print(f"{who.title()}'s deck is: {show_cards(deck, 1)}, with sum of cards equal = {sum(deck)}")
 
 
 def calculate_score(deck):
@@ -70,6 +48,26 @@ def calculate_score(deck):
     if len(deck) == 2 and sum(deck) == 21:
         return -1
     return sum(deck)
+
+
+def compare_results(player_score, dealer_score):
+    """Function which is comparing scores of a player and a dealer
+    and based on the results return result of the game"""
+    if player_score == dealer_score:
+        return "Draw"
+    elif player_score == -1:
+        return "You won - blackjack"
+    elif dealer_score == -1:
+        return "You lose - dealer's blackjack"
+    elif player_score > 21:
+        return "You lose - you exceeded blackjack"
+    elif dealer_score > 21:
+        return "You win - dealer exceeded blackjack"
+    elif player_score > dealer_score:
+        return "You win - you are closer to blackjack"
+    else:
+        return "You lose, dealer is closer to blackjack"
+
 
 
 def play_blackjack():
@@ -89,7 +87,7 @@ def play_blackjack():
         user_score = calculate_score(players_deck)
         dealers_score = calculate_score(dealers_deck)
 
-        print_players_deck(players_deck)
+        print_players_deck(players_deck, "Player")
         print(f"First card of the dealer is: {show_cards(dealers_deck, 0)}")
 
         # if after two cards, and it's blackjack or player has more than 21 - game_over
@@ -105,5 +103,26 @@ def play_blackjack():
                 elif take_next_card == "no":
                     # stop taking cards for the player
                     game_over = True
+
+    # add cards of dealer if it does not have blackjack (-1) and score is lower than 17
+    while dealers_score != -1 and dealers_score < 17:
+        # add card
+        add_card(deck= dealers_deck)
+        # recalculate score
+        dealers_score = calculate_score(deck=dealers_deck)
+
+    # printing the final result + decks
+    print(compare_results(player_score=user_score, dealer_score=dealers_score))
+    print_players_deck(players_deck, "Player")
+    print_players_deck(dealers_deck, "Dealer")
+
+    new_game = ""
+    while new_game not in ("yes", "no"):
+        new_game = input("Do you want to play new game? yes/no: ").lower()
+    if new_game == "yes":
+        play_blackjack()
+    else:
+        return 0
+
 
 play_blackjack()
