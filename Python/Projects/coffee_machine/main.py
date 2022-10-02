@@ -93,8 +93,8 @@ def insert_coins():
     dimes = float(coin_input(DIMES))
     nickles = float(coin_input(NICKLES))
     pennies = float(coin_input(PENNIES))
-    sum_of_coins = quarters * value_of_coin[QUARTERS] + dimes * value_of_coin[DIMES]\
-                   + nickles * value_of_coin[NICKLES] + pennies * value_of_coin[PENNIES]
+    sum_of_coins = quarters * value_of_coin[QUARTERS] + dimes * value_of_coin[DIMES] + nickles * value_of_coin[NICKLES]\
+                   + pennies * value_of_coin[PENNIES]
     return sum_of_coins
 
 
@@ -132,14 +132,14 @@ def coffee_machine():
         while answer not in (ESPRESSO, LATTE, CAPPUCCINO, OFF, REPORT):
             answer = input("What would you like? (espresso/latte/cappuccino): ").lower()
         if answer == OFF:
-            return 0
+            program_working = 0
         elif answer == REPORT:
             print_report(money=profit, resources_dict=resources)
         else:
             resources_status = check_resources(order=answer, menu=MENU, available_resources=resources)
             if resources_status == "":
-                print("enough_resources")
-                print(f"price: {check_price(answer, MENU)}")
+                # print("enough_resources")
+                # print(f"price: {check_price(answer, MENU)}")
 
                 # check price
                 inserted_coins = insert_coins()
@@ -155,7 +155,8 @@ def coffee_machine():
                     profit += price
                     # update available_resources
                     update_all_resources(av_resources=resources, order=answer)
-                print_report(money=profit, resources_dict=resources)
+                    print(f"Here is your {answer}. Enjoy!")
+                # print_report(money=profit, resources_dict=resources)
             else:
                 print(f"Sorry there is not enough {resources_status}")
                 new_order = ""
