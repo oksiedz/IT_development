@@ -132,7 +132,7 @@ def coffee_machine():
         while answer not in (ESPRESSO, LATTE, CAPPUCCINO, OFF, REPORT):
             answer = input("What would you like? (espresso/latte/cappuccino): ").lower()
         if answer == OFF:
-            return 0
+            program_working = 0
         elif answer == REPORT:
             print_report(money=profit, resources_dict=resources)
         else:
