@@ -19,3 +19,6 @@ File explanation:
 		task description
 	Task split
 		who is doing which answer and current status
+
+Merges
+	to be done to branch wsm_administrowanie
