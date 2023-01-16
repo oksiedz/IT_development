@@ -20,6 +20,8 @@ BEGIN
 	DECLARE @shift_no int
 	SET @shift_no = CASE WHEN datepart(hour, @datetime) < 6 THEN 3
 	                     WHEN datepart(hour, @datetime) < 14 tHEN 1
+						 WHEN datepart(hour, @datetime) > 22 tHEN 3
+						 WHEN @datetime is null then null
 						 ELSE 2
 						 END
 
