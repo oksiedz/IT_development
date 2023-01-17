@@ -1,4 +1,4 @@
-/****** Object:  StoredProcedure [dbo].[SumOfAllInactiveMinutes]    Script Date: 16.01.2023 23:29:46 ******/
+/****** Object:  StoredProcedure [dbo].[Unit_with_longest_malfunctions]    Script Date: 17.01.2023 23:30:29 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8,7 +8,7 @@ GO
 -- Create date: <Create Date, ,>
 -- Description:	<Description, ,>
 -- =============================================
-CREATE procedure [dbo].[SumOfAllInactiveMinutes] 
+CREATE procedure [dbo].[Unit_with_longest_malfunctions] 
 (
 	-- Add the parameters for the function here
 	@date_from datetime,
@@ -17,10 +17,9 @@ CREATE procedure [dbo].[SumOfAllInactiveMinutes]
 AS
 BEGIN
 	
-DECLARE @overal_sum int = 0
 DECLARE @individual_sum int = 0
---DECLARE @date_from datetime = '2022-12-07'
---DECLARE @date_to datetime = '2022-12-16'
+
+declare @tmp_table table (id int, malfunciton_time int)
 
 DECLARE kursor CURSOR FOR SELECT DISTINCT urzadzenie_id from zadanie.dbo.usterka
 DECLARE @id int
@@ -36,7 +35,7 @@ exec @individual_sum = zadanie.dbo.SumOfInactiveMinutes2 @data1=@date_from, @dat
 
 --SELECT @individual_sum
 
-SET @Overal_sum = @individual_sum
+INSERT INTO @tmp_table values (@id, ISNULL(@individual_sum, 0))
 --SELECT @overal_sum
 
 FETCH NEXT FROM kursor INTO @id
@@ -45,7 +44,18 @@ END
 CLOSE kursor
 DEALLOCATE kursor
 
-SELECT @overal_sum
+SELECT b.oddzial_id,sum(a.malfunciton_time) as malfunction_time_sum
+into #temp
+FROM @tmp_table a
+INNER JOIN zadanie.dbo.urzadzenie b
+ON a.id = b.id
+GROUP BY b.oddzial_id
+ORDER BY 2 DESC
+
+SELECT TOP 1 oddzial_id
+From #temp
+
+
 
 END
 
