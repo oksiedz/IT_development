@@ -1,4 +1,4 @@
-/****** Object:  StoredProcedure [dbo].[SumOfInactiveMinutes]    Script Date: 17.12.2022 15:41:51 ******/
+/****** Object:  StoredProcedure [dbo].[SumOfInactiveMinutes]    Script Date: 18.01.2023 22:36:29 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13,7 +13,8 @@ CREATE procedure [dbo].[SumOfInactiveMinutes]
 	-- Add the parameters for the function here
 	@data1 datetime,
 	@data2 datetime,
-	@deviceid int
+	@deviceid int,
+	@ifreturn int
 )
 AS
 BEGIN
@@ -25,10 +26,22 @@ BEGIN
     id, id_awaria, poczatek_naprawy, koniec_naprawy)
 EXEC zadanie.[dbo].[getAgregateIntervals] @data1, @data2, @deviceid
 
-SELECT /*id,id_awaria,poczatek_naprawy,koniec_naprawy, */
-sum(zadanie.[dbo].[getMinutesFromDates] (poczatek_naprawy, koniec_naprawy))
-FROM @tmp_table_base
 
+
+IF @ifreturn = 1
+BEGIN 
+return (
+        SELECT /*id,id_awaria,poczatek_naprawy,koniec_naprawy, */
+               sum(zadanie.[dbo].[getMinutesFromDates] (poczatek_naprawy, koniec_naprawy))
+        FROM @tmp_table_base
+)
+END
+ELSE
+BEGIN
+SELECT /*id,id_awaria,poczatek_naprawy,koniec_naprawy, */
+       sum(zadanie.[dbo].[getMinutesFromDates] (poczatek_naprawy, koniec_naprawy))
+FROM @tmp_table_base
+END
 
 END
 GO

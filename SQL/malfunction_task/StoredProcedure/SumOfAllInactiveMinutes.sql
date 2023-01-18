@@ -1,4 +1,4 @@
-/****** Object:  StoredProcedure [dbo].[SumOfAllInactiveMinutes]    Script Date: 16.01.2023 23:29:46 ******/
+/****** Object:  StoredProcedure [dbo].[SumOfAllInactiveMinutes]    Script Date: 18.01.2023 22:36:29 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -32,11 +32,11 @@ BEGIN
 --SELECT @id, @date_from, @date_to
 --exec zadanie.dbo.SumOfInactiveMinutes @date_from, @date_to, @id
 
-exec @individual_sum = zadanie.dbo.SumOfInactiveMinutes2 @data1=@date_from, @data2=@date_to, @deviceid=@id
+exec @individual_sum = zadanie.dbo.SumOfInactiveMinutes @data1=@date_from, @data2=@date_to, @deviceid=@id, @ifreturn = 1
 
 --SELECT @individual_sum
 
-SET @Overal_sum = @individual_sum
+SET @Overal_sum = @Overal_sum + ISNULL(@individual_sum, 0)
 --SELECT @overal_sum
 
 FETCH NEXT FROM kursor INTO @id
