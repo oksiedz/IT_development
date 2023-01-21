@@ -1,4 +1,4 @@
-/****** Object:  Table [dbo].[oddzial]    Script Date: 17.12.2022 15:41:50 ******/
+/****** Object:  Table [dbo].[oddzial]    Script Date: 21.01.2023 23:51:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[oddzial](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[nazwa] [varchar](255) NULL,
 	[kod_oddzialu] [varchar](10) NULL,
+	[brak_capacity] [tinyint] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
