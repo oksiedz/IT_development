@@ -1,11 +1,10 @@
-/****** Object:  Table [dbo].[usterka_status]    Script Date: 17.12.2022 15:41:50 ******/
+/****** Object:  Table [dbo].[usterka_status]    Script Date: 21.01.2023 23:51:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[usterka_status](
 	[id] [int] IDENTITY(1,1) NOT NULL,
-	[kod] [int] NULL,
 	[opis] [varchar](255) NULL,
 PRIMARY KEY CLUSTERED 
 (
