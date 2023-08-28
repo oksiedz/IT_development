@@ -10,6 +10,12 @@ screen.title("Snake game")
 screen.tracer(0)  # parameter responsible for screen not updating automatically
 
 snake = Snake()
+# enabling listening of the keyboard
+screen.listen()
+screen.onkey(snake.up, "Up")
+screen.onkey(snake.down, "Down")
+screen.onkey(snake.left, "Left")
+screen.onkey(snake.right, "Right")
 
 game_is_on = True
 
