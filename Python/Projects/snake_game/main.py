@@ -1,25 +1,23 @@
 from turtle import Screen, Turtle
+from snake import Snake
+import time
 
 # screen configuration
 screen = Screen()
-screen.setup(width = 600, height = 600)
+screen.setup(width=600, height=600)
 screen.bgcolor("black")
 screen.title("Snake game")
+screen.tracer(0)  # parameter responsible for screen not updating automatically
 
-snake = []
+snake = Snake()
 
-# creation of first snake created from 3 squares
-for x in range(0, 3):
-    new_turtle = Turtle(shape="square")
-    new_turtle.penup()
-    new_turtle.color("white")
-    new_turtle.goto(x * - 20, 0)
-    snake.append(new_turtle)
+game_is_on = True
 
+while game_is_on:
+    screen.update()
+    time.sleep(0.1)  # one second daly after each snake's segment moves
 
-
-
-
+    snake.move()
 
 
 
