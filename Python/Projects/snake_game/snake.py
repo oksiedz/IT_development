@@ -6,6 +6,7 @@ DOWN = 270
 LEFT = 180
 RIGHT = 0
 
+
 class Snake:
 
     def __init__(self):
@@ -24,7 +25,7 @@ class Snake:
             self.snakes.append(new_turtle)
 
     # snake movement, changing coordination from the last segment to the new previous one
-    def move (self):
+    def move(self):
         for snake_piece in range(len(self.snakes) - 1, 0, -1):
             new_x = self.snakes[snake_piece - 1].xcor()
             new_y = self.snakes[snake_piece - 1].ycor()
@@ -58,7 +59,3 @@ class Snake:
             pass
         else:
             self.snake_head.setheading(RIGHT)
-
-
-Snake
-
