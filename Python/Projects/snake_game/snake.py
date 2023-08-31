@@ -5,7 +5,7 @@ UP = 90
 DOWN = 270
 LEFT = 180
 RIGHT = 0
-
+STARTING_POSITIONS = ((0,0), (-20,0), (-40,0))
 
 class Snake:
 
@@ -16,13 +16,8 @@ class Snake:
 
     def create_snake(self):
         # creation of first snake created from 3 squares
-        for x in range(0, 3):
-            new_turtle = Turtle(shape="square")
-            new_turtle.penup()
-            new_turtle.color("white")
-            # starting positions of the snake are set here
-            new_turtle.goto(x * - 20, 0)
-            self.snakes.append(new_turtle)
+        for x in STARTING_POSITIONS:
+            self.add_segments(x)
 
     # snake movement, changing coordination from the last segment to the new previous one
     def move(self):
@@ -59,3 +54,16 @@ class Snake:
             pass
         else:
             self.snake_head.setheading(RIGHT)
+
+    # adding segment to the snake
+    def add_segments(self, position):
+        new_turtle = Turtle(shape="square")
+        new_turtle.penup()
+        new_turtle.color("white")
+        # starting positions of the snake are set here
+        new_turtle.goto(position)
+        self.snakes.append(new_turtle)
+
+    # extending snake by new segment at the end of the tale
+    def extend(self):
+        self.add_segments(self.snakes[-1].position())
