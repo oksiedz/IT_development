@@ -1,11 +1,13 @@
 from turtle import Screen
 from paddle import Paddle
-
+from ball import Ball
+import time
 # ToDo: main screen ==> Done
 # ToDo: score
 # ToDo: paddles ==> Done
 # ToDo: ball (creation and moves, boucing, collision with paddle)
 # ToDo: gameover logic
+# ToDo: add max and min for movement of paddle
 
 # constants
 SCREEN_WIDTH = 800
@@ -22,7 +24,7 @@ screen.tracer(0)
 
 paddle_1 = Paddle(1)
 paddle_2 = Paddle(2)
-
+ball = Ball()
 game_is_on = True
 
 screen.listen()
@@ -33,8 +35,9 @@ screen.onkey(paddle_2.down, "s")
 
 
 while game_is_on:
+    time.sleep(0.1)
     screen.update()
-
+    ball.move(1,1)
 
 
 
