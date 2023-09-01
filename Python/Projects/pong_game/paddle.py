@@ -9,6 +9,7 @@ STARTING_X = 350
 STARTING_Y = 0
 HEADING = 90
 STEP = 20
+UP_DOWN_BOUNDARY = 255
 
 
 class Paddle(Turtle):
@@ -28,8 +29,14 @@ class Paddle(Turtle):
 
     def up(self):
         new_y = self.ycor() + STEP
-        self.goto(self.xcor(), new_y)
+        if new_y > UP_DOWN_BOUNDARY:
+            pass
+        else:
+            self.goto(self.xcor(), new_y)
 
     def down(self):
         new_y = self.ycor() - STEP
-        self.goto(self.xcor(), new_y)
+        if new_y < -UP_DOWN_BOUNDARY:
+            pass
+        else:
+            self.goto(self.xcor(), new_y)

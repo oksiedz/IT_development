@@ -5,6 +5,9 @@ COLOUR = "white"
 SHAPE = "circle"
 X_DEFAULT_STEP = 10
 Y_DEFAULT_STEP = 10
+STARTING_X = 0
+STARTING_Y = 0
+
 
 class Ball(Turtle):
     def __init__(self):
@@ -23,3 +26,12 @@ class Ball(Turtle):
 
     def wall_bounce(self):
         self.y_step *= -1
+
+    def paddle_bounce(self):
+        self.x_step *= -1
+
+    def starting_position(self):
+        # balls returns to the beginning
+        self.goto(STARTING_X, STARTING_Y)
+        # the ball will start into the opposite direction
+        self.paddle_bounce()
