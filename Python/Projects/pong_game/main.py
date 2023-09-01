@@ -14,6 +14,7 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_BACKGROUND_COLOUR = "black"
 SCREEN_TITLE = "Pong game"
+WALL_BOUNCE = 280
 
 # creation of objects
 screen = Screen()
@@ -37,7 +38,10 @@ screen.onkey(paddle_2.down, "s")
 while game_is_on:
     time.sleep(0.1)
     screen.update()
-    ball.move(1,1)
+    ball.move()
+
+    if ball.ycor() > WALL_BOUNCE or ball.ycor() < -WALL_BOUNCE:
+        ball.wall_bounce()
 
 
 
