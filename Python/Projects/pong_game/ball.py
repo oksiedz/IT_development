@@ -37,7 +37,5 @@ class Ball(Turtle):
         # balls returns to the beginning
         self.goto(STARTING_X, STARTING_Y)
         # the ball will start into the opposite direction
-        self.paddle_bounce()
-        self.x_step = X_DEFAULT_STEP
-        self.y_step = Y_DEFAULT_STEP
+        self.x_step *= -1
         self.moves_speed = STARTING_MOVE_SPEED

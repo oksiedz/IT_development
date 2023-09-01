@@ -7,10 +7,10 @@ from scoreboard import Scoreboard
 # ToDo: main screen ==> Done
 # ToDo: score ==> done
 # ToDo: paddles ==> Done
-# ToDo: ball (creation and moves, boucing, collision with paddle) ==> done
-# ToDo: gameover logic
+# ToDo: ball (creation and moves, bouncing, collision with paddle) ==> done
+# ToDo: game over logic => Done
 # ToDo: add max and min for movement of paddle ==> done
-# ToDo: bug Blockade for bouncing ball withn paddle
+# ToDo: bug Blockade for bouncing ball within paddle ==> done
 # constants
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -52,17 +52,21 @@ while game_is_on:
         ball.wall_bounce()
 
     # collision with paddle
-    if (ball.distance(paddle_1) < DISTANCE_FROM_PADDLE and ball.xcor() > X_FOR_BOUNCE_PADDLE) or (ball.distance(paddle_2) < DISTANCE_FROM_PADDLE and ball.xcor() < -X_FOR_BOUNCE_PADDLE):
+    if (ball.distance(paddle_1) < DISTANCE_FROM_PADDLE and ball.xcor() > X_FOR_BOUNCE_PADDLE and ball.xcor() <= paddle_1.xcor()) \
+            or (ball.distance(paddle_2) < DISTANCE_FROM_PADDLE and ball.xcor() < -X_FOR_BOUNCE_PADDLE and ball.xcor() >= paddle_2.xcor()):
         ball.paddle_bounce()
 
     # score for a paddle
     if ball.xcor() > X_FOR_SCORE or ball.xcor() < -X_FOR_SCORE:
         if ball.xcor() > X_FOR_SCORE:
             scoreboard.paddle_2_point()
-            print("score 2")
         else:
             scoreboard.paddle_1_point()
         ball.starting_position()
+
+    if scoreboard.paddle_1_score >= 10 or scoreboard.paddle_2_score >= 10:
+        scoreboard.game_over()
+        game_is_on = False
 
 
 screen.exitonclick()

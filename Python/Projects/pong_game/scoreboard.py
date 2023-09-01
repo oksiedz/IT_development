@@ -3,6 +3,7 @@ from turtle import Turtle
 COLOUR = "white"
 ALIGNMENT = "center"
 FONT_STYLE = ("Courier", 80, "normal")
+FONT_GAME_OVER = ("Courier", 10, "normal")
 SCORE_X_COR = 100
 SCORE_Y_COR = 200
 
@@ -32,3 +33,8 @@ class Scoreboard(Turtle):
     def paddle_2_point(self):
         self.paddle_2_score += 1
         self.update_scoreboard()
+
+    def game_over(self):
+        self.clear()
+        self.goto(0, SCORE_Y_COR)
+        self.write(f"Game Over: Left Player scored {self.paddle_2_score} and Right Player scored {self.paddle_1_score}", align=ALIGNMENT, font=FONT_GAME_OVER)
