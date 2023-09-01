@@ -2,13 +2,15 @@ from turtle import Screen
 from paddle import Paddle
 from ball import Ball
 import time
+from scoreboard import Scoreboard
+
 # ToDo: main screen ==> Done
-# ToDo: score
+# ToDo: score ==> done
 # ToDo: paddles ==> Done
 # ToDo: ball (creation and moves, boucing, collision with paddle) ==> done
 # ToDo: gameover logic
 # ToDo: add max and min for movement of paddle ==> done
-
+# ToDo: bug Blockade for bouncing ball withn paddle
 # constants
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -30,6 +32,7 @@ paddle_1 = Paddle(1)
 # left paddle
 paddle_2 = Paddle(2)
 ball = Ball()
+scoreboard = Scoreboard()
 game_is_on = True
 
 screen.listen()
@@ -40,7 +43,7 @@ screen.onkey(paddle_2.down, "s")
 
 
 while game_is_on:
-    time.sleep(0.1)
+    time.sleep(ball.moves_speed)
     screen.update()
     ball.move()
 
@@ -54,6 +57,11 @@ while game_is_on:
 
     # score for a paddle
     if ball.xcor() > X_FOR_SCORE or ball.xcor() < -X_FOR_SCORE:
+        if ball.xcor() > X_FOR_SCORE:
+            scoreboard.paddle_2_point()
+            print("score 2")
+        else:
+            scoreboard.paddle_1_point()
         ball.starting_position()
 
 
