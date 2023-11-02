@@ -7,6 +7,7 @@ FINISH_LINE_Y = 280
 
 class Player(Turtle):
     def __init__(self):
+        """Constructor of the player turtle"""
         super().__init__()
         self.set_turtle_parameters()
         self.set_starting_position()
@@ -37,6 +38,7 @@ class Player(Turtle):
         self.set_starting_position()
 
     def if_finish_line_crossed(self):
+        """Return Method, returning boolean if the player crossed the finish line"""
         if self.ycor() >= FINISH_LINE_Y:
             return True
         else:

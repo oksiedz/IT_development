@@ -6,28 +6,31 @@ STARTING_MOVE_DISTANCE = 5
 MOVE_INCREMENT = 10
 
 
-class CarManager(Turtle):
-    def __init__(self, level):
-        super().__init__()
-        self.move_distance = None
-        self.set_starting_attributes()
-        self.set_starting_position()
-        self.setheading(180)
-        self.set_movement_speed(level)
+class CarManager:
+    def __init__(self):
+        """Constructor for the CarManager"""
+        self.list_of_cars = []
+        self.car_speed = STARTING_MOVE_DISTANCE
 
-    def set_starting_attributes(self):
-        self.penup()
-        self.shape("square")
-        self.shapesize(stretch_wid=1, stretch_len=2, outline=None)
-        self.fillcolor(random.choice(COLORS))
+    def add_car(self):
+        """Method adding cars (Turtle) to car manager list"""
+        if random.randint(1, 6) == 1:
+            car = Turtle()
+            car.penup()
+            car.shape("square")
+            car.shapesize(stretch_wid=1, stretch_len=2, outline=None)
+            car.fillcolor(random.choice(COLORS))
+            starting_x_cor = random.randrange(-260, 260)
+            car.sety(starting_x_cor)
+            car.setx(280)
+            car.setheading(180)
+            self.list_of_cars.append(car)
 
-    def set_starting_position(self):
-        starting_x_cor = random.randrange(-260, 260)
-        self.sety(starting_x_cor)
-        self.setx(280)
+    def move_cars(self):
+        """Method moving all cars in Car Manager"""
+        for car in self.list_of_cars:
+            car.forward(self.car_speed)
 
-    def move_car(self):
-        self.forward(self.move_distance)
-
-    def set_movement_speed(self, level):
-        self.move_distance = STARTING_MOVE_DISTANCE + (level - 1) * MOVE_INCREMENT
+    def set_movement_speed(self):
+        """Method increasing the speed of cars"""
+        self.car_speed += MOVE_INCREMENT
