@@ -21,6 +21,7 @@ class Food(Turtle):
         self.new_food_location()
 
     def new_food_location(self):
+        """Method setting random location of snake food"""
         # setting random location
         random_x = random.randint(LOW_X, HIGH_X)
         random_y = random.randint(LOW_Y, HIGH_Y)
