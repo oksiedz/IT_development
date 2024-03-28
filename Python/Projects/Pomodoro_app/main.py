@@ -15,16 +15,39 @@ CANVAS_HEIGHT = 224
 SEC_IN_MIN = 60
 
 repetitions = 0
+timer = None
 
 
-# ---------------------------- TIMER RESET ------------------------------- #
-
-# ---------------------------- TIMER MECHANISM ------------------------------- # 
 def increase_rep():
     global repetitions
     repetitions += 1
 
 
+def reset_repetitions():
+    global repetitions
+    repetitions = 0
+
+
+def add_checkmark():
+    global repetitions
+    times = math.floor(repetitions / 2)
+    label_text = ""
+    for i in range(times):
+        label_text += "☑"
+
+    check_label.config(text=label_text)
+
+
+# ---------------------------- TIMER RESET ------------------------------- #
+def reset_pomodoro():
+    window.after_cancel(timer)
+    reset_repetitions()
+    check_label.config(text="")
+    pomodoro_timer_label.config(fg=GREEN, text="Timer")
+    canvas.itemconfig(tagOrId=timer_text, text=f'00:00')
+
+
+# ---------------------------- TIMER MECHANISM ------------------------------- #
 def start_pomodoro():
     increase_rep()
 
@@ -43,10 +66,6 @@ def start_pomodoro():
         pomodoro_timer_label.config(text="Break", fg=PINK)
 
 
-def reset_pomodoro():
-    start_pomodoro()
-
-
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 def count_down(count):
     count_min = math.floor(count / 60)
@@ -56,10 +75,11 @@ def count_down(count):
 
     canvas.itemconfig(tagOrId=timer_text, text=f'{count_min}:{count_sec}')
     if count > 0:
-        window.after(1000, count_down, count - 1)
+        global timer
+        timer = window.after(1000, count_down, count - 1)
     if count == 0:
-        increase_rep()
         start_pomodoro()
+        add_checkmark()
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -78,7 +98,7 @@ canvas.grid(column=1, row=1)
 pomodoro_timer_label = tk.Label(fg=GREEN, bg=YELLOW, text="Timer", font=(FONT_NAME, 35, "bold"))
 pomodoro_timer_label.grid(column=1, row=0)
 # label checkboxes
-check_label = tk.Label(fg=GREEN, bg=YELLOW, text="☑", font=(FONT_NAME, 20, "bold"))
+check_label = tk.Label(fg=GREEN, bg=YELLOW, font=(FONT_NAME, 20, "bold"))
 check_label.grid(column=1, row=3)
 
 # start and reset button
