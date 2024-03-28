@@ -1,5 +1,6 @@
 import tkinter as tk
 import math
+
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
@@ -11,13 +12,35 @@ SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 CANVAS_WIDTH = 200
 CANVAS_HEIGHT = 224
+SEC_IN_MIN = 60
+
+repetitions = 0
 
 
 # ---------------------------- TIMER RESET ------------------------------- #
 
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
+def increase_rep():
+    global repetitions
+    repetitions += 1
+
+
 def start_pomodoro():
-    count_down(5 * 60)
+    increase_rep()
+
+    work_sec = WORK_MIN * SEC_IN_MIN
+    short_break = SHORT_BREAK_MIN * SEC_IN_MIN
+    long_break = LONG_BREAK_MIN * SEC_IN_MIN
+
+    if repetitions in (1, 3, 5, 7):
+        count_down(work_sec)
+        pomodoro_timer_label.config(text="Work", fg=GREEN)
+    elif repetitions == 8:
+        count_down(long_break)
+        pomodoro_timer_label.config(text="Break", fg=RED)
+    elif repetitions in (2, 4, 6):
+        count_down(short_break)
+        pomodoro_timer_label.config(text="Break", fg=PINK)
 
 
 def reset_pomodoro():
@@ -26,15 +49,17 @@ def reset_pomodoro():
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 def count_down(count):
-
     count_min = math.floor(count / 60)
     count_sec = count % 60
-    if count_sec == 0:
-        count_sec = "00"
+    if count_sec < 10:
+        count_sec = f'0{count_sec}'
 
     canvas.itemconfig(tagOrId=timer_text, text=f'{count_min}:{count_sec}')
     if count > 0:
         window.after(1000, count_down, count - 1)
+    if count == 0:
+        increase_rep()
+        start_pomodoro()
 
 
 # ---------------------------- UI SETUP ------------------------------- #
