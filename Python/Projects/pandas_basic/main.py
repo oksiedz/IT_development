@@ -37,3 +37,21 @@ print(f"Average temperature equals: {average_temperature}")
 average_temperature2 = pandas_data[HEADER_FOR_TEMPERATURE].mean()
 maximum_temperature = pandas_data[HEADER_FOR_TEMPERATURE].max()  # could be called also as pandas_data.temp
 print(f"Average temperature equals: {average_temperature2}, maximum temperature equals: {maximum_temperature}")
+
+# getting row of data
+print(pandas_data[pandas_data.day == "Monday"])  # returning number of row where day is Monday
+
+row_of_week_with_maximum_temp = pandas_data[pandas_data.temp == maximum_temperature]
+print(row_of_week_with_maximum_temp)
+day_of_week_with_maximum_temp = row_of_week_with_maximum_temp["day"]
+print(f"Maximum temperature of {maximum_temperature} was noted on {day_of_week_with_maximum_temp}")
+
+# how to create data frame
+data_dict = {
+    "students": ["Amy", "James", "Bob"],
+    "scores": [73, 35, 69]
+}
+pandas_data_from_dictionary = pandas.DataFrame(data_dict)
+print(pandas_data_from_dictionary)
+pandas_data_from_dictionary.to_csv("new_data.csv")
+
