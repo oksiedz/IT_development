@@ -1,5 +1,5 @@
 import tkinter as tk
-
+import math
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
@@ -13,18 +13,29 @@ CANVAS_WIDTH = 200
 CANVAS_HEIGHT = 224
 
 
+# ---------------------------- TIMER RESET ------------------------------- #
+
+# ---------------------------- TIMER MECHANISM ------------------------------- # 
 def start_pomodoro():
-    print("start")
+    count_down(5 * 60)
 
 
 def reset_pomodoro():
-    print("reset")
+    start_pomodoro()
 
-# ---------------------------- TIMER RESET ------------------------------- # 
 
-# ---------------------------- TIMER MECHANISM ------------------------------- # 
+# ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
+def count_down(count):
 
-# ---------------------------- COUNTDOWN MECHANISM ------------------------------- # 
+    count_min = math.floor(count / 60)
+    count_sec = count % 60
+    if count_sec == 0:
+        count_sec = "00"
+
+    canvas.itemconfig(tagOrId=timer_text, text=f'{count_min}:{count_sec}')
+    if count > 0:
+        window.after(1000, count_down, count - 1)
+
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = tk.Tk()
@@ -34,8 +45,8 @@ window.config(padx=100, pady=50, bg=YELLOW)
 # canvas
 canvas = tk.Canvas(width=CANVAS_WIDTH, height=CANVAS_HEIGHT, bg=YELLOW, highlightthickness=0)
 tomato_picture = tk.PhotoImage(file="Attachments/tomato.png")
-canvas.create_image(CANVAS_WIDTH/2, CANVAS_HEIGHT/2, image=tomato_picture)
-canvas.create_text(100, 130, text="00:00", fill="white", font=(FONT_NAME, 35, "bold"))
+canvas.create_image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, image=tomato_picture)
+timer_text = canvas.create_text(100, 130, text="00:00", fill="white", font=(FONT_NAME, 35, "bold"))
 canvas.grid(column=1, row=1)
 
 # label Timer
