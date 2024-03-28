@@ -47,10 +47,11 @@ while len(guessed_states) < 50:
 
     # exit the game
     if answered_state == EXIT_STRING.lower():
-        missing_states = []
-        for state in list_of_states_lower:
-            if state not in guessed_states:
-                missing_states.append(state.title())
+        missing_states = [state for state in list_of_states_lower if state not in guessed_states]
+        # missing_states = []
+        # for state in list_of_states_lower:
+        #     if state not in guessed_states:
+        #         missing_states.append(state.title())
 
         # save the file with not guessed states to CSV
         output_data = pandas.DataFrame(missing_states)
