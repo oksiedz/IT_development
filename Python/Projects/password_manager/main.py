@@ -2,11 +2,39 @@ import tkinter as tk
 from tkinter import messagebox
 import random
 import pyperclip
+import json
+
+# CONSTANTS #
+
+FILE = "credentials.json"
 
 
 def set_default_email_username():
     entry_email_username.delete(0, tk.END)
     entry_email_username.insert(0, "example@email.com")
+
+
+def empty_value():
+    print("There are some empty values")
+    messagebox.showinfo(title="Entry error", message="Please do not leave any field empty!")
+
+
+def read_json():
+    with open(file=FILE, mode="r") as file:
+        # reading old data
+        return json.load(fp=file)
+
+
+def write_json(json_data):
+    with open(file=FILE, mode="w") as file:
+        json.dump(obj=json_data, fp=file, indent=4)
+
+
+def clear_entries():
+    entry_website.delete(0, tk.END)
+    set_default_email_username()
+    entry_password.delete(0, tk.END)
+    entry_website.focus()
 
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
@@ -48,9 +76,14 @@ def add_password():
     email_username = entry_email_username.get()
     password = entry_password.get()
 
+    new_data = {
+        website: {
+            "email": email_username,
+            "password": password
+        }
+    }
     if len(website) == 0 or len(email_username) == 0 or len(password) == 0:
-        print("There are some empty values")
-        messagebox.showinfo(title="Entry error", message="Please do not leave any field empty!")
+        empty_value()
     else:
         print("All values are not empty")
         # adding message box
@@ -62,23 +95,47 @@ def add_password():
                                                         f'Do you want to save them?')
         if save_confirmed:
             print("Password saving is confirmed")
-            connection_string = f'{website} | {email_username} | {password}\n'
             # open the file and check if the value already exists if not then add
-            with open(file="credentials.txt", mode="r") as file:
-                file_content = file.readlines()
-                if connection_string in file_content:
+            try:
+                data = read_json()
+                # updating old data with new data
+            except FileNotFoundError:
+                write_json(json_data=new_data)
+            else:
+                if new_data.items() <= data.items():
                     print("Such connection string already exists")
                 else:
-                    with open(file="credentials.txt", mode="a") as file_to_write:
-                        file_to_write.write(connection_string)
-                        print("Connection string saved")
-            # cleaning the entries
-            entry_website.delete(0, tk.END)
-            set_default_email_username()
-            entry_password.delete(0, tk.END)
-            entry_website.focus()
+                    data.update(new_data)
+                    print(data)
+                    # how to write new json to the file
+                    write_json(json_data=new_data)
+                    print("Connection string saved")
+            finally:
+                # cleaning the entries
+                clear_entries()
         else:
             print("Password saving not confirmed")
+            messagebox.showinfo(title="Info", message="Credentials not saved!")
+            clear_entries()
+
+
+def search_credentials():
+    try:
+        data = read_json()
+    except FileNotFoundError:
+        messagebox.showinfo(title="File not found", message="There is no file with passwords yet.!")
+    else:
+        website = entry_website.get()
+        if website in data:
+            email_username = data[website]['email']
+            password = data[website]['password']
+            messagebox.showinfo(title="Password found",
+                                message=f"For website: {website} and username/email: {email_username} "
+                                        f"there is saved password: {password}")
+            pyperclip.copy(password)
+        else:
+            messagebox.showinfo(title="Error",
+                                message=f"There is no password for website: {website}")
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -98,8 +155,8 @@ label_email_username.grid(column=0, row=2)
 label_password = tk.Label(text="Password:", bg="white")
 label_password.grid(column=0, row=3)
 # entries
-entry_website = tk.Entry(width=35)
-entry_website.grid(column=1, row=1, columnspan=2)
+entry_website = tk.Entry(width=21)
+entry_website.grid(column=1, row=1)
 # setting cursor on the entry for website
 entry_website.focus()
 
@@ -116,5 +173,8 @@ button_generate_password.grid(column=2, row=3)
 
 button_add = tk.Button(text="Add", command=add_password, width=36)
 button_add.grid(column=1, row=4, columnspan=2)
+
+button_search = tk.Button(text="Search", command=search_credentials)
+button_search.grid(column=2, row=1)
 
 window.mainloop()
