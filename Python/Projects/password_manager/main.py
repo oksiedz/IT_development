@@ -13,6 +13,7 @@ def password_generate():
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def add_password():
+    """Method is saving website, username/email and password"""
     # save inserted values as variables
     website = entry_website.get()
     email_username = entry_email_username.get()
@@ -27,6 +28,7 @@ def add_password():
             with open(file="credentials.txt", mode="a") as file_to_write:
                 file_to_write.write(connection_string)
                 print("Connection string saved")
+    # cleaning the entries
     entry_website.delete(0, tk.END)
     set_default_email_username()
     entry_password.delete(0, tk.END)
