@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 import random
-
+import pyperclip
 
 
 def set_default_email_username():
@@ -36,6 +36,8 @@ def password_generate():
 
     entry_password.delete(0, tk.END)
     entry_password.insert(0, password)
+    # keeping value in copy and paste
+    pyperclip.copy(password)
 
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
